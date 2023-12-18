@@ -5,7 +5,10 @@ import (
 
 	"github.com/mikestefanello/pagoda/pkg/context"
 	"github.com/mikestefanello/pagoda/pkg/controller"
+	"github.com/mikestefanello/pagoda/pkg/types"
 	"github.com/mikestefanello/pagoda/templates"
+	"github.com/mikestefanello/pagoda/templates/layouts"
+	"github.com/mikestefanello/pagoda/templates/pages"
 
 	"github.com/labstack/echo/v4"
 )
@@ -14,30 +17,25 @@ type (
 	contact struct {
 		controller.Controller
 	}
-
-	contactForm struct {
-		Email      string `form:"email" validate:"required,email"`
-		Message    string `form:"message" validate:"required"`
-		Submission controller.FormSubmission
-	}
 )
 
 func (c *contact) Get(ctx echo.Context) error {
 	page := controller.NewPage(ctx)
-	page.Layout = templates.LayoutMain
+	page.Layout = layouts.Main
 	page.Name = templates.PageContact
 	page.Title = "Contact us"
-	page.Form = contactForm{}
+	page.Form = &types.ContactForm{}
+	page.Component = pages.Contact(&page)
 
 	if form := ctx.Get(context.FormKey); form != nil {
-		page.Form = form.(*contactForm)
+		page.Form = form.(*types.ContactForm)
 	}
 
 	return c.RenderPage(ctx, page)
 }
 
 func (c *contact) Post(ctx echo.Context) error {
-	var form contactForm
+	var form types.ContactForm
 	ctx.Set(context.FormKey, &form)
 
 	// Parse the form values

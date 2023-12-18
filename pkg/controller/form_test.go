@@ -1,8 +1,9 @@
-package controller
+package controller_test
 
 import (
 	"testing"
 
+	"github.com/mikestefanello/pagoda/pkg/controller"
 	"github.com/mikestefanello/pagoda/pkg/tests"
 
 	"github.com/stretchr/testify/assert"
@@ -13,7 +14,7 @@ func TestFormSubmission(t *testing.T) {
 	type formTest struct {
 		Name       string `validate:"required"`
 		Email      string `validate:"required,email"`
-		Submission FormSubmission
+		Submission controller.FormSubmission
 	}
 
 	ctx, _ := tests.NewContext(c.Web, "/")

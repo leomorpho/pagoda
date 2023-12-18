@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/a-h/templ"
 	"github.com/mikestefanello/pagoda/ent"
 	"github.com/mikestefanello/pagoda/pkg/context"
 	"github.com/mikestefanello/pagoda/pkg/htmx"
@@ -14,6 +15,10 @@ import (
 	echomw "github.com/labstack/echo/v4/middleware"
 
 	"github.com/labstack/echo/v4"
+)
+
+type (
+	LayoutComponent func(content templ.Component, page *Page) templ.Component
 )
 
 // Page consists of all data that will be used to render a page response for a given controller.
@@ -43,6 +48,9 @@ type Page struct {
 	// URL stores the URL of the current request
 	URL string
 
+	// Component stores the templ Component for rendering the template
+	Component templ.Component
+
 	// Data stores whatever additional data that needs to be passed to the templates.
 	// This is what the controller uses to pass the content of the page.
 	Data any
@@ -53,10 +61,8 @@ type Page struct {
 	// messagesa and markup presented to the user
 	Form any
 
-	// Layout stores the name of the layout base template file which will be used when the page is rendered.
-	// This should match a template file located within the layouts directory inside the templates directory.
-	// The template extension should not be included in this value.
-	Layout templates.Layout
+	// Layout stores the templ component layout base function which will be used when the page is rendered.
+	Layout LayoutComponent
 
 	// Name stores the name of the page as well as the name of the template file which will be used to render
 	// the content portion of the layout template.

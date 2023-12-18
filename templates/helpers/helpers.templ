@@ -1,0 +1,39 @@
+package helpers
+
+import (
+    "fmt"
+    "html/template"
+
+    "github.com/labstack/gommon/random"
+
+    "github.com/mikestefanello/pagoda/config"
+)
+
+var (
+	// CacheBuster stores a random string used as a cache buster for static files.
+	CacheBuster = random.String(10)
+)
+
+// File appends a cache buster to a given filepath so it can remain cached until the app is restarted
+func File(filepath string) string {
+	return fmt.Sprintf("/%s/%s?v=%s", config.StaticPrefix, filepath, CacheBuster)
+}
+
+// Link outputs HTML for a link element, providing the ability to dynamically set the active class
+templ Link(url, text, currentPath string, classes ...string) {
+	<a class={ classes, isEqualValue(currentPath, url, "is-active") } href={ templ.URL(url) }>{ text }</a>
+}
+
+func isEqualValue(item, expected, val string) string {
+    if item == expected {
+        return val
+    }
+    return ""
+}
+
+func UnsafeHTML(s template.HTML) templ.Component {
+    return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
+        io.WriteString(w, string(s))
+        return nil
+    })
+}

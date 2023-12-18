@@ -1,0 +1,27 @@
+package components
+
+import (
+    "github.com/mikestefanello/pagoda/pkg/controller"
+)
+
+templ Messages(page *controller.Page) {
+    for _, m := range page.GetMessages("success") {
+        @message("is-success", string(m))
+    }
+    for _, m := range page.GetMessages("info") {
+        @message("is-info", string(m))
+    }
+    for _, m := range page.GetMessages("warning") {
+        @message("is-warning", string(m))
+    }
+    for _, m := range page.GetMessages("danger") {
+        @message("is-danger", string(m))
+    }
+}
+
+templ message(class, text string) {
+    <div class={ "notification", "is-light", class } x-data="{show: true}" x-show="show">
+        <button class="delete" @click="show = false"></button>
+        { text }
+    </div>
+}

@@ -1,19 +1,20 @@
-package controller
+package controller_test
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
 
 	"github.com/mikestefanello/pagoda/config"
+	"github.com/mikestefanello/pagoda/pkg/controller"
 	"github.com/mikestefanello/pagoda/pkg/htmx"
 	"github.com/mikestefanello/pagoda/pkg/middleware"
 	"github.com/mikestefanello/pagoda/pkg/services"
 	"github.com/mikestefanello/pagoda/pkg/tests"
-	"github.com/mikestefanello/pagoda/templates"
+	"github.com/mikestefanello/pagoda/templates/layouts"
+	"github.com/mikestefanello/pagoda/templates/pages"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -49,7 +50,7 @@ func TestController_Redirect(t *testing.T) {
 	}).Name = "redirect-test"
 
 	ctx, _ := tests.NewContext(c.Web, "/abc")
-	ctr := NewController(c)
+	ctr := controller.NewController(c)
 	err := ctr.Redirect(ctx, "redirect-test", "one", "two")
 	require.NoError(t, err)
 	assert.Equal(t, "/path/one/and/two", ctx.Response().Header().Get(echo.HeaderLocation))
@@ -57,14 +58,15 @@ func TestController_Redirect(t *testing.T) {
 }
 
 func TestController_RenderPage(t *testing.T) {
-	setup := func() (echo.Context, *httptest.ResponseRecorder, Controller, Page) {
+	setup := func() (echo.Context, *httptest.ResponseRecorder, controller.Controller, controller.Page) {
 		ctx, rec := tests.NewContext(c.Web, "/test/TestController_RenderPage")
 		tests.InitSession(ctx)
-		ctr := NewController(c)
+		ctr := controller.NewController(c)
 
-		p := NewPage(ctx)
+		p := controller.NewPage(ctx)
 		p.Name = "home"
-		p.Layout = "main"
+		p.Layout = layouts.Main
+		p.Component = pages.Home(&p)
 		p.Cache.Enabled = false
 		p.Headers["A"] = "b"
 		p.Headers["C"] = "d"
@@ -80,6 +82,15 @@ func TestController_RenderPage(t *testing.T) {
 		assert.Error(t, err)
 	})
 
+	t.Run("missing component", func(t *testing.T) {
+		// Rendering should fail if the Page has no component
+		ctx, _, ctr, p := setup()
+		p.Name = "home"
+		p.Component = nil
+		err := ctr.RenderPage(ctx, p)
+		assert.Error(t, err)
+	})
+
 	t.Run("no page cache", func(t *testing.T) {
 		ctx, _, ctr, p := setup()
 		err := ctr.RenderPage(ctx, p)
@@ -90,26 +101,6 @@ func TestController_RenderPage(t *testing.T) {
 		for k, v := range p.Headers {
 			assert.Equal(t, v, ctx.Response().Header().Get(k))
 		}
-
-		// Check the template cache
-		parsed, err := c.TemplateRenderer.Load("page", string(p.Name))
-		assert.NoError(t, err)
-
-		// Check that all expected templates were parsed.
-		// This includes the name, layout and all components
-		expectedTemplates := make(map[string]bool)
-		expectedTemplates[fmt.Sprintf("%s%s", p.Name, config.TemplateExt)] = true
-		expectedTemplates[fmt.Sprintf("%s%s", p.Layout, config.TemplateExt)] = true
-		components, err := templates.Get().ReadDir("components")
-		require.NoError(t, err)
-		for _, f := range components {
-			expectedTemplates[f.Name()] = true
-		}
-
-		for _, v := range parsed.Template.Templates() {
-			delete(expectedTemplates, v.Name())
-		}
-		assert.Empty(t, expectedTemplates)
 	})
 
 	t.Run("htmx rendering", func(t *testing.T) {
@@ -123,26 +114,6 @@ func TestController_RenderPage(t *testing.T) {
 
 		// Check HTMX header
 		assert.Equal(t, "trigger", ctx.Response().Header().Get(htmx.HeaderTrigger))
-
-		// Check the template cache
-		parsed, err := c.TemplateRenderer.Load("page:htmx", string(p.Name))
-		assert.NoError(t, err)
-
-		// Check that all expected templates were parsed.
-		// This includes the name, htmx and all components
-		expectedTemplates := make(map[string]bool)
-		expectedTemplates[fmt.Sprintf("%s%s", p.Name, config.TemplateExt)] = true
-		expectedTemplates["htmx"+config.TemplateExt] = true
-		components, err := templates.Get().ReadDir("components")
-		require.NoError(t, err)
-		for _, f := range components {
-			expectedTemplates[f.Name()] = true
-		}
-
-		for _, v := range parsed.Template.Templates() {
-			delete(expectedTemplates, v.Name())
-		}
-		assert.Empty(t, expectedTemplates)
 	})
 
 	t.Run("page cache", func(t *testing.T) {

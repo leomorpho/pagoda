@@ -1,9 +1,10 @@
-package controller
+package controller_test
 
 import (
 	"fmt"
 	"testing"
 
+	"github.com/mikestefanello/pagoda/pkg/controller"
 	"github.com/mikestefanello/pagoda/pkg/tests"
 
 	"github.com/stretchr/testify/assert"
@@ -11,24 +12,24 @@ import (
 
 func TestNewPager(t *testing.T) {
 	ctx, _ := tests.NewContext(c.Web, "/")
-	pgr := NewPager(ctx, 10)
+	pgr := controller.NewPager(ctx, 10)
 	assert.Equal(t, 10, pgr.ItemsPerPage)
 	assert.Equal(t, 1, pgr.Page)
 	assert.Equal(t, 0, pgr.Items)
 	assert.Equal(t, 0, pgr.Pages)
 
-	ctx, _ = tests.NewContext(c.Web, fmt.Sprintf("/abc?%s=%d", PageQueryKey, 2))
-	pgr = NewPager(ctx, 10)
+	ctx, _ = tests.NewContext(c.Web, fmt.Sprintf("/abc?%s=%d", controller.PageQueryKey, 2))
+	pgr = controller.NewPager(ctx, 10)
 	assert.Equal(t, 2, pgr.Page)
 
-	ctx, _ = tests.NewContext(c.Web, fmt.Sprintf("/abc?%s=%d", PageQueryKey, -2))
-	pgr = NewPager(ctx, 10)
+	ctx, _ = tests.NewContext(c.Web, fmt.Sprintf("/abc?%s=%d", controller.PageQueryKey, -2))
+	pgr = controller.NewPager(ctx, 10)
 	assert.Equal(t, 1, pgr.Page)
 }
 
 func TestPager_SetItems(t *testing.T) {
 	ctx, _ := tests.NewContext(c.Web, "/")
-	pgr := NewPager(ctx, 20)
+	pgr := controller.NewPager(ctx, 20)
 	pgr.SetItems(100)
 	assert.Equal(t, 100, pgr.Items)
 	assert.Equal(t, 5, pgr.Pages)
@@ -36,7 +37,7 @@ func TestPager_SetItems(t *testing.T) {
 
 func TestPager_IsBeginning(t *testing.T) {
 	ctx, _ := tests.NewContext(c.Web, "/")
-	pgr := NewPager(ctx, 20)
+	pgr := controller.NewPager(ctx, 20)
 	pgr.Pages = 10
 	assert.True(t, pgr.IsBeginning())
 	pgr.Page = 2
@@ -47,7 +48,7 @@ func TestPager_IsBeginning(t *testing.T) {
 
 func TestPager_IsEnd(t *testing.T) {
 	ctx, _ := tests.NewContext(c.Web, "/")
-	pgr := NewPager(ctx, 20)
+	pgr := controller.NewPager(ctx, 20)
 	pgr.Pages = 10
 	assert.False(t, pgr.IsEnd())
 	pgr.Page = 10
@@ -58,7 +59,7 @@ func TestPager_IsEnd(t *testing.T) {
 
 func TestPager_GetOffset(t *testing.T) {
 	ctx, _ := tests.NewContext(c.Web, "/")
-	pgr := NewPager(ctx, 20)
+	pgr := controller.NewPager(ctx, 20)
 	assert.Equal(t, 0, pgr.GetOffset())
 	pgr.Page = 2
 	assert.Equal(t, 20, pgr.GetOffset())

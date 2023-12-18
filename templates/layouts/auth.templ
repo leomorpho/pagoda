@@ -1,0 +1,44 @@
+package layouts
+
+import (
+	"github.com/mikestefanello/pagoda/pkg/controller"
+	"github.com/mikestefanello/pagoda/templates/components"
+)
+
+templ Auth(content templ.Component, page *controller.Page) {
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+			@components.Metatags(page)
+			@components.CSS()
+			@components.JS()
+        </head>
+        <body>
+            <section class="hero is-info is-fullheight">
+                <div class="hero-body">
+                    <div class="container">
+                        <div class="columns is-centered">
+                            <div class="column is-half">
+                                if len(page.Title) > 0 {
+                                    <h1 class="title">{ page.Title }</h1>
+                                }
+                                <div class="box">
+                                    @components.Messages(page)
+                                    @content
+
+                                    <div class="content is-small has-text-centered" hx-boost="true">
+                                        <a href={ templ.URL(page.ToURL("login")) }>Login</a> &#9676;
+                                        <a href={ templ.URL(page.ToURL("register")) }>Create an account</a> &#9676;
+                                        <a href={ templ.URL(page.ToURL("forgot_password")) }>Forgot password?</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            @components.Footer(page)
+        </body>
+    </html>
+}

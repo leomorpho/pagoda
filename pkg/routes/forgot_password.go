@@ -9,7 +9,10 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/context"
 	"github.com/mikestefanello/pagoda/pkg/controller"
 	"github.com/mikestefanello/pagoda/pkg/msg"
+	"github.com/mikestefanello/pagoda/pkg/types"
 	"github.com/mikestefanello/pagoda/templates"
+	"github.com/mikestefanello/pagoda/templates/layouts"
+	"github.com/mikestefanello/pagoda/templates/pages"
 
 	"github.com/labstack/echo/v4"
 )
@@ -18,29 +21,25 @@ type (
 	forgotPassword struct {
 		controller.Controller
 	}
-
-	forgotPasswordForm struct {
-		Email      string `form:"email" validate:"required,email"`
-		Submission controller.FormSubmission
-	}
 )
 
 func (c *forgotPassword) Get(ctx echo.Context) error {
 	page := controller.NewPage(ctx)
-	page.Layout = templates.LayoutAuth
+	page.Layout = layouts.Auth
 	page.Name = templates.PageForgotPassword
 	page.Title = "Forgot password"
-	page.Form = forgotPasswordForm{}
+	page.Form = &types.ForgotPasswordForm{}
+	page.Component = pages.ForgotPassword(&page)
 
 	if form := ctx.Get(context.FormKey); form != nil {
-		page.Form = form.(*forgotPasswordForm)
+		page.Form = form.(*types.ForgotPasswordForm)
 	}
 
 	return c.RenderPage(ctx, page)
 }
 
 func (c *forgotPassword) Post(ctx echo.Context) error {
-	var form forgotPasswordForm
+	var form types.ForgotPasswordForm
 	ctx.Set(context.FormKey, &form)
 
 	succeed := func() error {

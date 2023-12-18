@@ -48,9 +48,6 @@ type Container struct {
 	// Auth stores an authentication client
 	Auth *AuthClient
 
-	// TemplateRenderer stores a service to easily render and cache templates
-	TemplateRenderer *TemplateRenderer
-
 	// Tasks stores the task client
 	Tasks *TaskClient
 }
@@ -65,7 +62,6 @@ func NewContainer() *Container {
 	c.initDatabase()
 	c.initORM()
 	c.initAuth()
-	c.initTemplateRenderer()
 	c.initMail()
 	c.initTasks()
 	return c
@@ -181,15 +177,10 @@ func (c *Container) initAuth() {
 	c.Auth = NewAuthClient(c.Config, c.ORM)
 }
 
-// initTemplateRenderer initializes the template renderer
-func (c *Container) initTemplateRenderer() {
-	c.TemplateRenderer = NewTemplateRenderer(c.Config)
-}
-
 // initMail initialize the mail client
 func (c *Container) initMail() {
 	var err error
-	c.Mail, err = NewMailClient(c.Config, c.TemplateRenderer)
+	c.Mail, err = NewMailClient(c.Config)
 	if err != nil {
 		panic(fmt.Sprintf("failed to create mail client: %v", err))
 	}

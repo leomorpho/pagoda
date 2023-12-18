@@ -5,7 +5,10 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/context"
 	"github.com/mikestefanello/pagoda/pkg/controller"
 	"github.com/mikestefanello/pagoda/pkg/msg"
+	"github.com/mikestefanello/pagoda/pkg/types"
 	"github.com/mikestefanello/pagoda/templates"
+	"github.com/mikestefanello/pagoda/templates/layouts"
+	"github.com/mikestefanello/pagoda/templates/pages"
 
 	"github.com/labstack/echo/v4"
 )
@@ -14,30 +17,25 @@ type (
 	resetPassword struct {
 		controller.Controller
 	}
-
-	resetPasswordForm struct {
-		Password        string `form:"password" validate:"required"`
-		ConfirmPassword string `form:"password-confirm" validate:"required,eqfield=Password"`
-		Submission      controller.FormSubmission
-	}
 )
 
 func (c *resetPassword) Get(ctx echo.Context) error {
 	page := controller.NewPage(ctx)
-	page.Layout = templates.LayoutAuth
+	page.Layout = layouts.Auth
 	page.Name = templates.PageResetPassword
 	page.Title = "Reset password"
-	page.Form = resetPasswordForm{}
+	page.Form = &types.ResetPasswordForm{}
+	page.Component = pages.ResetPassword(&page)
 
 	if form := ctx.Get(context.FormKey); form != nil {
-		page.Form = form.(*resetPasswordForm)
+		page.Form = form.(*types.ResetPasswordForm)
 	}
 
 	return c.RenderPage(ctx, page)
 }
 
 func (c *resetPassword) Post(ctx echo.Context) error {
-	var form resetPasswordForm
+	var form types.ResetPasswordForm
 	ctx.Set(context.FormKey, &form)
 
 	// Parse the form values

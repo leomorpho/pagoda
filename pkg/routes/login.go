@@ -9,7 +9,10 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/context"
 	"github.com/mikestefanello/pagoda/pkg/controller"
 	"github.com/mikestefanello/pagoda/pkg/msg"
+	"github.com/mikestefanello/pagoda/pkg/types"
 	"github.com/mikestefanello/pagoda/templates"
+	"github.com/mikestefanello/pagoda/templates/layouts"
+	"github.com/mikestefanello/pagoda/templates/pages"
 
 	"github.com/labstack/echo/v4"
 )
@@ -18,30 +21,25 @@ type (
 	login struct {
 		controller.Controller
 	}
-
-	loginForm struct {
-		Email      string `form:"email" validate:"required,email"`
-		Password   string `form:"password" validate:"required"`
-		Submission controller.FormSubmission
-	}
 )
 
 func (c *login) Get(ctx echo.Context) error {
 	page := controller.NewPage(ctx)
-	page.Layout = templates.LayoutAuth
+	page.Layout = layouts.Auth
 	page.Name = templates.PageLogin
 	page.Title = "Log in"
-	page.Form = loginForm{}
+	page.Form = &types.LoginForm{}
+	page.Component = pages.Login(&page)
 
 	if form := ctx.Get(context.FormKey); form != nil {
-		page.Form = form.(*loginForm)
+		page.Form = form.(*types.LoginForm)
 	}
 
 	return c.RenderPage(ctx, page)
 }
 
 func (c *login) Post(ctx echo.Context) error {
-	var form loginForm
+	var form types.LoginForm
 	ctx.Set(context.FormKey, &form)
 
 	authFailed := func() error {

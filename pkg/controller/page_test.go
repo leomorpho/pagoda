@@ -1,10 +1,11 @@
-package controller
+package controller_test
 
 import (
 	"net/http"
 	"testing"
 
 	"github.com/mikestefanello/pagoda/pkg/context"
+	"github.com/mikestefanello/pagoda/pkg/controller"
 	"github.com/mikestefanello/pagoda/pkg/msg"
 	"github.com/mikestefanello/pagoda/pkg/tests"
 
@@ -15,13 +16,13 @@ import (
 
 func TestNewPage(t *testing.T) {
 	ctx, _ := tests.NewContext(c.Web, "/")
-	p := NewPage(ctx)
+	p := controller.NewPage(ctx)
 	assert.Same(t, ctx, p.Context)
 	assert.NotNil(t, p.ToURL)
 	assert.Equal(t, "/", p.Path)
 	assert.Equal(t, "/", p.URL)
 	assert.Equal(t, http.StatusOK, p.StatusCode)
-	assert.Equal(t, NewPager(ctx, DefaultItemsPerPage), p.Pager)
+	assert.Equal(t, controller.NewPager(ctx, controller.DefaultItemsPerPage), p.Pager)
 	assert.Empty(t, p.Headers)
 	assert.True(t, p.IsHome)
 	assert.False(t, p.IsAuth)
@@ -34,7 +35,7 @@ func TestNewPage(t *testing.T) {
 	require.NoError(t, err)
 	ctx.Set(context.AuthenticatedUserKey, usr)
 	ctx.Set(echomw.DefaultCSRFConfig.ContextKey, "csrf")
-	p = NewPage(ctx)
+	p = controller.NewPage(ctx)
 	assert.Equal(t, "/abc", p.Path)
 	assert.Equal(t, "/abc?def=123", p.URL)
 	assert.False(t, p.IsHome)
@@ -46,7 +47,7 @@ func TestNewPage(t *testing.T) {
 func TestPage_GetMessages(t *testing.T) {
 	ctx, _ := tests.NewContext(c.Web, "/")
 	tests.InitSession(ctx)
-	p := NewPage(ctx)
+	p := controller.NewPage(ctx)
 
 	// Set messages
 	msgTests := make(map[msg.Type][]string)

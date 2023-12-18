@@ -1,0 +1,11 @@
+package components
+
+templ FormCSRF(token string) {
+    <input type="hidden" name="csrf" value={ token }/>
+}
+
+templ FormFieldErrors(errs []string) {
+    for _, err := range errs {
+        <p class="help is-danger">{ err }</p>
+    }
+}

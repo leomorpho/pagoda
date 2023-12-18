@@ -1,0 +1,20 @@
+package pages
+
+import (
+    "github.com/mikestefanello/pagoda/pkg/controller"
+    "github.com/mikestefanello/pagoda/templates/helpers"
+)
+
+templ Error(page *controller.Page) {
+    if page.StatusCode >= 500 {
+        <p>Please try again.</p>
+    } else if page.StatusCode == 403 || page.StatusCode == 401 {
+        <p>You are not authorized to view the requested page.</p>
+    } else if page.StatusCode == 404 {
+        <p>{ "Click " }
+        @helpers.Link(page.ToURL("home"), "here", page.Path)
+        { " to return home" }</p>
+    } else {
+        <p>Something went wrong</p>
+    }
+}

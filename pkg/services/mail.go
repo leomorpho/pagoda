@@ -1,12 +1,13 @@
 package services
 
 import (
+	"bytes"
 	"errors"
-	"fmt"
+
+	"github.com/a-h/templ"
+	"github.com/labstack/echo/v4"
 
 	"github.com/mikestefanello/pagoda/config"
-
-	"github.com/labstack/echo/v4"
 )
 
 type (
@@ -17,28 +18,26 @@ type (
 	MailClient struct {
 		// config stores application configuration
 		config *config.Config
-
-		// templates stores the template renderer
-		templates *TemplateRenderer
 	}
+
+	LayoutComponent func(content templ.Component) templ.Component
 
 	// mail represents an email to be sent
 	mail struct {
-		client       *MailClient
-		from         string
-		to           string
-		subject      string
-		body         string
-		template     string
-		templateData any
+		client    *MailClient
+		from      string
+		to        string
+		subject   string
+		body      string
+		layout    LayoutComponent
+		component templ.Component
 	}
 )
 
 // NewMailClient creates a new MailClient
-func NewMailClient(cfg *config.Config, templates *TemplateRenderer) (*MailClient, error) {
+func NewMailClient(cfg *config.Config) (*MailClient, error) {
 	return &MailClient{
-		config:    cfg,
-		templates: templates,
+		config: cfg,
 	}, nil
 }
 
@@ -60,20 +59,23 @@ func (m *MailClient) send(email *mail, ctx echo.Context) error {
 	switch {
 	case email.to == "":
 		return errors.New("email cannot be sent without a to address")
-	case email.body == "" && email.template == "":
-		return errors.New("email cannot be sent without a body or template")
+	case email.body == "" && email.component == nil:
+		return errors.New("email cannot be sent without a body or component")
 	}
 
-	// Check if a template was supplied
-	if email.template != "" {
-		// Parse and execute template
-		buf, err := m.templates.
-			Parse().
-			Group("mail").
-			Key(email.template).
-			Base(email.template).
-			Files(fmt.Sprintf("emails/%s", email.template)).
-			Execute(email.templateData)
+	// Check if a component was supplied
+	if email.component != nil {
+		// Render the templates for the Email
+		buf := &bytes.Buffer{}
+
+		// If the email layout is set, that will be used to wrap the email component
+		component := email.component
+		if email.layout != nil {
+			component = email.layout(component)
+		}
+		component.Render(ctx.Request().Context(), buf)
+
+		err := email.component.Render(ctx.Request().Context(), buf)
 
 		if err != nil {
 			return err
@@ -117,19 +119,15 @@ func (m *mail) Body(body string) *mail {
 	return m
 }
 
-// Template sets the template to be used to produce the body of the email
-// The template name should only include the filename without the extension or directory.
-// The template must reside within the emails sub-directory.
-// The funcmap will be automatically added to the template.
-// Use TemplateData() to supply the data that will be passed in to the template.
-func (m *mail) Template(template string) *mail {
-	m.template = template
+// Component sets the template component to be used to produce the body of the email
+func (m *mail) Component(component templ.Component) *mail {
+	m.component = component
 	return m
 }
 
-// TemplateData sets the data that will be passed to the template specified when calling Template()
-func (m *mail) TemplateData(data any) *mail {
-	m.templateData = data
+// TemplateLayout sets the layout component that will wrap the template component specified when calling Component()
+func (m *mail) TemplateLayout(layout LayoutComponent) *mail {
+	m.layout = layout
 	return m
 }
 

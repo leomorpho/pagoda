@@ -10,13 +10,7 @@ import (
 )
 
 type (
-	Layout string
-	Page   string
-)
-
-const (
-	LayoutMain Layout = "main"
-	LayoutAuth Layout = "auth"
+	Page string
 )
 
 const (

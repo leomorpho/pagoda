@@ -64,11 +64,11 @@ reset:
 	$(DCO_BIN) down
 	make up
 
-# Run the application
+# Run the application with air (auto reload changes)
 .PHONY: run
 run:
 	clear
-	go run cmd/web/main.go
+	air
 
 # Run all tests
 .PHONY: test

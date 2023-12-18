@@ -1,7 +1,9 @@
 package routes
 
 import (
+	"log/slog"
 	"net/http"
+	"os"
 
 	"github.com/mikestefanello/pagoda/config"
 	"github.com/mikestefanello/pagoda/pkg/controller"
@@ -13,6 +15,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	echomw "github.com/labstack/echo/v4/middleware"
+	slogecho "github.com/samber/slog-echo"
 )
 
 const (
@@ -35,6 +38,11 @@ const (
 
 // BuildRouter builds the router
 func BuildRouter(c *services.Container) {
+	// Create a slog logger, which:
+	//   - Logs to json.
+	// TODO: add option to log to file
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+
 	// Static files with proper cache control
 	// funcmap.File() should be used in templates to append a cache key to the URL in order to break cache
 	// after each server restart
@@ -57,7 +65,7 @@ func BuildRouter(c *services.Container) {
 		echomw.Secure(),
 		echomw.RequestID(),
 		echomw.Gzip(),
-		echomw.Logger(),
+		slogecho.New(logger),
 		middleware.LogRequestID(),
 		echomw.TimeoutWithConfig(echomw.TimeoutConfig{
 			Timeout: c.Config.App.Timeout,

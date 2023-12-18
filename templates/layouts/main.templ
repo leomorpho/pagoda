@@ -1,0 +1,100 @@
+package layouts
+
+import (
+	"github.com/mikestefanello/pagoda/pkg/controller"
+	"github.com/mikestefanello/pagoda/templates/components"
+	"github.com/mikestefanello/pagoda/templates/helpers"
+)
+
+templ Main(content templ.Component, page *controller.Page) {
+	<!DOCTYPE html>
+	<html lang="en" style="height:100%;">
+		<head>
+			@components.Metatags(page)
+			@components.CSS()
+			@components.JS()
+		</head>
+		<body class="has-background-light" style="min-height:100%;">
+			<nav class="navbar is-dark">
+				<div class="container">
+					<div class="navbar-brand" hx-boost="true">
+						<a href={ templ.URL(page.ToURL("home")) } class="navbar-item">{page.AppName}</a>
+					</div>
+					<div id="navbarMenu" class="navbar-menu">
+						<div class="navbar-end">
+							@search(page)
+						</div>
+					</div>
+				</div>
+			</nav>
+
+			<div class="container mt-5">
+				<div class="columns">
+					<div class="column is-2">
+						<aside class="menu" hx-boost="true">
+							<p class="menu-label">General</p>
+							<ul class="menu-list">
+								<li>@helpers.Link(page.ToURL("home"), "Dashboard", page.Path)</li>
+								<li>@helpers.Link(page.ToURL("about"), "About", page.Path)</li>
+								<li>@helpers.Link(page.ToURL("contact"), "Contact", page.Path)</li>
+							</ul>
+
+							<p class="menu-label">Account</p>
+							<ul class="menu-list">
+								if page.IsAuth {
+									<li>@helpers.Link(page.ToURL("logout"), "Logout", page.Path)</li>
+								} else {
+									<li>@helpers.Link(page.ToURL("login"), "Login", page.Path)</li>
+									<li>@helpers.Link(page.ToURL("register"), "Register", page.Path)</li>
+									<li>@helpers.Link(page.ToURL("forgot_password"), "Forgot password", page.Path)</li>
+								}
+							</ul>
+						</aside>
+					</div>
+
+					<div class="column is-10">
+						<div class="box">
+							if len(page.Title) > 0 {
+								<h1 class="title">{ page.Title }</h1>
+							}
+
+							@components.Messages(page)
+							@content
+						</div>
+					</div>
+				</div>
+			</div>
+
+			@components.Footer(page)
+		</body>
+	</html>
+}
+
+templ search(page *controller.Page) {
+	<div class="search mr-2 mt-1" x-data="{modal:false}">
+		<input class="input" type="search" placeholder="Search..." @click="modal = true; $nextTick(() => $refs.input.focus());"/>
+		<div class="modal" :class="modal ? 'is-active' : ''" x-show="modal == true">
+			<div class="modal-background"></div>
+			<div class="modal-content" @click.away="modal = false;">
+				<div class="box">
+					<h2 class="subtitle">Search</h2>
+					<p class="control">
+						<input
+							hx-get={ page.ToURL("search") }
+							hx-trigger="keyup changed delay:500ms"
+							hx-target="#results"
+							name="query"
+							class="input"
+							type="search"
+							placeholder="Search..."
+							x-ref="input"
+						/>
+					</p>
+					<div class="block"></div>
+					<div id="results"></div>
+				</div>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+		</div>
+	</div>
+}
