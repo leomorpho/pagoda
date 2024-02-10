@@ -64,11 +64,24 @@ reset:
 	$(DCO_BIN) down
 	make up
 
+# Build JS/Svelte assets
+.PHONY: build-js
+build-js:
+	npm run build 
+
+# Build JS/Svelte assets (auto reload changes)
+.PHONY: build-js
+watch-js:
+	npm run watch 
+
 # Run the application with air (auto reload changes)
 .PHONY: run
-run:
+run-go:
 	clear
 	air
+
+run: 
+	overmind start
 
 # Run all tests
 .PHONY: test

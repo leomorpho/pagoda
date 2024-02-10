@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node build.js"
+    "build": "node build.js",
+    "watch": "watchexec --exts js,svelte --watch javascript node build.js"
   },
   "repository": {
     "type": "git",
