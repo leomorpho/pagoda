@@ -1,7 +1,10 @@
-import App from "./App.svelte";
+import TestSvelteComponent from "./TestSvelteComponent.svelte";
 
-const app = new App({
-  target: document.body,
+document.addEventListener("DOMContentLoaded", () => {
+  const testComponentTarget = document.getElementById("svelte-test-component");
+  if (testComponentTarget) {
+    new TestSvelteComponent({
+      target: testComponentTarget,
+    });
+  }
 });
-
-export default app;

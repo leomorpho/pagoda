@@ -67,7 +67,7 @@ func homeTopContent(page *controller.Page) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"hero is-info welcome is-small\"><div class=\"hero-body\"><div class=\"container\"><h1 class=\"title\">Hello ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!-- Container for the JavaScript component --><div id=\"js-test-component\">Waiting for JavaScript...</div><!-- Container for the Svelte component --><div id=\"svelte-test-component\"></div><section class=\"hero is-info welcome is-small\"><div class=\"hero-body\"><div class=\"container\"><h1 class=\"title\">Hello ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -85,7 +85,7 @@ func homeTopContent(page *controller.Page) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("Welcome back!")
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 34, Col: 41}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 36, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -95,7 +95,7 @@ func homeTopContent(page *controller.Page) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs("Please login in to your account.")
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 36, Col: 60}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 38, Col: 42}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -147,7 +147,7 @@ func homePosts(page *controller.Page) templ.Component {
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(post.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 64, Col: 47}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 65, Col: 28}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -160,7 +160,7 @@ func homePosts(page *controller.Page) templ.Component {
 				var templ_7745c5c3_Var7 string
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(post.Body)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 66, Col: 39}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 67, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {

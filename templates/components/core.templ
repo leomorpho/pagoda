@@ -1,40 +1,42 @@
 package components
 
 import (
-    "fmt"
-    "strings"
+	"fmt"
+	"strings"
 
-    "github.com/mikestefanello/pagoda/pkg/controller"
-    "github.com/mikestefanello/pagoda/templates/helpers"
+	"github.com/mikestefanello/pagoda/pkg/controller"
+	"github.com/mikestefanello/pagoda/templates/helpers"
 )
 
 templ Metatags(page *controller.Page) {
-    <title>
-        {page.AppName}
-        if len(page.Title) > 0 {
-            { fmt.Sprintf("| %s", page.Title) }
-        }
-    </title>
-    <link rel="icon" href={ helpers.File("favicon.png") }/>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    if len(page.Metatags.Description) > 0 {
-        <meta name="description" content="{page.Metatags.Description}"/>
-    }
-    if len(page.Metatags.Keywords) > 0 {
-        <meta name="keywords" content={ strings.Join(page.Metatags.Keywords, ", ") }/>
-    }
+	<title>
+		{ page.AppName }
+		if len(page.Title) > 0 {
+			{ fmt.Sprintf("| %s", page.Title) }
+		}
+	</title>
+	<link rel="icon" href={ helpers.File("favicon.png") }/>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	if len(page.Metatags.Description) > 0 {
+		<meta name="description" content="{page.Metatags.Description}"/>
+	}
+	if len(page.Metatags.Keywords) > 0 {
+		<meta name="keywords" content={ strings.Join(page.Metatags.Keywords, ", ") }/>
+	}
 }
 
 templ CSS() {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"/>
+	<script src="files/svelte_bundle.css"></script>
 }
 
 templ JS() {
-    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="files/vanilla_bundle.js"></script>
+	<script src="https://unpkg.com/htmx.org@1.9.3"></script>
+	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+	<script src="files/vanilla_bundle.js"></script>
+	<script src="files/svelte_bundle.js"></script>
 }
 
 script csrfJS(token string) {
@@ -55,8 +57,8 @@ script htmxBeforeSwap() {
 }
 
 templ Footer(page *controller.Page) {
-    if len(page.CSRF) > 0 {
-        @csrfJS(page.CSRF)
-    }
-    @htmxBeforeSwap()
+	if len(page.CSRF) > 0 {
+		@csrfJS(page.CSRF)
+	}
+	@htmxBeforeSwap()
 }

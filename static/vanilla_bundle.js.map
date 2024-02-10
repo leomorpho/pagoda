@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "sources": [],
-  "sourcesContent": [],
-  "mappings": "",
-  "names": []
+  "sources": ["../javascript/vanilla/example.js"],
+  "sourcesContent": ["document.addEventListener(\"DOMContentLoaded\", () => {\n  const testElement = document.getElementById(\"js-test-component\");\n  if (testElement) {\n    testElement.textContent = \"Content changed by static vanillajs!\";\n  }\n});\n"],
+  "mappings": "MAAA,SAAS,iBAAiB,mBAAoB,IAAM,CAClD,IAAMA,EAAc,SAAS,eAAe,mBAAmB,EAC3DA,IACFA,EAAY,YAAc,uCAE9B,CAAC",
+  "names": ["testElement"]
 }
