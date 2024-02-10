@@ -6,7 +6,7 @@ require (
 	entgo.io/ent v0.12.5
 	github.com/Masterminds/sprig v2.22.0+incompatible
 	github.com/PuerkitoBio/goquery v1.8.1
-	github.com/a-h/templ v0.2.476
+	github.com/a-h/templ v0.2.543
 	github.com/eko/gocache/v2 v2.3.1
 	github.com/go-playground/validator/v10 v10.16.0
 	github.com/go-redis/redis/v8 v8.11.5
