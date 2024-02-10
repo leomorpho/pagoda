@@ -1,0 +1,26 @@
+{
+  "name": "pagoda",
+  "version": "1.0.0",
+  "description": "A collection of tools to make web apps rapidly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leomorpho/pagoda.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leomorpho/pagoda/issues"
+  },
+  "homepage": "https://github.com/leomorpho/pagoda#readme",
+  "devDependencies": {
+    "esbuild": "^0.20.0",
+    "esbuild-svelte": "^0.8.0",
+    "svelte": "^4.2.10"
+  }
+}
