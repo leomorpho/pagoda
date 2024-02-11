@@ -39,11 +39,11 @@ func ResetPassword(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"field\"><label for=\"password\" class=\"label\">Password</label><div class=\"control\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"space-y-4\"><div class=\"flex flex-col space-y-2 m-5\"><label for=\"password\" class=\"label\">Password</label><div class=\"control\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 = []any{"input", form.Submission.GetFieldStatusClass("Password")}
+			var templ_7745c5c3_Var3 = []any{"input", "input-bordered", form.Submission.GetFieldStatusClass("Password")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -64,11 +64,11 @@ func ResetPassword(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"field\"><label for=\"password-confirm\" class=\"label\">Confirm password</label><div class=\"control\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex flex-col space-y-2 m-5\"><label for=\"password-confirm\" class=\"label\">Confirm password</label><div class=\"control\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var4 = []any{"input", form.Submission.GetFieldStatusClass("ConfirmPassword")}
+			var templ_7745c5c3_Var4 = []any{"input", "input-bordered", form.Submission.GetFieldStatusClass("ConfirmPassword")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -89,7 +89,7 @@ func ResetPassword(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"field is-grouped\"><p class=\"control\"><button class=\"button is-primary\">Update password</button></p></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex flex-col space-y-2 m-5\"><p class=\"control\"><button class=\"button\">Update password</button></p></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

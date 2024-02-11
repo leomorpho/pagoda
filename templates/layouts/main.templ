@@ -14,57 +14,55 @@ templ Main(content templ.Component, page *controller.Page) {
 			@components.CSS()
 			@components.JS()
 		</head>
-		<body class="has-background-light" style="min-height:100%;">
-			<nav class="navbar is-dark">
-				<div class="container">
-					<div class="navbar-brand" hx-boost="true">
-						<a href={ templ.URL(page.ToURL("home")) } class="navbar-item">{page.AppName}</a>
-					</div>
-					<div id="navbarMenu" class="navbar-menu">
-						<div class="navbar-end">
-							@search(page)
-						</div>
-					</div>
-				</div>
-			</nav>
-
+		<body class="min-h-screen">
+			@navbar(page)
 			<div class="container mt-5">
 				<div class="columns">
 					<div class="column is-2">
 						<aside class="menu" hx-boost="true">
 							<p class="menu-label">General</p>
 							<ul class="menu-list">
-								<li>@helpers.Link(page.ToURL("home"), "Dashboard", page.Path)</li>
-								<li>@helpers.Link(page.ToURL("about"), "About", page.Path)</li>
-								<li>@helpers.Link(page.ToURL("contact"), "Contact", page.Path)</li>
+								<li>
+									@helpers.Link(page.ToURL("home"), "Dashboard", page.Path)
+								</li>
+								<li>
+									@helpers.Link(page.ToURL("about"), "About", page.Path)
+								</li>
+								<li>
+									@helpers.Link(page.ToURL("contact"), "Contact", page.Path)
+								</li>
 							</ul>
-
 							<p class="menu-label">Account</p>
 							<ul class="menu-list">
 								if page.IsAuth {
-									<li>@helpers.Link(page.ToURL("logout"), "Logout", page.Path)</li>
+									<li>
+										@helpers.Link(page.ToURL("logout"), "Logout", page.Path)
+									</li>
 								} else {
-									<li>@helpers.Link(page.ToURL("login"), "Login", page.Path)</li>
-									<li>@helpers.Link(page.ToURL("register"), "Register", page.Path)</li>
-									<li>@helpers.Link(page.ToURL("forgot_password"), "Forgot password", page.Path)</li>
+									<li>
+										@helpers.Link(page.ToURL("login"), "Login", page.Path)
+									</li>
+									<li>
+										@helpers.Link(page.ToURL("register"), "Register", page.Path)
+									</li>
+									<li>
+										@helpers.Link(page.ToURL("forgot_password"), "Forgot password", page.Path)
+									</li>
 								}
 							</ul>
 						</aside>
 					</div>
-
 					<div class="column is-10">
 						<div class="box">
 							if len(page.Title) > 0 {
 								<h1 class="title">{ page.Title }</h1>
 							}
-
 							@components.Messages(page)
 							@content
 						</div>
 					</div>
 				</div>
 			</div>
-
 			@components.Footer(page)
 		</body>
 	</html>
@@ -97,4 +95,78 @@ templ search(page *controller.Page) {
 			<button class="modal-close is-large" aria-label="close"></button>
 		</div>
 	</div>
+}
+
+templ navbar(page *controller.Page) {
+	<nav class="bg-gray-800">
+		<div class="container mx-auto px-4 py-4 flex justify-between items-center">
+			<a href="{ templ.URL(page.ToURL('home')) }" class="flex items-center space-x-3">
+				<img src="/files/favicon.png" class="h-8" alt="Logo"/>
+				<span class="text-2xl font-semibold text-white">{ page.AppName }</span>
+			</a>
+			<!-- Search Bar -->
+			@search(page)
+			<!-- Multi-Level Dropdown -->
+			<div class="relative" x-data="{ open: false }">
+				<button @click="open = !open" class="ml-3 text-sm rounded-full text-white hover:bg-gray-700 px-3 py-2">Services</button>
+				<div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+					<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Web Development</a>
+					<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">SEO Services</a>
+					<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Digital Marketing</a>
+				</div>
+			</div>
+			<!-- Example Menu Items -->
+			<div class="hidden md:flex items-center space-x-4">
+				<a href="#" class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-md">About Us</a>
+				<a href="#" class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-md">Contact</a>
+				<a href="#" class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-md">Blog</a>
+			</div>
+			<div class="relative" x-data="{ open: false }">
+				<button
+					type="button"
+					@click="open = !open"
+					class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+				>
+					<img class="w-8 h-8 rounded-full" src="https://api.multiavatar.com/Binx Bond.png" alt="User photo"/>
+				</button>
+				<!-- Dropdown Menu -->
+				<div
+					x-show="open"
+					@click.away="open = false"
+					class="absolute right-0 mt-2 my-4 py-2 w-48 bg-white rounded-md text-base list-none divide-y divide-gray-100 shadow-xl z-20"
+				>
+					<div class="px-4 py-3">
+						<span class="text-sm text-gray-900">Bonnie Green</span>
+						<span class="text-sm text-gray-500">name@pagoda.com</span>
+					</div>
+					<ul class="py-2">
+						<li>
+							<a
+								href="#"
+								class="block px-4 py-2 text-sm hover:bg-gray-100"
+							>Dashboard</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="block px-4 py-2 text-sm hover:bg-gray-100"
+							>Settings</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="block px-4 py-2 text-sm hover:bg-gray-100"
+							>Earnings</a>
+						</li>
+						<li>
+							<a
+								href={ templ.URL(page.ToURL("logout")) }
+								class="block px-4 py-2 text-sm hover:bg-gray-100"
+							>Sign out</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
 }
