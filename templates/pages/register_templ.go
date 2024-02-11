@@ -30,7 +30,7 @@ func Register(page *controller.Page) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if form, ok := page.Form.(*types.RegisterForm); ok {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\" hx-boost=\"true\" action=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\" action=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -39,11 +39,11 @@ func Register(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"space-y-4\"><div class=\"flex flex-col space-y-2 m-5\"><label for=\"name\" class=\"label\">Name</label><div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"space-y-4\"><!-- Name --><div class=\"flex flex-col space-y-2 m-5\"><label for=\"name\" class=\"label\">Name</label><div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 = []any{"input", "input-bordered", form.Submission.GetFieldStatusClass("Name")}
+			var templ_7745c5c3_Var3 = []any{"w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("Name")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -72,11 +72,11 @@ func Register(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex flex-col space-y-2 m-5\"><label for=\"email\" class=\"label\">Email address</label><div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><!-- Email --><div class=\"flex flex-col space-y-2 m-5\"><label for=\"email\" class=\"label\">Email address</label><div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var4 = []any{"input", "input-bordered", form.Submission.GetFieldStatusClass("Email")}
+			var templ_7745c5c3_Var4 = []any{"w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("Email")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -105,11 +105,11 @@ func Register(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex flex-col space-y-2 m-5\"><label for=\"password\" class=\"label\">Password</label><div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><!-- Password --><div class=\"flex flex-col space-y-2 m-5\"><label for=\"password\" class=\"label\">Password</label><div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var5 = []any{"input", "input-bordered", form.Submission.GetFieldStatusClass("Password")}
+			var templ_7745c5c3_Var5 = []any{"w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("Password")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -138,11 +138,11 @@ func Register(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex flex-col space-y-2 m-5\"><label for=\"password-confirm\" class=\"label\">Confirm password</label><div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><!-- Password confirmation --><div class=\"flex flex-col space-y-2 m-5\"><label for=\"password-confirm\" class=\"label\">Confirm password</label><div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var6 = []any{"input", "input-bordered", form.Submission.GetFieldStatusClass("ConfirmPassword")}
+			var templ_7745c5c3_Var6 = []any{"w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("ConfirmPassword")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -163,7 +163,7 @@ func Register(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"field\"><p><button class=\"button\">Register</button></p><p><a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"flex justify-center items-center\"><p><button type=\"submit\" class=\"px-4 py-2 bg-blue-500 text-white rounded mr-2\">Register</button></p><p><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -172,7 +172,7 @@ func Register(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"button\">Cancel</a></p></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"px-4 py-2 bg-gray-300 text-black rounded\">Cancel</a></p></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

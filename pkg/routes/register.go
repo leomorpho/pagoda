@@ -28,6 +28,7 @@ func (c *register) Get(ctx echo.Context) error {
 	page.Title = "Register"
 	page.Form = &types.RegisterForm{}
 	page.Component = pages.Register(&page)
+	page.HTMX.Request.Boosted = true
 
 	if form := ctx.Get(context.FormKey); form != nil {
 		page.Form = form.(*types.RegisterForm)

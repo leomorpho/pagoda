@@ -10,10 +10,10 @@ templ Register(page *controller.Page) {
 	if form, ok := page.Form.(*types.RegisterForm); ok {
 		<form
 			method="post"
-			hx-boost="true"
 			action={ templ.URL(page.ToURL("register.post")) }
 			class="space-y-4"
 		>
+			<!-- Name -->
 			<div class="flex flex-col space-y-2 m-5">
 				<label for="name" class="label">Name</label>
 				<div>
@@ -21,12 +21,13 @@ templ Register(page *controller.Page) {
 						type="text"
 						id="name"
 						name="name"
-						class={ "input", "input-bordered", form.Submission.GetFieldStatusClass("Name") }
+						class={ "w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("Name") }
 						value={ form.Name }
 					/>
 					@components.FormFieldErrors(form.Submission.GetFieldErrors("Name"))
 				</div>
 			</div>
+			<!-- Email -->
 			<div class="flex flex-col space-y-2 m-5">
 				<label for="email" class="label">Email address</label>
 				<div>
@@ -34,12 +35,13 @@ templ Register(page *controller.Page) {
 						id="email"
 						type="email"
 						name="email"
-						class={ "input", "input-bordered", form.Submission.GetFieldStatusClass("Email") }
+						class={ "w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("Email") }
 						value={ form.Email }
 					/>
 					@components.FormFieldErrors(form.Submission.GetFieldErrors("Email"))
 				</div>
 			</div>
+			<!-- Password -->
 			<div class="flex flex-col space-y-2 m-5">
 				<label for="password" class="label">Password</label>
 				<div>
@@ -48,12 +50,13 @@ templ Register(page *controller.Page) {
 						id="password"
 						name="password"
 						placeholder="*******"
-						class={ "input", "input-bordered", form.Submission.GetFieldStatusClass("Password") }
+						class={ "w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("Password") }
 						value={ form.Password }
 					/>
 					@components.FormFieldErrors(form.Submission.GetFieldErrors("Password"))
 				</div>
 			</div>
+			<!-- Password confirmation -->
 			<div class="flex flex-col space-y-2 m-5">
 				<label for="password-confirm" class="label">Confirm password</label>
 				<div>
@@ -62,17 +65,23 @@ templ Register(page *controller.Page) {
 						id="password-confirm"
 						name="password-confirm"
 						placeholder="*******"
-						class={ "input", "input-bordered", form.Submission.GetFieldStatusClass("ConfirmPassword") }
+						class={ "w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("ConfirmPassword") }
 					/>
 					@components.FormFieldErrors(form.Submission.GetFieldErrors("ConfirmPassword"))
 				</div>
 			</div>
-			<div class="field">
+			<div class="flex justify-center items-center">
 				<p>
-					<button class="button">Register</button>
+					<button
+						type="submit"
+						class="px-4 py-2 bg-blue-500 text-white rounded mr-2"
+					>Register</button>
 				</p>
 				<p>
-					<a href={ templ.URL(page.ToURL("home")) } class="button">Cancel</a>
+					<a
+						href={ templ.URL(page.ToURL("home")) }
+						class="px-4 py-2 bg-gray-300 text-black rounded"
+					>Cancel</a>
 				</p>
 			</div>
 			@components.FormCSRF(page.CSRF)

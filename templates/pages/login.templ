@@ -1,37 +1,54 @@
 package pages
 
 import (
-    "github.com/mikestefanello/pagoda/pkg/controller"
-    "github.com/mikestefanello/pagoda/pkg/types"
-    "github.com/mikestefanello/pagoda/templates/components"
+	"github.com/mikestefanello/pagoda/pkg/controller"
+	"github.com/mikestefanello/pagoda/pkg/types"
+	"github.com/mikestefanello/pagoda/templates/components"
 )
 
 templ Login(page *controller.Page) {
-    if form, ok := page.Form.(*types.LoginForm); ok {
-        <form method="post" hx-boost="true" action={ templ.URL(page.ToURL("login.post")) }>
-            <div class="field">
-                <label for="email" class="label">Email address</label>
-                <div class="control">
-                    <input id="email" type="email" name="email" class={ "input", form.Submission.GetFieldStatusClass("Email") } value={ form.Email }/>
-                    @components.FormFieldErrors(form.Submission.GetFieldErrors("Email"))
-                </div>
-            </div>
-            <div class="field">
-                <label for="password" class="label">Password</label>
-                <div class="control">
-                    <input id="password" type="password" name="password" placeholder="*******" class={ "input", form.Submission.GetFieldStatusClass("Password") }/>
-                    @components.FormFieldErrors(form.Submission.GetFieldErrors("Password"))
-                </div>
-            </div>
-            <div class="field is-grouped">
-                <p class="control">
-                    <button class="button is-primary">Log in</button>
-                </p>
-                <p class="control">
-                    <a href={ templ.URL(page.ToURL("home")) } class="button is-light">Cancel</a>
-                </p>
-            </div>
-            @components.FormCSRF(page.CSRF)
-        </form>
-    }
+	if form, ok := page.Form.(*types.LoginForm); ok {
+		<form
+			method="post"
+			action={ templ.URL(page.ToURL("login.post")) }
+		>
+			<div class="flex flex-col space-y-2 m-5">
+				<label for="email" class="label">Email address</label>
+				<div class="control">
+					<input
+						id="email"
+						type="email"
+						name="email"
+						class={ "w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("Email") }
+						value={ form.Email }
+					/>
+					@components.FormFieldErrors(form.Submission.GetFieldErrors("Email"))
+				</div>
+			</div>
+			<div class="flex flex-col space-y-2 m-5">
+				<label for="password" class="label">Password</label>
+				<div class="control">
+					<input
+						id="password"
+						type="password"
+						name="password"
+						placeholder="*******"
+						class={ "w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("Password") }
+					/>
+					@components.FormFieldErrors(form.Submission.GetFieldErrors("Password"))
+				</div>
+			</div>
+			<div class="flex justify-center items-center">
+				<button
+					type="submit"
+					class="px-4 py-2 bg-blue-500 text-white rounded mr-2"
+				>Log in</button>
+				<a
+					href={ templ.URL(page.ToURL("home")) }
+					class="px-4 py-2 bg-gray-300 text-black rounded"
+				>Cancel</a>
+			</div>
+			@components.FormCSRF(page.CSRF)
+		</form>
+	}
 }

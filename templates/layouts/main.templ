@@ -8,62 +8,67 @@ import (
 
 templ Main(content templ.Component, page *controller.Page) {
 	<!DOCTYPE html>
-	<html lang="en" style="height:100%;">
+	<html lang="en" class="min-h-screen">
 		<head>
 			@components.Metatags(page)
 			@components.CSS()
 			@components.JS()
 		</head>
-		<body class="min-h-screen">
-			@components.Navbar(page)
-			<div class="container mt-5">
-				<div class="columns">
-					<div class="column is-2">
-						<aside class="menu" hx-boost="true">
-							<p class="menu-label">General</p>
-							<ul class="menu-list">
-								<li>
-									@helpers.Link(page.ToURL("home"), "Dashboard", page.Path)
-								</li>
-								<li>
-									@helpers.Link(page.ToURL("about"), "About", page.Path)
-								</li>
-								<li>
-									@helpers.Link(page.ToURL("contact"), "Contact", page.Path)
-								</li>
-							</ul>
-							<p class="menu-label">Account</p>
-							<ul class="menu-list">
-								if page.IsAuth {
-									<li>
-										@helpers.Link(page.ToURL("logout"), "Logout", page.Path)
+		<body>
+			<div id="main-content" class="bg-gray-100 min-h-screen">
+				@components.Navbar(page)
+				<div class="container mx-auto mt-5 px-4">
+					<div class="flex flex-wrap -mx-2">
+						<div class="w-full lg:w-1/5 px-2">
+							<aside class="bg-white p-4 rounded-lg shadow">
+								<p class="font-semibold text-lg mb-2">General</p>
+								<ul class="space-y-2" hx-boost="true">
+									<li class="cursor-pointer hover:text-blue-500">
+										@helpers.Link(page.ToURL("home"), "Dashboard", page.Path)
 									</li>
-								} else {
-									<li>
-										@helpers.Link(page.ToURL("login"), "Login", page.Path)
+									<li class="cursor-pointer hover:text-blue-500">
+										@helpers.Link(page.ToURL("about"), "About", page.Path)
 									</li>
-									<li>
-										@helpers.Link(page.ToURL("register"), "Register", page.Path)
+									<li class="cursor-pointer hover:text-blue-500">
+										@helpers.Link(page.ToURL("contact"), "Contact", page.Path)
 									</li>
-									<li>
-										@helpers.Link(page.ToURL("forgot_password"), "Forgot password", page.Path)
-									</li>
+								</ul>
+								<p class="font-semibold text-lg mt-4 mb-2">Account</p>
+								<ul
+									class="space-y-2"
+									hx-push-url="true"
+									hx-target="#main-content"
+									hx-select="#main-content"
+									hx-swap="outerHTML"
+								>
+									if page.IsAuth {
+										<li hx-get={ page.ToURL("logout") } class="cursor-pointer hover:text-blue-500">
+											Logout
+										</li>
+									} else {
+										<li hx-get={ page.ToURL("login") } class="cursor-pointer hover:text-blue-500">
+											Login
+										</li>
+										<li hx-get={ page.ToURL("register") } class="cursor-pointer hover:text-blue-500">
+											Register
+										</li>
+									}
+								</ul>
+							</aside>
+						</div>
+						<div class="w-full lg:w-4/5 px-2">
+							<div class="bg-white p-6 rounded-lg shadow">
+								if len(page.Title) > 0 {
+									<h1 class="text-2xl font-bold mb-4">{ page.Title }</h1>
 								}
-							</ul>
-						</aside>
-					</div>
-					<div class="column is-10">
-						<div class="box">
-							if len(page.Title) > 0 {
-								<h1 class="title">{ page.Title }</h1>
-							}
-							@components.Messages(page)
-							@content
+								@components.Messages(page)
+								@content
+							</div>
 						</div>
 					</div>
 				</div>
+				@components.Footer(page)
 			</div>
-			@components.Footer(page)
 		</body>
 	</html>
 }

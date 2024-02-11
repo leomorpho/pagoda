@@ -30,6 +30,7 @@ func (c *login) Get(ctx echo.Context) error {
 	page.Title = "Log in"
 	page.Form = &types.LoginForm{}
 	page.Component = pages.Login(&page)
+	page.HTMX.Request.Boosted = true
 
 	if form := ctx.Get(context.FormKey); form != nil {
 		page.Form = form.(*types.LoginForm)

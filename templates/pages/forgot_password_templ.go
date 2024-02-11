@@ -30,7 +30,7 @@ func ForgotPassword(page *controller.Page) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if form, ok := page.Form.(*types.ForgotPasswordForm); ok {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\" hx-boost=\"true\" action=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form method=\"post\" action=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -39,11 +39,11 @@ func ForgotPassword(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"content\"><p>Enter your email address and we'll email you a link that allows you to reset your password.</p></div><div class=\"field\"><label for=\"email\" class=\"label\">Email address</label><div class=\"control\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"space-y-4\"><div><p class=\"text-base\">Enter your email below, and if it matches an account in our system, we'll send you a reset link.</p></div><!-- Email field --><div class=\"flex flex-col space-y-2 m-5\"><label for=\"email\" class=\"label\">Email address</label> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 = []any{"input", form.Submission.GetFieldStatusClass("Email")}
+			var templ_7745c5c3_Var3 = []any{"w-full input input-bordered border border-gray-300 rounded-md p-2", form.Submission.GetFieldStatusClass("Email")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -72,7 +72,7 @@ func ForgotPassword(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div class=\"field is-grouped\"><p class=\"control\"><button class=\"button is-primary\">Reset password</button></p><p class=\"control\"><a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"h-2\"></div><!-- This creates an empty div with a height --><div class=\"flex justify-center items-center\"><button type=\"submit\" class=\"px-4 py-2 bg-blue-500 text-white rounded mr-2\">Reset password</button> <a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -81,7 +81,7 @@ func ForgotPassword(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"button is-light\">Cancel</a></p></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"px-4 py-2 bg-gray-300 text-black rounded\">Cancel</a></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
