@@ -67,20 +67,23 @@ reset:
 # Build JS/Svelte assets
 .PHONY: build-js
 build-js:
-	npm run build 
+	npm run build
 
 # Build JS/Svelte assets (auto reload changes)
 .PHONY: build-js
 watch-js:
 	npm run watch 
 
+watch-css:
+	npx tailwindcss -i ./styles/styles.css -o ./static/styles_bundle.css --watch
+
 # Run the application with air (auto reload changes)
 .PHONY: run
-run-go:
+watch-go:
 	clear
 	air
 
-run: 
+watch: 
 	overmind start
 
 # Run all tests
