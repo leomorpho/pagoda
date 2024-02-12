@@ -26,7 +26,7 @@ func (c *about) Get(ctx echo.Context) error {
 	page.Component = pages.About(&page)
 
 	// This page will be cached!
-	page.Cache.Enabled = true
+	// page.Cache.Enabled = true
 	page.Cache.Tags = []string{"page_about", "page:list"}
 
 	// A simple example of how the Data field can contain anything you want to send to the templates
