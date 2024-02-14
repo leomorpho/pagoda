@@ -44,7 +44,7 @@ func Auth(content templ.Component, page *controller.Page) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</head><body><div id=\"main-content\" class=\"bg-blue-500 min-h-screen flex items-center justify-center\"><div class=\"w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-5\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</head><body><div id=\"main-content\" class=\"bg-blue-100 flex-grow mx-auto items-center justify-center lg:w-4/5 min-h-screen\"><div class=\"w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-5\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

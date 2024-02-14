@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../javascript/vanilla/example.js"],
-  "sourcesContent": ["document.addEventListener(\"DOMContentLoaded\", () => {\n  const testElement = document.getElementById(\"js-test-component\");\n  if (testElement) {\n    testElement.textContent = \"Content changed by static vanillajs!\";\n  }\n});\n"],
-  "mappings": "MAAA,SAAS,iBAAiB,mBAAoB,IAAM,CAClD,IAAMA,EAAc,SAAS,eAAe,mBAAmB,EAC3DA,IACFA,EAAY,YAAc,uCAE9B,CAAC",
-  "names": ["testElement"]
+  "sourcesContent": ["window.initializeJS = function initializeApp(targetElement) {\n  const container = targetElement || document;\n\n  // Call each initializer with the container\n  initializeTextChanges(container);\n\n  // As you add more functionalities, add their initializers here\n};\n\n// Initializes custom text changes\nfunction initializeTextChanges(container) {\n  const testElement = container.querySelector(\"#js-test-component\");\n  if (testElement) {\n    testElement.textContent = \"Content changed by static vanillajs!\";\n  }\n}\n"],
+  "mappings": "MAAA,OAAO,aAAe,SAAuBA,EAAe,CAI1DC,EAHkBD,GAAiB,QAGJ,CAGjC,EAGA,SAASC,EAAsBC,EAAW,CACxC,IAAMC,EAAcD,EAAU,cAAc,oBAAoB,EAC5DC,IACFA,EAAY,YAAc,uCAE9B",
+  "names": ["targetElement", "initializeTextChanges", "container", "testElement"]
 }

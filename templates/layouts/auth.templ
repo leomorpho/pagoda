@@ -14,7 +14,7 @@ templ Auth(content templ.Component, page *controller.Page) {
 			@components.JS()
 		</head>
 		<body>
-			<div id="main-content" class="bg-blue-500 min-h-screen flex items-center justify-center">
+			<div id="main-content" class="bg-blue-100 flex-grow mx-auto items-center justify-center lg:w-4/5 min-h-screen">
 				<div class="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-5">
 					if len(page.Title) > 0 {
 						<h1 class="text-4xl font-bold text-center mb-4">{ page.Title }</h1>

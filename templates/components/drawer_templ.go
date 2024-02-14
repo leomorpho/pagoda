@@ -27,7 +27,7 @@ func Drawer(page *controller.Page) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{ \n			isOpen: window.innerWidth &gt;= 1024,\n			conditionalToggle() {\n				if (window.innerWidth &lt; 1024) {\n					this.isOpen = false;\n				}\n			}\n		}\" @keydown.escape.window=\"isOpen = false\" @resize.window=\"isOpen = window.innerWidth &gt;= 1024\" class=\"w-full\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{ \n			isOpen: window.innerWidth &gt;= 1024,\n			conditionalToggle() {\n				if (window.innerWidth &lt; 1024) {\n					this.isOpen = false;\n				}\n			}\n		}\" @keydown.escape.window=\"isOpen = false\" @resize.window=\"isOpen = window.innerWidth &gt;= 1024\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

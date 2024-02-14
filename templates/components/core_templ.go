@@ -175,6 +175,20 @@ func htmxBeforeSwap() templ.ComponentScript {
 	}
 }
 
+func htmxOnLoad() templ.ComponentScript {
+	return templ.ComponentScript{
+		Name: `__templ_htmxOnLoad_c408`,
+		Function: `function __templ_htmxOnLoad_c408(){htmx.onLoad(function(content) {
+		initializeJS();
+		initializeAppSvelte();
+		console.log("Reinitialized JS libs");
+});
+}`,
+		Call:       templ.SafeScript(`__templ_htmxOnLoad_c408`),
+		CallInline: templ.SafeScriptInline(`__templ_htmxOnLoad_c408`),
+	}
+}
+
 func Footer(page *controller.Page) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -195,6 +209,10 @@ func Footer(page *controller.Page) templ.Component {
 			}
 		}
 		templ_7745c5c3_Err = htmxBeforeSwap().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = htmxOnLoad().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

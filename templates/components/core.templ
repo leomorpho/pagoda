@@ -58,11 +58,20 @@ script htmxBeforeSwap() {
     });
 }
 
+script htmxOnLoad() {
+	htmx.onLoad(function(content) {
+		initializeJS();
+		initializeAppSvelte();
+		console.log("Reinitialized JS libs");
+});
+}
+
 templ Footer(page *controller.Page) {
 	if len(page.CSRF) > 0 {
 		@csrfJS(page.CSRF)
 	}
 	@htmxBeforeSwap()
+	@htmxOnLoad()
 }
 
 templ BeforeBodyEnd() {

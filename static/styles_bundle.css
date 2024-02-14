@@ -3927,6 +3927,11 @@ details.collapse summary::-webkit-details-marker {
   background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
 
+.bg-blue-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(225 239 254 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }

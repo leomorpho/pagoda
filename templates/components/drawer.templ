@@ -16,7 +16,6 @@ templ Drawer(page *controller.Page) {
 		}"
 		@keydown.escape.window="isOpen = false"
 		@resize.window="isOpen = window.innerWidth >= 1024"
-		class="w-full"
 	>
 		@drawerButtonToggle()
 		@drawerPanel(page)
