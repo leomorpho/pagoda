@@ -26,6 +26,7 @@ func (c *contact) Get(ctx echo.Context) error {
 	page.Title = "Contact us"
 	page.Form = &types.ContactForm{}
 	page.Component = pages.Contact(&page)
+	page.HTMX.Request.Boosted = true
 
 	if form := ctx.Get(context.FormKey); form != nil {
 		page.Form = form.(*types.ContactForm)

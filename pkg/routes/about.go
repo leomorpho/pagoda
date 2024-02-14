@@ -24,6 +24,7 @@ func (c *about) Get(ctx echo.Context) error {
 	page.Name = templates.PageAbout
 	page.Title = "About"
 	page.Component = pages.About(&page)
+	page.HTMX.Request.Boosted = true
 
 	// This page will be cached!
 	// page.Cache.Enabled = true

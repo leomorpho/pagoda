@@ -22,16 +22,30 @@ templ Navbar(page *controller.Page) {
 					</svg>
 				</button>
 				<div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-					<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Web Development</a>
-					<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">SEO Services</a>
-					<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Digital Marketing</a>
+					<a
+						href="#"
+						class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+					>Web Development</a>
+					<a
+						href="#"
+						class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+					>SEO Services</a>
+					<a
+						href="#"
+						class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+					>Digital Marketing</a>
 				</div>
 			</div>
 			<!-- Example Menu Items -->
 			<div class="hidden md:flex items-center space-x-4">
-				<a href="#" class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full">About Us</a>
-				<a href="#" class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full">Contact</a>
-				<a href="#" class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full">Blog</a>
+				<a
+					href={ templ.URL(page.ToURL("about")) }
+					class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full"
+				>About</a>
+				<a
+					href={ templ.URL(page.ToURL("contact")) }
+					class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full"
+				>Contact</a>
 			</div>
 			<div class="relative" x-data="{ open: false }">
 				<button
@@ -63,12 +77,6 @@ templ Navbar(page *controller.Page) {
 								href="#"
 								class="block px-4 py-2 text-sm hover:bg-gray-100"
 							>Settings</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="block px-4 py-2 text-sm hover:bg-gray-100"
-							>Earnings</a>
 						</li>
 						<li>
 							<a

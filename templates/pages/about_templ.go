@@ -82,25 +82,6 @@ func About(page *controller.Page) templ.Component {
 	})
 }
 
-//	templ aboutTabs(tabs []types.AboutTab) {
-//		<div x-data="{tab: 0}">
-//			<div class="tabs">
-//				<ul>
-//					for index, tab := range tabs {
-//						<li :class={ fmt.Sprintf("{'is-active': tab === %d}", index) } @click={ fmt.Sprintf("tab = %d", index) }><a>{ tab.Title }</a></li>
-//					}
-//				</ul>
-//			</div>
-//			for index, tab := range tabs {
-//				<div x-show={ fmt.Sprintf("tab == %d", index) }>
-//					<p>
-//						&rarr;&nbsp;
-//						@helpers.UnsafeHTML(tab.Body)
-//					</p>
-//				</div>
-//			}
-//		</div>
-//	}
 func aboutTabs(tabs []types.AboutTab) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -142,7 +123,7 @@ func aboutTabs(tabs []types.AboutTab) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(tab.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/about.templ`, Line: 61, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/about.templ`, Line: 42, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {

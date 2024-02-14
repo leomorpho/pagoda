@@ -27,6 +27,7 @@ func (c *home) Get(ctx echo.Context) error {
 	page.Pager = controller.NewPager(ctx, 4)
 	page.Data = c.fetchPosts(&page.Pager)
 	page.Component = pages.Home(&page)
+	page.HTMX.Request.Boosted = true
 
 	return c.RenderPage(ctx, page)
 }
