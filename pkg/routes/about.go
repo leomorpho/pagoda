@@ -47,6 +47,14 @@ func (c *about) Get(ctx echo.Context) error {
 				Title: "Bulma",
 				Body:  template.HTML(`Ready-to-use frontend components that you can easily combine to build responsive web interfaces with no JavaScript requirements. Visit <a href="https://bulma.io/">bulma.io</a> to learn more.`),
 			},
+			{
+				Title: "Vanilla JS",
+				Body:  template.HTML(`<div id="js-quiz-container" class="my-4"></div>`),
+			},
+			{
+				Title: "Svelte",
+				Body:  template.HTML(`<div id="svelte-test-component" class="my-4"></div>`),
+			},
 		},
 		BackendTabs: []types.AboutTab{
 			{
