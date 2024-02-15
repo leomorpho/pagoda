@@ -1,10 +1,15 @@
 window.initializeJS = function initializeApp(targetElement) {
   const container = targetElement || document;
 
-  // Initialize the quiz
-  initializeQuiz(container);
+  // Initialize the quiz only if it hasn't been initialized yet
+  if (
+    !container
+      .querySelector("#js-quiz-container")
+      .hasAttribute("data-initialized")
+  ) {
+    initializeQuiz(container);
+  }
 };
-
 // Initializes the Quiz
 function initializeQuiz(container) {
   // Quiz data
@@ -25,6 +30,13 @@ function initializeQuiz(container) {
   const quizContainer = container.querySelector("#js-quiz-container");
   if (!quizContainer) return;
 
+  // Mark the quiz as initialized to prevent duplicate initialization
+  quizContainer.setAttribute("data-initialized", "true");
+
+  // Clear existing content (if any) to ensure idempotency
+  quizContainer.innerHTML = "";
+
+  // Apply container styling
   quizContainer.className =
     "max-w-xl mx-auto bg-white shadow-md rounded-lg p-8 mt-5";
 
@@ -34,7 +46,7 @@ function initializeQuiz(container) {
     questionEl.className = "mb-4 last:mb-0";
 
     const questionText = document.createElement("p");
-    questionText.textContent = index + 1 + ". " + q.question;
+    questionText.textContent = `${index + 1}. ${q.question}`;
     questionText.className = "font-semibold text-lg mb-2";
     questionEl.appendChild(questionText);
 
@@ -46,13 +58,13 @@ function initializeQuiz(container) {
       optionContainer.className = "flex items-center mb-1";
 
       const radioButton = document.createElement("input");
-      radioButton.setAttribute("type", "radio");
-      radioButton.setAttribute("name", "question" + index);
-      radioButton.setAttribute("value", option);
+      radioButton.type = "radio";
+      radioButton.name = `question${index}`;
+      radioButton.value = option;
       radioButton.className = "option-input mr-2";
 
       const label = document.createElement("label");
-      label.textContent = option;
+      label.appendChild(document.createTextNode(option));
       label.className = "select-none";
 
       optionContainer.appendChild(radioButton);
@@ -69,18 +81,23 @@ function initializeQuiz(container) {
   submitBtn.textContent = "Submit Answers";
   submitBtn.className =
     "mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded cursor-pointer";
-  submitBtn.addEventListener("click", () => {
-    let score = 0;
-    questions.forEach((q, index) => {
-      const selectedOption = container.querySelector(
-        `input[name="question${index}"]:checked`
-      );
-      if (selectedOption && selectedOption.value === q.answer) {
-        score++;
-      }
-    });
-    alert(`You scored ${score}/${questions.length}`);
-  });
+  submitBtn.addEventListener(
+    "click",
+    submitQuiz.bind(null, questions, container)
+  );
 
   quizContainer.appendChild(submitBtn);
+}
+
+function submitQuiz(questions, container) {
+  let score = 0;
+  questions.forEach((q, index) => {
+    const selectedOption = container.querySelector(
+      `input[name="question${index}"]:checked`
+    );
+    if (selectedOption && selectedOption.value === q.answer) {
+      score++;
+    }
+  });
+  alert(`You scored ${score}/${questions.length}`);
 }
