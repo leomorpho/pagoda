@@ -19,19 +19,20 @@ templ Home(page *controller.Page) {
 }
 
 templ homeTopContent(page *controller.Page) {
-	<div class="bg-blue-500 text-white py-6">
+	<div class="bg-blue-500 text-white py-6 rounded-lg">
 		<div class="container mx-auto px-4">
 			<h1 class="text-3xl font-semibold">
-				Hello
 				if page.IsAuth {
-					fmt.Sprintf(", %s", page.AuthUser.Name)
+					{ fmt.Sprintf("Hello, %s", page.AuthUser.Name) }
+				} else {
+					Hello there!
 				}
 			</h1>
 			<h2 class="text-xl mt-2">
 				if page.IsAuth {
-					"Welcome back!"
+					Welcome back!
 				} else {
-					"Please login to your account."
+					Please login to your account. Note that you can use this test account: <em class="text-grey-400">alice@test.com</em> and <em class="text-grey-400">testpassword</em>.
 				}
 			</h2>
 		</div>

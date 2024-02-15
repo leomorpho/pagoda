@@ -11,6 +11,7 @@ import (
 
 	"github.com/mikestefanello/pagoda/pkg/routes"
 	"github.com/mikestefanello/pagoda/pkg/services"
+	"github.com/mikestefanello/pagoda/seeder"
 )
 
 func main() {
@@ -57,6 +58,8 @@ func main() {
 			c.Web.Logger.Fatalf("scheduler shutdown: %v", err)
 		}
 	}()
+
+	seeder.RunIdempotentSeeder(c.Config, c.ORM)
 
 	// Wait for interrupt signal to gracefully shutdown the server with a timeout of 10 seconds.
 	quit := make(chan os.Signal, 1)
