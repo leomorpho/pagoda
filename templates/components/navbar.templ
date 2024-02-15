@@ -5,7 +5,13 @@ import (
 )
 
 templ Navbar(page *controller.Page) {
-	<nav class="bg-gray-800">
+	<nav
+		class="bg-gray-800"
+		hx-target="#main-content"
+		hx-select="#main-content"
+		hx-swap="outerHTML"
+		hx-push-url="true"
+	>
 		<div class="container mx-auto px-4 py-4 flex justify-between items-center">
 			<a href={ templ.URL(page.ToURL("home")) } class="flex items-center space-x-3">
 				<img src="/files/favicon.png" class="h-8" alt="Logo"/>
@@ -39,11 +45,15 @@ templ Navbar(page *controller.Page) {
 			<!-- Example Menu Items -->
 			<div class="hidden md:flex items-center space-x-4">
 				<a
-					href={ templ.URL(page.ToURL("about")) }
+					hx-get={ page.ToURL("home") }
+					class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full"
+				>Home</a>
+				<a
+					hx-get={ page.ToURL("about") }
 					class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full"
 				>About</a>
 				<a
-					href={ templ.URL(page.ToURL("contact")) }
+					hx-get={ page.ToURL("contact") }
 					class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full"
 				>Contact</a>
 			</div>

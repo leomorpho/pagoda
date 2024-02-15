@@ -177,15 +177,14 @@ func htmxBeforeSwap() templ.ComponentScript {
 
 func htmxOnLoad() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_htmxOnLoad_c408`,
-		Function: `function __templ_htmxOnLoad_c408(){htmx.onLoad(function(content) {
+		Name: `__templ_htmxOnLoad_e7fc`,
+		Function: `function __templ_htmxOnLoad_e7fc(){htmx.onLoad(function(content) {
 		initializeJS();
 		initializeAppSvelte();
-		console.log("Reinitialized JS libs");
 });
 }`,
-		Call:       templ.SafeScript(`__templ_htmxOnLoad_c408`),
-		CallInline: templ.SafeScriptInline(`__templ_htmxOnLoad_c408`),
+		Call:       templ.SafeScript(`__templ_htmxOnLoad_e7fc`),
+		CallInline: templ.SafeScriptInline(`__templ_htmxOnLoad_e7fc`),
 	}
 }
 

@@ -19,6 +19,10 @@ templ Main(content templ.Component, page *controller.Page) {
 			<div class="lg:hidden block">
 				@components.Drawer(page)
 			</div>
+			<!-- Navbar only visible on desktop -->
+			<div class="hidden lg:block">
+				@components.Navbar(page)
+			</div>
 			<div class="flex ">
 				// TODO: the styling of the drawer is screwed up on large screens. Also, I'm not sure it's a good design decision anyways. To revisit.
 				// <!-- This is the desktop view drawer -->
@@ -27,10 +31,6 @@ templ Main(content templ.Component, page *controller.Page) {
 				// </div>
 				<!-- Main content -->
 				<div id="main-content" class="flex-grow mx-auto items-center justify-center bg-gray-100 min-h-screen">
-					<!-- Navbar only visible on desktop -->
-					<div class="hidden lg:block">
-						@components.Navbar(page)
-					</div>
 					<div class="flex-grow px-5 mt-5 container mx-auto">
 						if len(page.Title) > 0 {
 							<h1 class="text-2xl font-bold mb-4">{ page.Title }</h1>
