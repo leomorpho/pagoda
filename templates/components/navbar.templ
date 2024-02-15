@@ -29,14 +29,17 @@ templ Navbar(page *controller.Page) {
 				</button>
 				<div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
 					<a
+						@click="open = false"
 						href="#"
 						class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
 					>Web Development</a>
 					<a
+						@click="open = false"
 						href="#"
 						class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
 					>SEO Services</a>
 					<a
+						@click="open = false"
 						href="#"
 						class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
 					>Digital Marketing</a>
@@ -111,12 +114,14 @@ templ Navbar(page *controller.Page) {
 						<ul class="py-2">
 							<li>
 								<a
+									@click="open = false"
 									hx-get={ page.ToURL("login") }
 									class="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
 								>Login</a>
 							</li>
 							<li>
 								<a
+									@click="open = false"
 									hx-get={ page.ToURL("register") }
 									class="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
 								>Register</a>
