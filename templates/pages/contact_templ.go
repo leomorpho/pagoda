@@ -61,12 +61,12 @@ func contactForm(page *controller.Page) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		if form, ok := page.Form.(*types.ContactForm); ok {
 			if form.Submission.IsDone() {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<article class=\"message is-large is-success\"><div class=\"message-header\"><p>Thank you!</p></div><div class=\"message-body\">No email was actually sent but this entire operation was handled server-side and degrades without JavaScript enabled.</div></article>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"max-w-md mx-auto mt-5\"><div class=\"bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative\" role=\"alert\"><strong class=\"font-bold\">Thank you!</strong> <span class=\"block sm:inline\">No email was actually sent but this entire operation was handled server-side and degrades without JavaScript enabled.</span></div></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			} else {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"contact\" method=\"post\" hx-post=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"contact\" method=\"post\" class=\"max-w-md mx-auto mt-5\" hx-post=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -74,11 +74,11 @@ func contactForm(page *controller.Page) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"field\"><label for=\"email\" class=\"label\">Email address</label><div class=\"control\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"mb-4\"><label for=\"email\" class=\"block text-gray-700 text-sm font-bold mb-2\">Email address</label> ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var3 = []any{"input", form.Submission.GetFieldStatusClass("Email")}
+				var templ_7745c5c3_Var3 = []any{"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline " + form.Submission.GetFieldStatusClass("Email")}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -99,7 +99,7 @@ func contactForm(page *controller.Page) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></div>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -107,11 +107,11 @@ func contactForm(page *controller.Page) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"field\"><label for=\"message\" class=\"label\">Message</label><div class=\"control\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"mb-6\"><label for=\"message\" class=\"block text-gray-700 text-sm font-bold mb-2\">Message</label> ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var4 = []any{"textarea", form.Submission.GetFieldStatusClass("Message")}
+				var templ_7745c5c3_Var4 = []any{"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline " + form.Submission.GetFieldStatusClass("Message")}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -131,13 +131,13 @@ func contactForm(page *controller.Page) templ.Component {
 				var templ_7745c5c3_Var5 string
 				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(form.Message)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/contact.templ`, Line: 45, Col: 145}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/contact.templ`, Line: 38, Col: 247}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea></div>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</textarea>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -145,7 +145,7 @@ func contactForm(page *controller.Page) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"field is-grouped\"><div class=\"control\"><button class=\"button is-link\">Submit</button></div></div>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex items-center justify-between\"><button class=\"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline\" type=\"submit\">Submit</button></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
