@@ -18,7 +18,8 @@ templ Navbar(page *controller.Page) {
 				<span class="text-2xl font-semibold text-white">{ page.AppName }</span>
 			</a>
 			<!-- Search Bar -->
-			@search(page)
+			// TODO: swapping in modal not working
+			// @search(page)
 			<!-- Multi-Level Dropdown -->
 			<div class="relative" x-data="{ open: false }">
 				<button @click="open = !open" class="ml-3 text-sm rounded-full text-white hover:bg-gray-700 px-3 py-2 flex items-center justify-between">
@@ -135,7 +136,7 @@ templ Navbar(page *controller.Page) {
 }
 
 templ search(page *controller.Page) {
-	<div class="relative" x-data="{ modal: false }">
+	<div class="relative" x-data="{ modal: false }" hx-ext="debug">
 		<input
 			class="border border-gray-300 rounded-lg p-2 w-full lg:max-w-xs"
 			type="search"
@@ -176,7 +177,7 @@ templ search(page *controller.Page) {
 				<input
 					hx-get={ page.ToURL("search") }
 					hx-trigger="keyup changed delay:300ms"
-					hx-target="#search-results"
+					hx-target="#abcdefg"
 					hx-swap="innerHTML"
 					hx-push-url="false"
 					name="query"
@@ -185,7 +186,7 @@ templ search(page *controller.Page) {
 					placeholder="Search..."
 					x-ref="input"
 				/>
-				// <div class="mt-4" id="search-results">YO</div>
+				<div class="mt-4" id="abcdefg">YO</div>
 			</div>
 		</div>
 	</div>

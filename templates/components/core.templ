@@ -39,6 +39,8 @@ templ JS() {
 	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 	<script src="/files/vanilla_bundle.js"></script>
 	<script src="/files/svelte_bundle.js"></script>
+	// TODO: remove HTMX debug extension for prod
+	<script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>
 }
 
 script csrfJS(token string) {
