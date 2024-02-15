@@ -61,9 +61,20 @@ templ Navbar(page *controller.Page) {
 				<button
 					type="button"
 					@click="open = !open"
-					class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+					if page.IsAuth {
+						class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+					} else {
+						class="ml-3 text-sm rounded-full text-white hover:bg-gray-700 px-3 py-2 flex items-center justify-between"
+					}
 				>
-					<img class="w-8 h-8 rounded-full" src="https://api.multiavatar.com/Binx Bond.png" alt="User photo"/>
+					if page.IsAuth {
+						<img class="w-8 h-8 rounded-full" src="https://api.multiavatar.com/Binx Bond.png" alt="User photo"/>
+					} else {
+						Login
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+							<path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
+						</svg>
+					}
 				</button>
 				<!-- Dropdown Menu -->
 				<div
@@ -71,30 +82,47 @@ templ Navbar(page *controller.Page) {
 					@click.away="open = false"
 					class="absolute right-0 mt-2 my-4 py-2 w-48 bg-white rounded-md text-base list-none divide-y divide-gray-100 shadow-xl z-20"
 				>
-					<div class="px-4 py-3">
-						<span class="text-sm text-gray-900">Bonnie Green</span>
-						<span class="text-sm text-gray-500">name@pagoda.com</span>
-					</div>
-					<ul class="py-2">
-						<li>
-							<a
-								href="#"
-								class="block px-4 py-2 text-sm hover:bg-gray-100"
-							>Dashboard</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="block px-4 py-2 text-sm hover:bg-gray-100"
-							>Settings</a>
-						</li>
-						<li>
-							<a
-								href={ templ.URL(page.ToURL("logout")) }
-								class="block px-4 py-2 text-sm hover:bg-gray-100"
-							>Sign out</a>
-						</li>
-					</ul>
+					if page.IsAuth {
+						<div class="px-4 py-3">
+							<span class="text-sm text-gray-900">Bonnie Green</span>
+							<span class="text-sm text-gray-500">name@pagoda.com</span>
+						</div>
+						<ul class="py-2">
+							<li>
+								<a
+									href="#"
+									class="block px-4 py-2 text-sm hover:bg-gray-100"
+								>Dashboard</a>
+							</li>
+							<li>
+								<a
+									href="#"
+									class="block px-4 py-2 text-sm hover:bg-gray-100"
+								>Settings</a>
+							</li>
+							<li>
+								<a
+									href={ templ.URL(page.ToURL("logout")) }
+									class="block px-4 py-2 text-sm hover:bg-gray-100"
+								>Sign out</a>
+							</li>
+						</ul>
+					} else {
+						<ul class="py-2">
+							<li>
+								<a
+									hx-get={ page.ToURL("login") }
+									class="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+								>Login</a>
+							</li>
+							<li>
+								<a
+									hx-get={ page.ToURL("register") }
+									class="block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+								>Register</a>
+							</li>
+						</ul>
+					}
 				</div>
 			</div>
 		</div>

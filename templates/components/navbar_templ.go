@@ -81,16 +81,77 @@ func Navbar(page *controller.Page) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full\">Contact</a></div><div class=\"relative\" x-data=\"{ open: false }\"><button type=\"button\" @click=\"open = !open\" class=\"flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600\"><img class=\"w-8 h-8 rounded-full\" src=\"https://api.multiavatar.com/Binx Bond.png\" alt=\"User photo\"></button><!-- Dropdown Menu --><div x-show=\"open\" @click.away=\"open = false\" class=\"absolute right-0 mt-2 my-4 py-2 w-48 bg-white rounded-md text-base list-none divide-y divide-gray-100 shadow-xl z-20\"><div class=\"px-4 py-3\"><span class=\"text-sm text-gray-900\">Bonnie Green</span> <span class=\"text-sm text-gray-500\">name@pagoda.com</span></div><ul class=\"py-2\"><li><a href=\"#\" class=\"block px-4 py-2 text-sm hover:bg-gray-100\">Dashboard</a></li><li><a href=\"#\" class=\"block px-4 py-2 text-sm hover:bg-gray-100\">Settings</a></li><li><a href=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full\">Contact</a></div><div class=\"relative\" x-data=\"{ open: false }\"><button type=\"button\" @click=\"open = !open\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 templ.SafeURL = templ.URL(page.ToURL("logout"))
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var4)))
+		if page.IsAuth {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"ml-3 text-sm rounded-full text-white hover:bg-gray-700 px-3 py-2 flex items-center justify-between\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover:bg-gray-100\">Sign out</a></li></ul></div></div></div></nav>")
+		if page.IsAuth {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img class=\"w-8 h-8 rounded-full\" src=\"https://api.multiavatar.com/Binx Bond.png\" alt=\"User photo\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("Login <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\" fill=\"currentColor\" class=\"w-5 h-5\"><path fill-rule=\"evenodd\" d=\"M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path></svg>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button><!-- Dropdown Menu --><div x-show=\"open\" @click.away=\"open = false\" class=\"absolute right-0 mt-2 my-4 py-2 w-48 bg-white rounded-md text-base list-none divide-y divide-gray-100 shadow-xl z-20\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if page.IsAuth {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"px-4 py-3\"><span class=\"text-sm text-gray-900\">Bonnie Green</span> <span class=\"text-sm text-gray-500\">name@pagoda.com</span></div><ul class=\"py-2\"><li><a href=\"#\" class=\"block px-4 py-2 text-sm hover:bg-gray-100\">Dashboard</a></li><li><a href=\"#\" class=\"block px-4 py-2 text-sm hover:bg-gray-100\">Settings</a></li><li><a href=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 templ.SafeURL = templ.URL(page.ToURL("logout"))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var4)))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover:bg-gray-100\">Sign out</a></li></ul>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<ul class=\"py-2\"><li><a hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(page.ToURL("login")))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer\">Login</a></li><li><a hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(page.ToURL("register")))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer\">Register</a></li></ul>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></nav>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
