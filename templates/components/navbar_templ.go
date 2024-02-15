@@ -111,12 +111,12 @@ func Navbar(page *controller.Page) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button><!-- Dropdown Menu --><div x-show=\"open\" @click.away=\"open = false\" class=\"absolute right-0 mt-2 my-4 py-2 w-48 bg-white rounded-md text-base list-none divide-y divide-gray-100 shadow-xl z-20\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button><!-- Dropdown Menu --><div x-show=\"open\" @click.away=\"open = false\" class=\"absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if page.IsAuth {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"px-4 py-3\"><span class=\"text-sm text-gray-900\">Bonnie Green</span> <span class=\"text-sm text-gray-500\">name@pagoda.com</span></div><ul class=\"py-2\"><li><a href=\"#\" class=\"block px-4 py-2 text-sm hover:bg-gray-100\">Dashboard</a></li><li><a href=\"#\" class=\"block px-4 py-2 text-sm hover:bg-gray-100\">Settings</a></li><li><a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"px-4 py-3\"><span class=\"text-sm text-gray-900\">Bonnie Green</span> <span class=\"text-sm text-gray-500\">name@pagoda.com</span></div><ul class=\"py-2\"><li><a href=\"#\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Dashboard</a></li><li><a href=\"#\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Settings</a></li><li><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -125,7 +125,7 @@ func Navbar(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover:bg-gray-100\">Sign out</a></li></ul>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Sign out</a></li></ul>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -138,7 +138,7 @@ func Navbar(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer\">Login</a></li><li><a @click=\"open = false\" hx-get=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Login</a></li><li><a @click=\"open = false\" hx-get=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -146,7 +146,7 @@ func Navbar(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer\">Register</a></li></ul>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100\">Register</a></li></ul>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -175,7 +175,7 @@ func search(page *controller.Page) templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"search mr-2 mt-1\" x-data=\"{modal:false}\"><input class=\"input\" type=\"search\" placeholder=\"Search...\" @click=\"modal = true; $nextTick(() =&gt; $refs.input.focus());\"><div class=\"modal\" :class=\"modal ? &#39;is-active&#39; : &#39;&#39;\" x-show=\"modal == true\"><div class=\"modal-background\"></div><div class=\"modal-content\" @click.away=\"modal = false;\"><div class=\"box\"><h2 class=\"subtitle\">Search</h2><p class=\"control\"><input hx-get=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"relative\" x-data=\"{ modal: false }\"><input class=\"border border-gray-300 rounded-lg p-2 w-full lg:max-w-xs\" type=\"search\" placeholder=\"Search...\" @click=\"modal = true\"><div x-show=\"modal\" class=\"fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center\" x-transition:enter=\"ease-out duration-300\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"ease-in duration-200\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\" @click.away=\"modal = false\" @keydown.escape.window=\"modal = false\" x-cloak><div class=\"modal-content bg-white shadow-lg rounded-lg max-w-2xl w-full p-5 mx-4\" x-transition:enter=\"ease-out duration-300\" x-transition:enter-start=\"opacity-0 transform scale-90\" x-transition:enter-end=\"opacity-100 transform scale-100\" x-transition:leave=\"ease-in duration-200\" x-transition:leave-start=\"opacity-100 transform scale-100\" x-transition:leave-end=\"opacity-0 transform scale-90\" @click.stop><div class=\"flex justify-between items-center mb-4\"><h2 class=\"text-2xl font-semibold\">Search</h2><button class=\"p-4\" @click=\"modal = false\" aria-label=\"close\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\" class=\"w-6 h-6\"><path fill-rule=\"evenodd\" d=\"M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z\" clip-rule=\"evenodd\"></path></svg></button></div><input hx-get=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -183,7 +183,7 @@ func search(page *controller.Page) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"keyup changed delay:500ms\" hx-target=\"#results\" name=\"query\" class=\"input\" type=\"search\" placeholder=\"Search...\" x-ref=\"input\"></p><div class=\"block\"></div><div id=\"results\"></div></div></div><button class=\"modal-close is-large\" aria-label=\"close\"></button></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-trigger=\"keyup changed delay:300ms\" hx-target=\"#search-results\" hx-swap=\"innerHTML\" hx-push-url=\"false\" name=\"query\" class=\"border border-gray-300 rounded-lg p-2 w-full\" type=\"search\" placeholder=\"Search...\" x-ref=\"input\"></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

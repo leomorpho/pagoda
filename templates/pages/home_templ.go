@@ -218,7 +218,7 @@ func homeFileMsg() templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-8 mx-auto px-4 max-w-4xl\"><div class=\"bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4\" x-data=\"{ show: true }\" x-show=\"show\"><p class=\"font-bold\">Serving files</p><p>In the example posts above, check how the file URL contains a cache-buster query parameter which changes only when the app is restarted. Static files also contain cache-control headers which are configured via middleware. You can also use AlpineJS to dismiss this message.</p><div class=\"mt-4\"><button class=\"text-sm bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600\" @click=\"show = false\">Dismiss</button></div></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"my-8 mx-auto px-4 max-w-4xl\"><div class=\"bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4\" x-data=\"{ show: true }\" x-show=\"show\"><p class=\"font-bold\">Serving files</p><p>In the example posts above, check how the file URL contains a cache-buster query parameter which changes only when the app is restarted. Static files also contain cache-control headers which are configured via middleware. You can also use AlpineJS to dismiss this message.</p><div class=\"mt-4\"><button class=\"text-sm bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600\" @click=\"show = false\">Dismiss</button></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
