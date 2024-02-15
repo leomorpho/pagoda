@@ -14,7 +14,15 @@ templ Auth(content templ.Component, page *controller.Page) {
 			@components.JS()
 		</head>
 		<body>
-			<div id="main-content" class="bg-blue-100 flex-grow mx-auto items-center justify-center lg:w-4/5 min-h-screen">
+			<!-- This is the mobile view drawer -->
+			<div class="lg:hidden block">
+				@components.Drawer(page)
+			</div>
+			<!-- Navbar only visible on desktop -->
+			<div class="hidden lg:block">
+				@components.Navbar(page)
+			</div>
+			<div id="main-content" class="bg-blue-100 flex-grow mx-auto items-center justify-center w-full min-h-screen pt-10">
 				<div class="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-5">
 					if len(page.Title) > 0 {
 						<h1 class="text-4xl font-bold text-center mb-4">{ page.Title }</h1>
