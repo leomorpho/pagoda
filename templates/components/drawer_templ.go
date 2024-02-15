@@ -27,7 +27,7 @@ func Drawer(page *controller.Page) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{ \n			isOpen: window.innerWidth &gt;= 1024,\n			conditionalToggle() {\n				if (window.innerWidth &lt; 1024) {\n					this.isOpen = false;\n				}\n			}\n		}\" @keydown.escape.window=\"isOpen = false\" @resize.window=\"isOpen = window.innerWidth &gt;= 1024\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{ \n			isOpen: window.innerWidth &gt;= 1024,\n			conditionalToggle() {\n				if (window.innerWidth &lt; 1024) {\n					this.isOpen = false;\n				}\n			}\n		}\" @keydown.escape.window=\"isOpen = false\" @resize.window=\"isOpen = window.innerWidth &gt;= 1024\" class=\"w-full\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -91,7 +91,7 @@ func drawerPanel(page *controller.Page) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"drawer\" class=\"fixed lg:static top-0 lg:top-auto left-0 lg:left-auto z-50 h-screen p-4 overflow-y-auto \n    	-translate-x-full lg:translate-x-0 transform transition duration-300 bg-gray-900 w-64 lg:w-auto\" :class=\"{&#39;-translate-x-full opacity-0&#39;:isOpen === false, &#39;translate-x-0 opacity-100&#39;: isOpen === true}\" aria-labelledby=\"drawer-label\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"drawer\" class=\"fixed top-0 lg:top-auto left-0 lg:left-auto z-50 h-screen p-4 overflow-y-auto \n    	-translate-x-full lg:translate-x-0 transform transition duration-150 bg-gray-900 w-64\" :class=\"{&#39;-translate-x-full opacity-0&#39;:isOpen === false, &#39;translate-x-0 opacity-100&#39;: isOpen === true}\" aria-labelledby=\"drawer-label\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
