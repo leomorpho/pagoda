@@ -5,6 +5,7 @@ package runtime
 import (
 	"time"
 
+	"github.com/mikestefanello/pagoda/ent/filestorage"
 	"github.com/mikestefanello/pagoda/ent/passwordtoken"
 	"github.com/mikestefanello/pagoda/ent/schema"
 	"github.com/mikestefanello/pagoda/ent/user"
@@ -14,6 +15,29 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	filestorageMixin := schema.FileStorage{}.Mixin()
+	filestorageMixinFields0 := filestorageMixin[0].Fields()
+	_ = filestorageMixinFields0
+	filestorageFields := schema.FileStorage{}.Fields()
+	_ = filestorageFields
+	// filestorageDescCreatedAt is the schema descriptor for created_at field.
+	filestorageDescCreatedAt := filestorageMixinFields0[0].Descriptor()
+	// filestorage.DefaultCreatedAt holds the default value on creation for the created_at field.
+	filestorage.DefaultCreatedAt = filestorageDescCreatedAt.Default.(func() time.Time)
+	// filestorageDescUpdatedAt is the schema descriptor for updated_at field.
+	filestorageDescUpdatedAt := filestorageMixinFields0[1].Descriptor()
+	// filestorage.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	filestorage.DefaultUpdatedAt = filestorageDescUpdatedAt.Default.(func() time.Time)
+	// filestorage.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	filestorage.UpdateDefaultUpdatedAt = filestorageDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// filestorageDescBucketName is the schema descriptor for bucket_name field.
+	filestorageDescBucketName := filestorageFields[0].Descriptor()
+	// filestorage.BucketNameValidator is a validator for the "bucket_name" field. It is called by the builders before save.
+	filestorage.BucketNameValidator = filestorageDescBucketName.Validators[0].(func(string) error)
+	// filestorageDescObjectKey is the schema descriptor for object_key field.
+	filestorageDescObjectKey := filestorageFields[1].Descriptor()
+	// filestorage.ObjectKeyValidator is a validator for the "object_key" field. It is called by the builders before save.
+	filestorage.ObjectKeyValidator = filestorageDescObjectKey.Validators[0].(func(string) error)
 	passwordtokenFields := schema.PasswordToken{}.Fields()
 	_ = passwordtokenFields
 	// passwordtokenDescHash is the schema descriptor for hash field.

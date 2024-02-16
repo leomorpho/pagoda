@@ -6,6 +6,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// FileStorage is the predicate function for filestorage builders.
+type FileStorage func(*sql.Selector)
+
 // PasswordToken is the predicate function for passwordtoken builders.
 type PasswordToken func(*sql.Selector)
 

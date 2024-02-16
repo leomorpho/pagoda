@@ -9,6 +9,18 @@ import (
 	"github.com/mikestefanello/pagoda/ent"
 )
 
+// The FileStorageFunc type is an adapter to allow the use of ordinary
+// function as FileStorage mutator.
+type FileStorageFunc func(context.Context, *ent.FileStorageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f FileStorageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FileStorageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FileStorageMutation", m)
+}
+
 // The PasswordTokenFunc type is an adapter to allow the use of ordinary
 // function as PasswordToken mutator.
 type PasswordTokenFunc func(context.Context, *ent.PasswordTokenMutation) (ent.Value, error)

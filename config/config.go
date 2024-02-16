@@ -58,6 +58,7 @@ type (
 		Cache    CacheConfig
 		Database DatabaseConfig
 		Mail     MailConfig
+		Storage  StorageConfig
 	}
 
 	// HTTPConfig stores HTTP configuration
@@ -117,6 +118,17 @@ type (
 		User        string
 		Password    string
 		FromAddress string
+	}
+
+	StorageConfig struct {
+		AppBucketName             string
+		StaticFilesBucketName     string
+		S3Endpoint                string
+		S3AccessKey               string
+		S3SecretKey               string
+		S3UseSSL                  bool
+		ProfilePhotoMaxFileSizeMB int64
+		PhotosMaxFileSizeMB       int64
 	}
 )
 
