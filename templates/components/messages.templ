@@ -33,7 +33,7 @@ templ message(className, text string) {
 	}
 }
 
-templ styledMessage(type, color, text string) {
+templ styledMessage(msgType, color, text string) {
 	<div
 		id="alert-1"
 		class={ fmt.Sprintf("flex items-center p-4 mb-4 text-%s-800 border border-%s-300 rounded-lg bg-%s-50 dark:bg-gray-800 dark:text-%s-400", color, color, color, color) }
@@ -48,9 +48,9 @@ templ styledMessage(type, color, text string) {
 		>
 			<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
 		</svg>
-		<span class="sr-only">{ type }</span>
+		<span class="sr-only">{ msgType }</span>
 		<div class="ms-3 text-sm font-medium">
-			{ text }
+			@templ.Raw(text)
 		</div>
 		<button
 			type="button"
