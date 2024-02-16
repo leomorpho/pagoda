@@ -4291,11 +4291,6 @@ details.collapse summary::-webkit-details-marker {
   color: rgb(142 75 16 / var(--tw-text-opacity));
 }
 
-.text-pink-400 {
-  --tw-text-opacity: 1;
-  color: rgb(241 126 184 / var(--tw-text-opacity));
-}
-
 .line-through {
   text-decoration-line: line-through;
 }
@@ -4406,6 +4401,10 @@ details.collapse summary::-webkit-details-marker {
   font-weight: 500;
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity));
+}
+
+[x-cloak] {
+  display: none !important;
 }
 
 .last\:mb-0:last-child {

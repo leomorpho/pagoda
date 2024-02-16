@@ -21,7 +21,7 @@ templ Navbar(page *controller.Page) {
 			// TODO: swapping in modal not working
 			// @search(page)
 			<!-- Multi-Level Dropdown -->
-			<div class="relative" x-data="{ open: false }">
+			<div class="relative" x-data="{ open: false }" x-cloak>
 				<button @click="open = !open" class="ml-3 text-sm rounded-full text-white hover:bg-gray-700 px-3 py-2 flex items-center justify-between">
 					Services
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -61,7 +61,7 @@ templ Navbar(page *controller.Page) {
 					class="text-sm text-white hover:bg-gray-700 px-3 py-2 rounded-full"
 				>Contact</a>
 			</div>
-			<div class="relative" x-data="{ open: false }">
+			<div class="relative" x-data="{ open: false }" x-cloak>
 				<button
 					type="button"
 					@click="open = !open"
