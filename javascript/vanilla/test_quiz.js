@@ -1,17 +1,5 @@
-window.initializeJS = function initializeApp(targetElement) {
-  const container = targetElement || document;
-
-  // Initialize the quiz only if it hasn't been initialized yet
-  if (
-    !container
-      .querySelector("#js-quiz-container")
-      .hasAttribute("data-initialized")
-  ) {
-    initializeQuiz(container);
-  }
-};
 // Initializes the Quiz
-function initializeQuiz(container) {
+export function initializeQuiz(container) {
   // Quiz data
   const questions = [
     {

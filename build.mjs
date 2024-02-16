@@ -17,7 +17,7 @@ async function build() {
 
     // Bundle vanilla JS
     await esbuild.build({
-      entryPoints: ["javascript/vanilla/example.js"], // Entry point for your vanilla JS
+      entryPoints: ["javascript/vanilla/main.js"], // Entry point for your vanilla JS
       bundle: true,
       outfile: "static/vanilla_bundle.js", // Output file for vanilla JS
       minify: true,
