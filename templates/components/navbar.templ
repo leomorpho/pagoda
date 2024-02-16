@@ -88,8 +88,8 @@ templ Navbar(page *controller.Page) {
 				>
 					if page.IsAuth {
 						<div class="px-4 py-3">
-							<span class="text-sm text-gray-900">Bonnie Green</span>
-							<span class="text-sm text-gray-500">name@pagoda.com</span>
+							<span class="text-sm text-gray-900">{ page.AuthUser.Name }</span>
+							<span class="text-sm text-gray-500">{ page.AuthUser.Email }</span>
 						</div>
 						<ul class="py-2">
 							<li>
