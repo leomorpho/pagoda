@@ -2,102 +2,135 @@
 # If this does not work on your system, just set the name of the executable you have installed
 DCO_BIN := $(shell { command -v docker-compose || command -v docker compose; } 2>/dev/null)
 
-# Connect to the primary database
+define Comment
+	- Run `make help` to see all the available options.
+endef
+
+.PHONY: help
+help: ## Show this help message.
+	@echo "Available options:"
+	@echo
+	@awk 'BEGIN {FS = ":.*?## "}; /^[a-zA-Z_-]+:.*?## .*$$/ { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
+	@echo
+	@echo "To see the details of each command, run: make <command>"
+
 .PHONY: db
-db:
+db: ## Connect to the primary database
 	docker exec -it pagoda_db psql postgresql://admin:admin@localhost:5432/app
 
-# Connect to the test database (you must run tests first before running this)
 .PHONY: db-test
-db-test:
+db-test: ## Connect to the test database (you must run tests first before running this)
 	docker exec -it pagoda_db psql postgresql://admin:admin@localhost:5432/app_test
 
-# Connect to the primary cache
 .PHONY: cache
-cache:
+cache: ## Connect to the primary cache
 	docker exec -it pagoda_cache redis-cli
 
-# Clear the primary cache
 .PHONY: cache-clear
-cache-clear:
+cache-clear: ## Clear the primary cache
 	docker exec -it pagoda_cache redis-cli flushall
 
- # Connect to the test cache
+
 .PHONY: cache-test
-cache-test:
+cache-test: ## Connect to the test cache
 	docker exec -it pagoda_cache redis-cli -n 1
 
-# Install Ent code-generation module
 .PHONY: ent-install
-ent-install:
+ent-install: ## Install Ent code-generation module
 	go get -d entgo.io/ent/cmd/ent
 
-# Generate Ent code
 .PHONY: ent-gen
-ent-gen:
+ent-gen: ## Generate Ent code
 	go generate ./ent
 
-# Create a new Ent entity
 .PHONY: ent-new
-ent-new:
+ent-new: ## Create a new Ent entity
 	go run entgo.io/ent/cmd/ent new $(name)
 
-# Start the Docker containers
+
 .PHONY: up
-up:
+up: ## Start the Docker containers
 	$(DCO_BIN) up -d
 	sleep 3
 
-# Stop the Docker containers
+
 .PHONY: stop
-stop:
+stop: ## Stop the Docker containers
 	$(DCO_BIN) stop
 
-# Drop the Docker containers to wipe all data
+
 .PHONY: down
-down:
+down: ## Drop the Docker containers to wipe all data
 	$(DCO_BIN) down
 
-# Rebuild Docker containers to wipe all data
 .PHONY: reset
-reset:
+reset: ## Rebuild Docker containers to wipe all data
 	$(DCO_BIN) down
 	make up
 
-# Build JS/Svelte assets
+
 .PHONY: build-js
-build-js:
+build-js: ## Build JS/Svelte assets
 	npm run build
 
-# Build JS/Svelte assets (auto reload changes)
+
 .PHONY: build-js
-watch-js:
+watch-js: ## Build JS/Svelte assets (auto reload changes)
 	npm run watch 
 
-watch-css:
+watch-css: ## Build CSS assets (auto reload changes)
 	npx tailwindcss -i ./styles/styles.css -o ./static/styles_bundle.css --watch
 
-# Run the application with air (auto reload changes)
+
 .PHONY: run
-watch-go:
+watch-go: ## Run the application with air (auto reload changes)
 	clear
 	air
 
 watch: 
 	overmind start
 
-# Run all tests
 .PHONY: test
-test:
+test: ## Run all tests
+	go test -p 1 ./...
+
+
+.PHONY: test
+testall: ## Run all tests
 	go test -count=1 -p 1 ./...
 
-# Run the worker
+.PHONY: cover
+cover: ## Run the Go coverage tool on the codebase
+	@echo "Running tests with coverage..."
+	@go test -coverprofile=/tmp/coverage.out -count=1 -p 1  ./...
+	@echo "Generating HTML coverage report..."
+	@go tool cover -html=/tmp/coverage.out
+
+
 .PHONY: worker
-worker:
+worker: ## Run the worker
 	clear
 	go run cmd/worker/main.go
 
-# Check for direct dependency updates
+.PHONY: workerui
+workerui: ## Run the worker asynq dash
+	asynq dash
+
 .PHONY: check-updates
-check-updates:
+check-updates: ## Check for direct dependency updates
 	go list -u -m -f '{{if not .Indirect}}{{.}}{{end}}' all | grep "\["
+
+.PHONY: test-e2e
+e2e: ## Run Playwright tests
+	@echo "Running end-to-end tests..."
+	@cd e2e_tests && npm install && npx playwright test
+
+.PHONY: test-e2e
+e2eui: ## Run Playwright tests
+	@echo "Running end-to-end tests..."
+	@cd e2e_tests && npm install && npx playwright test --ui
+
+.PHONY: codegen
+codegen: ## Generate Playwright tests interactively
+	@echo "Running Playwright codegen for URL http://localhost:8000..."
+	@cd e2e_tests && npx playwright codegen http://localhost:8000
