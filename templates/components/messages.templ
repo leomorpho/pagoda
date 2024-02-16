@@ -1,27 +1,67 @@
 package components
 
 import (
-    "github.com/mikestefanello/pagoda/pkg/controller"
+	"github.com/mikestefanello/pagoda/pkg/controller"
+	"fmt"
 )
 
 templ Messages(page *controller.Page) {
-    for _, m := range page.GetMessages("success") {
-        @message("is-success", string(m))
-    }
-    for _, m := range page.GetMessages("info") {
-        @message("is-info", string(m))
-    }
-    for _, m := range page.GetMessages("warning") {
-        @message("is-warning", string(m))
-    }
-    for _, m := range page.GetMessages("danger") {
-        @message("is-danger", string(m))
-    }
+	for _, m := range page.GetMessages("success") {
+		@message("success", string(m))
+	}
+	for _, m := range page.GetMessages("info") {
+		@message("info", string(m))
+	}
+	for _, m := range page.GetMessages("warning") {
+		@message("warning", string(m))
+	}
+	for _, m := range page.GetMessages("danger") {
+		@message("danger", string(m))
+	}
 }
 
-templ message(class, text string) {
-    <div class={ "notification", "is-light", class } x-data="{show: true}" x-show="show">
-        <button class="delete" @click="show = false"></button>
-        { text }
-    </div>
+templ message(className, text string) {
+	switch className {
+		case "success":
+			@styledMessage("Success", "green", text)
+		case "info":
+			@styledMessage("Info", "blue", text)
+		case "warning":
+			@styledMessage("Warning", "yellow", text)
+		case "danger":
+			@styledMessage("Danger", "red", text)
+	}
+}
+
+templ styledMessage(type, color, text string) {
+	<div
+		id="alert-1"
+		class={ fmt.Sprintf("flex items-center p-4 mb-4 text-%s-800 border border-%s-300 rounded-lg bg-%s-50 dark:bg-gray-800 dark:text-%s-400", color, color, color, color) }
+		role="alert"
+	>
+		<svg
+			class="flex-shrink-0 w-4 h-4"
+			aria-hidden="true"
+			xmlns="http://www.w3.org/2000/svg"
+			fill="currentColor"
+			viewBox="0 0 20 20"
+		>
+			<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+		</svg>
+		<span class="sr-only">{ type }</span>
+		<div class="ms-3 text-sm font-medium">
+			{ text }
+		</div>
+		<button
+			type="button"
+			class={ fmt.Sprintf("ms-auto -mx-1.5 -my-1.5 bg-%s-50 text-%s-500 rounded-lg focus:ring-2 focus:ring-%s-400 p-1.5 hover:bg-%s-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-%s-400 dark:hover:bg-gray-700", color, color, color, color, color) }
+			data-dismiss-target="#alert-1"
+			aria-label="Close"
+		>
+			<span class="sr-only">Close</span>
+			<svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+			</svg>
+		</button>
+	</div>
 }
