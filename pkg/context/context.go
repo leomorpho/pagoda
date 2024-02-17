@@ -1,4 +1,4 @@
-package context
+package context // TODO: rename this package, it conflicts with the std lib
 
 import (
 	"context"

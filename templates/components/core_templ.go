@@ -139,11 +139,30 @@ func JS() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		templ_7745c5c3_Err = darkModeSwitcher().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		if !templ_7745c5c3_IsBuffer {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
 		}
 		return templ_7745c5c3_Err
 	})
+}
+
+func darkModeSwitcher() templ.ComponentScript {
+	return templ.ComponentScript{
+		Name: `__templ_darkModeSwitcher_2af4`,
+		Function: `function __templ_darkModeSwitcher_2af4(){// On page load or when changing themes, best to add inline in ` + "`" + `head` + "`" + ` to avoid FOUC
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+}`,
+		Call:       templ.SafeScript(`__templ_darkModeSwitcher_2af4`),
+		CallInline: templ.SafeScriptInline(`__templ_darkModeSwitcher_2af4`),
+	}
 }
 
 func csrfJS(token string) templ.ComponentScript {

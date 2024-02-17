@@ -15,6 +15,7 @@ templ Drawer(page *controller.Page) {
 			}
 		}"
 		@keydown.escape.window="isOpen = false"
+		x-cloak
 		@resize.window="isOpen = window.innerWidth >= 1024"
 		class="w-full"
 	>
@@ -168,6 +169,9 @@ templ drawerPanel(page *controller.Page) {
 					</li>
 				}
 			</ul>
+			<div class="flex items-center justify-center mt-3">
+				@ThemeToggle()
+			</div>
 		</div>
 	</div>
 }
