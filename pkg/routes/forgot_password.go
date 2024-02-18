@@ -30,6 +30,7 @@ func (c *forgotPassword) Get(ctx echo.Context) error {
 	page.Title = "Forgot password"
 	page.Form = &types.ForgotPasswordForm{}
 	page.Component = pages.ForgotPassword(&page)
+	page.HTMX.Request.Boosted = true
 
 	if form := ctx.Get(context.FormKey); form != nil {
 		page.Form = form.(*types.ForgotPasswordForm)

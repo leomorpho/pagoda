@@ -24,12 +24,11 @@ templ Auth(content templ.Component, page *controller.Page) {
 			</div>
 			<div
 				id="main-content"
-				class="bg-blue-100 dark:bg-gray-900 flex-grow mx-auto 
-				items-center justify-center w-full min-h-screen pt-10
-				text-black dark:text-white"
+				class="base-100 text-base-content flex-grow mx-auto 
+				items-center justify-center w-full min-h-screen pt-10"
 			>
 				<div
-					class="w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 text-black dark:text-white shadow-lg rounded-lg overflow-hidden p-5"
+					class="w-full max-w-2xl mx-auto base-300 shadow-lg rounded-lg overflow-hidden p-5"
 				>
 					if len(page.Title) > 0 {
 						<h1 class="text-4xl font-bold text-center mb-4">{ page.Title }</h1>
@@ -37,17 +36,23 @@ templ Auth(content templ.Component, page *controller.Page) {
 					<div class="p-8">
 						@components.Messages(page)
 						@content
-						<div class="text-sm text-center mt-4" hx-boost="true">
+						<div
+							class="text-sm text-center mt-4"
+							hx-target="#main-content"
+							hx-select="#main-content"
+							hx-swap="outerHTML"
+							hx-push-url="true"
+						>
 							<a
-								href={ templ.URL(page.ToURL("login")) }
+								hx-get={ page.ToURL("login") }
 								class="text-blue-500 hover:text-blue-600"
 							>Login</a> &#9676;
 							<a
-								href={ templ.URL(page.ToURL("register")) }
+								hx-get={ page.ToURL("register") }
 								class="text-blue-500 hover:text-blue-600"
 							>Create an account</a> &#9676;
 							<a
-								href={ templ.URL(page.ToURL("forgot_password")) }
+								hx-get={ page.ToURL("forgot_password") }
 								class="text-blue-500 hover:text-blue-600"
 							>Forgot password?</a>
 						</div>
