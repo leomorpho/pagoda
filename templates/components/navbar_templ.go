@@ -27,7 +27,7 @@ func Navbar(page *controller.Page) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<nav class=\"bg-gray-300 dark:bg-gray-800 text-gray-900 dark:text-gray-200\" hx-target=\"#main-content\" hx-select=\"#main-content\" hx-swap=\"outerHTML\" hx-push-url=\"true\"><div class=\"container mx-auto px-4 py-4 flex justify-between items-center\"><a href=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<nav class=\"bg-gray-300 dark:bg-gray-800 text-gray-900 dark:text-gray-200 border-b-2 dark:border-0 border-solid border-slate-500\" hx-target=\"#main-content\" hx-select=\"#main-content\" hx-swap=\"outerHTML\" hx-push-url=\"true\"><div class=\"container mx-auto px-4 py-3 flex justify-between items-center\"><a href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

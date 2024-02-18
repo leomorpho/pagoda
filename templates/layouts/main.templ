@@ -20,7 +20,7 @@ templ Main(content templ.Component, page *controller.Page) {
 				@components.Drawer(page)
 			</div>
 			<!-- Navbar only visible on desktop -->
-			<div class="hidden lg:block">
+			<div class="hidden lg:block sticky top-0 z-10">
 				@components.Navbar(page)
 			</div>
 			<div class="flex ">
