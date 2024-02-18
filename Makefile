@@ -22,6 +22,47 @@ db: ## Connect to the primary database
 db-test: ## Connect to the test database (you must run tests first before running this)
 	docker exec -it pagoda_db psql postgresql://admin:admin@localhost:5432/app_test
 
+.PHONY: migrate_diff
+makemigrations: ## Create a migration
+	@atlas migrate diff "$(name)" \
+	  --dir "file://ent/migrate/migrations" \
+	  --to "ent://ent/schema" \
+	  --dev-url "docker://postgres/15/test?search_path=public"
+
+.PHONY: migrate_apply
+migrate: ## Apply migrations
+	@atlas migrate apply \
+	  --dir "file://ent/migrate/migrations" \
+	  --url "postgres://admin:admin@localhost:5432/app?search_path=public&sslmode=disable"
+
+.PHONY: inspectschema
+inspectsql: ## Inspect the SQL DB schema
+	@atlas schema inspect \
+		-u "ent://ent/schema" \
+		--dev-url "sqlite://file?mode=memory&_fk=1" \
+		--format '{{ sql . "  " }}'
+
+.PHONY: inspecterd
+inspecterd: ## Inspect the ERD DB schema
+	atlas schema inspect \
+		-u "ent://ent/schema" \
+		--dev-url "sqlite://file?mode=memory&_fk=1" \
+		-w
+
+.PHONY: schemaspy
+schema: ## Create DB schema
+	@docker run --rm \
+		--network="host" \
+		-e "DATABASE_TYPE=pgsql" \
+		-e "DATABASE_NAME=app" \
+		-e "DATABASE_USER=admin" \
+		-e "DATABASE_PASSWORD=admin" \
+		-e "DATABASE_HOST=localhost" \
+		-e "DATABASE_PORT=5432" \
+		-v "$(PWD)/schemaspy-output:/output" \
+		schemaspy/schemaspy:latest \
+		-t pgsql -host localhost:5432 -db app -u admin -p admin
+
 .PHONY: cache
 cache: ## Connect to the primary cache
 	docker exec -it pagoda_cache redis-cli
@@ -41,7 +82,7 @@ ent-install: ## Install Ent code-generation module
 
 .PHONY: ent-gen
 ent-gen: ## Generate Ent code
-	go generate ./ent
+	go run -mod=mod entgo.io/ent/cmd/ent generate --feature sql/upsert,sql/execquery ./ent/schema
 
 .PHONY: ent-new
 ent-new: ## Create a new Ent entity
@@ -50,7 +91,7 @@ ent-new: ## Create a new Ent entity
 
 .PHONY: up
 up: ## Start the Docker containers
-	$(DCO_BIN) up -d
+	$(DCO_BIN) up -d --remove-orphans
 	sleep 3
 
 
