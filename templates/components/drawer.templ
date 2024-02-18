@@ -67,7 +67,7 @@ templ drawerPanel(page *controller.Page) {
 		id="drawer"
 		class="fixed top-0 lg:top-auto left-0 lg:left-auto z-50 h-screen p-4 overflow-y-auto 
     	-translate-x-full lg:translate-x-0 transform transition duration-150 
-		bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 w-64"
+		bg-primary text-primary-content w-64"
 		:class="{'-translate-x-full opacity-0':isOpen === false, 'translate-x-0 opacity-100': isOpen === true}"
 		aria-labelledby="drawer-label"
 		if page.IsAuth {
