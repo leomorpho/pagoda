@@ -26,7 +26,7 @@ export function initializeQuiz(container) {
 
   // Apply container styling
   quizContainer.className =
-    "max-w-xl mx-auto bg-white shadow-md rounded-lg p-8 mt-5";
+    "max-w-xl mx-auto bg-gray-100 dark:bg-gray-700 text-black dark:text-white shadow-md rounded-lg p-8 mt-5";
 
   // Render questions
   questions.forEach((q, index) => {
