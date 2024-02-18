@@ -62,57 +62,55 @@ export function initializeDarkModeSwitchers() {
     ".theme-toggle-light-icon"
   );
 
-  // Define a function to update the icons based on the theme
+  // Function to update icons based on the actual current theme
   function updateIcons() {
+    const isDarkMode =
+      document.documentElement.getAttribute("data-theme") === "dark" ||
+      document.documentElement.classList.contains("dark");
     themeToggleDarkIcons.forEach((icon) => {
-      icon.classList.toggle(
-        "hidden",
-        !(document.documentElement.getAttribute("data-theme") === "dark")
-      );
+      icon.classList.toggle("hidden", isDarkMode); // Hide if dark mode
     });
     themeToggleLightIcons.forEach((icon) => {
-      icon.classList.toggle(
-        "hidden",
-        document.documentElement.getAttribute("data-theme") === "dark"
-      );
+      icon.classList.toggle("hidden", !isDarkMode); // Hide if not dark mode
     });
   }
 
-  // Define a function to set the initial theme based on local storage or browser setting
+  // Function to set the initial theme and update icons accordingly
   function setInitialTheme() {
     const storedTheme = localStorage.getItem("color-theme");
     const prefersDarkMode = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
+    let initialTheme = "light";
 
     if (storedTheme) {
-      document.documentElement.setAttribute("data-theme", storedTheme);
-      document.documentElement.classList.toggle("dark", storedTheme === "dark");
+      initialTheme = storedTheme;
     } else if (prefersDarkMode) {
-      document.documentElement.setAttribute("data-theme", "dark");
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.setAttribute("data-theme", "light");
-      document.documentElement.classList.remove("dark");
+      initialTheme = "dark";
     }
-    updateIcons();
+
+    document.documentElement.setAttribute("data-theme", initialTheme);
+    document.documentElement.classList.toggle("dark", initialTheme === "dark");
+    updateIcons(); // Ensure icons are updated based on the initial theme
   }
 
-  // Set the initial theme
+  // Set the initial theme based on local storage or browser setting
   setInitialTheme();
 
-  // Set up the event listeners for the theme toggle buttons
+  // Setup event listeners for theme toggle buttons
   themeToggleBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      const currentTheme = document.documentElement.getAttribute("data-theme");
-      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      const newTheme =
+        document.documentElement.getAttribute("data-theme") === "dark"
+          ? "light"
+          : "dark";
       document.documentElement.setAttribute("data-theme", newTheme);
       document.documentElement.classList.toggle("dark", newTheme === "dark");
       localStorage.setItem("color-theme", newTheme);
-      updateIcons();
+      updateIcons(); // Update icons every time the theme is toggled
     });
   });
 
-  // Mark the dark mode switchers as initialized to prevent duplicate initializations
+  // Mark the dark mode switchers as initialized
   window.darkModeSwitchersInitialized = true;
 }

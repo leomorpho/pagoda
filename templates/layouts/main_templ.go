@@ -61,7 +61,7 @@ func Main(content templ.Component, page *controller.Page) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex \"><!-- Main content --><div id=\"main-content\" class=\"flex-grow mx-auto items-center justify-center \n					bg-blue-100 dark:bg-gray-900 min-h-screen text-black dark:text-white\"><div class=\"flex-grow px-5 mt-5 container mx-auto\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex \"><!-- Main content --><div id=\"main-content\" class=\"flex-grow mx-auto items-center justify-center \n					base-100 text-base-content min-h-screen\"><div class=\"flex-grow px-5 mt-5 container mx-auto\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

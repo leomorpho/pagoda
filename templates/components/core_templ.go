@@ -152,17 +152,16 @@ func JS() templ.Component {
 
 func darkModeSwitcher() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_darkModeSwitcher_0969`,
-		Function: `function __templ_darkModeSwitcher_0969(){// On page load or when changing themes, best to add inline in ` + "`" + `head` + "`" + ` to avoid FOUC
+		Name: `__templ_darkModeSwitcher_2af4`,
+		Function: `function __templ_darkModeSwitcher_2af4(){// On page load or when changing themes, best to add inline in ` + "`" + `head` + "`" + ` to avoid FOUC
     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
     } else {
         document.documentElement.classList.remove('dark')
     }
-	initializeDarkModeSwitchers()
 }`,
-		Call:       templ.SafeScript(`__templ_darkModeSwitcher_0969`),
-		CallInline: templ.SafeScriptInline(`__templ_darkModeSwitcher_0969`),
+		Call:       templ.SafeScript(`__templ_darkModeSwitcher_2af4`),
+		CallInline: templ.SafeScriptInline(`__templ_darkModeSwitcher_2af4`),
 	}
 }
 
