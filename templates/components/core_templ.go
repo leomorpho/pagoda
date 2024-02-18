@@ -152,22 +152,22 @@ func JS() templ.Component {
 
 func darkModeSwitcher() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_darkModeSwitcher_af06`,
-		Function: `function __templ_darkModeSwitcher_af06(){// On page load or when changing themes, best to add inline in ` + "`" + `head` + "`" + ` to avoid FOUC
+		Name: `__templ_darkModeSwitcher_5a44`,
+		Function: `function __templ_darkModeSwitcher_5a44(){// On page load or when changing themes, best to add inline in ` + "`" + `head` + "`" + ` to avoid FOUC
     if (localStorage.getItem('color-theme') === 'darkmode' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('darkmode');
-		document.documentElement.setAttribute('data-theme', 'darkmode');
+        document.documentElement.classList.add('dark'); // For default tailwind dark: utility
+		document.documentElement.setAttribute('data-theme', 'darkmode'); // For daisyui theme
 		// Set the hover brightness dynamically
 		document.documentElement.style.setProperty('--brightness-hover', 'var(--brightness-hover-dark)');
     } else {
-        document.documentElement.classList.remove('darkmode')
-		document.documentElement.setAttribute('data-theme', 'lightmode');
+        document.documentElement.classList.remove('dark') // For default tailwind dark: utility
+		document.documentElement.setAttribute('data-theme', 'lightmode'); // For daisyui theme
 		// Set the hover brightness dynamically
 		document.documentElement.style.setProperty('--brightness-hover', 'var(--brightness-hover-light)');
     }
 }`,
-		Call:       templ.SafeScript(`__templ_darkModeSwitcher_af06`),
-		CallInline: templ.SafeScriptInline(`__templ_darkModeSwitcher_af06`),
+		Call:       templ.SafeScript(`__templ_darkModeSwitcher_5a44`),
+		CallInline: templ.SafeScriptInline(`__templ_darkModeSwitcher_5a44`),
 	}
 }
 

@@ -8,7 +8,6 @@ window.initializeJS = function initializeApp(targetElement) {
   window.darkModeSwitchersInitialized =
     window.darkModeSwitchersInitialized || false;
   initializeDarkModeSwitchers();
-  adjustHoverColors();
 
   const container = targetElement || document;
 
@@ -105,7 +104,6 @@ function initializeDarkModeSwitchers() {
   function adjustHoverColors() {
     const isDarkMode =
       document.documentElement.getAttribute("data-theme") === DARK; // Ensure this matches how you set the theme
-    console.log(`adjustHoverColors, isDark? ${isDarkMode}`);
 
     const rootStyle = document.documentElement.style;
 

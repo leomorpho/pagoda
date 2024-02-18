@@ -4859,6 +4859,14 @@ details.collapse summary::-webkit-details-marker {
     --tw-translate-x: 0px;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
+
+  .lg\:text-left {
+    text-align: left;
+  }
+
+  .lg\:text-start {
+    text-align: start;
+  }
 }
 
 .rtl\:rotate-180:where([dir="rtl"], [dir="rtl"] *) {
