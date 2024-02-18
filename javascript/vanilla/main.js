@@ -101,6 +101,27 @@ function initializeDarkModeSwitchers() {
   // Set the initial theme based on local storage or browser setting
   setInitialTheme();
 
+  // adjustHoverColors set the hover color of the css class hover-brightness dynamically
+  function adjustHoverColors() {
+    const isDarkMode =
+      document.documentElement.getAttribute("data-theme") === DARK; // Ensure this matches how you set the theme
+    console.log(`adjustHoverColors, isDark? ${isDarkMode}`);
+
+    const rootStyle = document.documentElement.style;
+
+    if (isDarkMode) {
+      rootStyle.setProperty(
+        "--brightness-hover",
+        "var(--brightness-hover-dark)"
+      );
+    } else {
+      rootStyle.setProperty(
+        "--brightness-hover",
+        "var(--brightness-hover-light)"
+      );
+    }
+  }
+
   // Setup event listeners for theme toggle buttons
   themeToggleBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -118,21 +139,4 @@ function initializeDarkModeSwitchers() {
 
   // Mark the dark mode switchers as initialized
   window.darkModeSwitchersInitialized = true;
-}
-
-function adjustHoverColors() {
-  const isDarkMode =
-    document.documentElement.getAttribute("data-theme") === DARK; // Ensure this matches how you set the theme
-  console.log(`adjustHoverColors, isDark? ${isDarkMode}`);
-
-  const rootStyle = document.documentElement.style;
-
-  if (isDarkMode) {
-    rootStyle.setProperty("--brightness-hover", "var(--brightness-hover-dark)");
-  } else {
-    rootStyle.setProperty(
-      "--brightness-hover",
-      "var(--brightness-hover-light)"
-    );
-  }
 }

@@ -152,16 +152,22 @@ func JS() templ.Component {
 
 func darkModeSwitcher() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_darkModeSwitcher_2af4`,
-		Function: `function __templ_darkModeSwitcher_2af4(){// On page load or when changing themes, best to add inline in ` + "`" + `head` + "`" + ` to avoid FOUC
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
+		Name: `__templ_darkModeSwitcher_af06`,
+		Function: `function __templ_darkModeSwitcher_af06(){// On page load or when changing themes, best to add inline in ` + "`" + `head` + "`" + ` to avoid FOUC
+    if (localStorage.getItem('color-theme') === 'darkmode' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('darkmode');
+		document.documentElement.setAttribute('data-theme', 'darkmode');
+		// Set the hover brightness dynamically
+		document.documentElement.style.setProperty('--brightness-hover', 'var(--brightness-hover-dark)');
     } else {
-        document.documentElement.classList.remove('dark')
+        document.documentElement.classList.remove('darkmode')
+		document.documentElement.setAttribute('data-theme', 'lightmode');
+		// Set the hover brightness dynamically
+		document.documentElement.style.setProperty('--brightness-hover', 'var(--brightness-hover-light)');
     }
 }`,
-		Call:       templ.SafeScript(`__templ_darkModeSwitcher_2af4`),
-		CallInline: templ.SafeScriptInline(`__templ_darkModeSwitcher_2af4`),
+		Call:       templ.SafeScript(`__templ_darkModeSwitcher_af06`),
+		CallInline: templ.SafeScriptInline(`__templ_darkModeSwitcher_af06`),
 	}
 }
 
