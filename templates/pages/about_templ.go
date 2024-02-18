@@ -69,7 +69,7 @@ func About(page *controller.Page) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			if data.ShowCacheWarning {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-6\"><p class=\"font-bold\">Warning</p><p>This route has caching enabled so hot-reloading in the local environment will not work. Check the Redis cache for a key matching the URL path.</p></div>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 my-6\"><p class=\"font-bold\">Warning</p><p>This route has caching enabled so hot-reloading in the local environment will not work. Check the Redis cache for a key matching the URL path.</p></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
