@@ -1,9 +1,8 @@
+@import './tailwind_components.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.label {
-    @apply block text-sm font-medium text-gray-700 dark:text-gray-100;
-}
 
 [x-cloak] { display: none !important; }

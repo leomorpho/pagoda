@@ -91,7 +91,6 @@ export function initializeDarkModeSwitchers() {
 
   themeToggleBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      console.log("add event listener");
       // Toggle theme and update icons
       if (
         localStorage.getItem("color-theme") === "dark" ||
@@ -99,15 +98,16 @@ export function initializeDarkModeSwitchers() {
           window.matchMedia("(prefers-color-scheme: dark)").matches)
       ) {
         document.documentElement.classList.remove("dark");
+        document.documentElement.setAttribute("data-theme", "light");
         localStorage.setItem("color-theme", "light");
       } else {
         document.documentElement.classList.add("dark");
+        document.documentElement.setAttribute("data-theme", "dark");
         localStorage.setItem("color-theme", "dark");
       }
       updateIcons();
     });
   });
-
   // Mark the dark mode switchers as initialized to prevent duplicate initializations
   window.darkModeSwitchersInitialized = true;
 }
