@@ -8,6 +8,7 @@ window.initializeJS = function initializeApp(targetElement) {
   window.darkModeSwitchersInitialized =
     window.darkModeSwitchersInitialized || false;
   initializeDarkModeSwitchers();
+  adjustHoverColors();
 
   const container = targetElement || document;
 
@@ -48,8 +49,11 @@ function controlZoom() {
   window.addEventListener("resize", updateViewport);
 }
 
+const LIGHT = "lightmode";
+const DARK = "darkmode";
+
 // Code derived from flowbite to switch between dark and light modes: https://flowbite.com/docs/customize/dark-mode/
-export function initializeDarkModeSwitchers() {
+function initializeDarkModeSwitchers() {
   if (window.darkModeSwitchersInitialized) {
     return;
   }
@@ -65,8 +69,8 @@ export function initializeDarkModeSwitchers() {
   // Function to update icons based on the actual current theme
   function updateIcons() {
     const isDarkMode =
-      document.documentElement.getAttribute("data-theme") === "dark" ||
-      document.documentElement.classList.contains("dark");
+      document.documentElement.getAttribute("data-theme") === DARK ||
+      document.documentElement.classList.contains(DARK);
     themeToggleDarkIcons.forEach((icon) => {
       icon.classList.toggle("hidden", isDarkMode); // Hide if dark mode
     });
@@ -81,16 +85,16 @@ export function initializeDarkModeSwitchers() {
     const prefersDarkMode = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
-    let initialTheme = "light";
+    let initialTheme = LIGHT;
 
     if (storedTheme) {
       initialTheme = storedTheme;
     } else if (prefersDarkMode) {
-      initialTheme = "dark";
+      initialTheme = DARK;
     }
 
     document.documentElement.setAttribute("data-theme", initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
+    document.documentElement.classList.toggle(DARK, initialTheme === DARK);
     updateIcons(); // Ensure icons are updated based on the initial theme
   }
 
@@ -101,16 +105,34 @@ export function initializeDarkModeSwitchers() {
   themeToggleBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       const newTheme =
-        document.documentElement.getAttribute("data-theme") === "dark"
-          ? "light"
-          : "dark";
+        document.documentElement.getAttribute("data-theme") === DARK
+          ? LIGHT
+          : DARK;
       document.documentElement.setAttribute("data-theme", newTheme);
-      document.documentElement.classList.toggle("dark", newTheme === "dark");
+      document.documentElement.classList.toggle(DARK, newTheme === DARK);
       localStorage.setItem("color-theme", newTheme);
       updateIcons(); // Update icons every time the theme is toggled
+      adjustHoverColors();
     });
   });
 
   // Mark the dark mode switchers as initialized
   window.darkModeSwitchersInitialized = true;
+}
+
+function adjustHoverColors() {
+  const isDarkMode =
+    document.documentElement.getAttribute("data-theme") === DARK; // Ensure this matches how you set the theme
+  console.log(`adjustHoverColors, isDark? ${isDarkMode}`);
+
+  const rootStyle = document.documentElement.style;
+
+  if (isDarkMode) {
+    rootStyle.setProperty("--brightness-hover", "var(--brightness-hover-dark)");
+  } else {
+    rootStyle.setProperty(
+      "--brightness-hover",
+      "var(--brightness-hover-light)"
+    );
+  }
 }

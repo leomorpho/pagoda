@@ -5,4 +5,24 @@
 @tailwind utilities;
 
 
-[x-cloak] { display: none !important; }
+[x-cloak] {
+  display: none !important;
+}
+
+:root {
+  --brightness-normal: 1;
+  /* No change by default */
+  --brightness-hover-light: 0.15;
+  /* Lighter in light mode */
+  --brightness-hover-dark: 0.3;
+  /* Darker in dark mode */
+}
+
+.hover-brightness {
+  transition: filter 0.3s ease;
+}
+
+.hover-brightness:hover {
+  transition: filter 0.3s ease;
+  background-image: linear-gradient(rgba(0, 0, 0, var(--brightness-hover)), rgba(0, 0, 0, var(--brightness-hover)));
+}

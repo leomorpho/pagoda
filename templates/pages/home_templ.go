@@ -67,7 +67,7 @@ func homeTopContent(page *controller.Page) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-blue-500 text-white py-6 rounded-lg\"><div class=\"container mx-auto px-4\"><h1 class=\"text-3xl font-semibold\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-secondary text-secondary-content py-6 rounded-lg\"><div class=\"container mx-auto px-4\"><h1 class=\"text-3xl font-semibold\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
