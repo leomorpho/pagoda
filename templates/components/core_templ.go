@@ -152,16 +152,17 @@ func JS() templ.Component {
 
 func darkModeSwitcher() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_darkModeSwitcher_2af4`,
-		Function: `function __templ_darkModeSwitcher_2af4(){// On page load or when changing themes, best to add inline in ` + "`" + `head` + "`" + ` to avoid FOUC
+		Name: `__templ_darkModeSwitcher_0969`,
+		Function: `function __templ_darkModeSwitcher_0969(){// On page load or when changing themes, best to add inline in ` + "`" + `head` + "`" + ` to avoid FOUC
     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
     } else {
         document.documentElement.classList.remove('dark')
     }
+	initializeDarkModeSwitchers()
 }`,
-		Call:       templ.SafeScript(`__templ_darkModeSwitcher_2af4`),
-		CallInline: templ.SafeScriptInline(`__templ_darkModeSwitcher_2af4`),
+		Call:       templ.SafeScript(`__templ_darkModeSwitcher_0969`),
+		CallInline: templ.SafeScriptInline(`__templ_darkModeSwitcher_0969`),
 	}
 }
 
@@ -196,14 +197,14 @@ func htmxBeforeSwap() templ.ComponentScript {
 
 func htmxOnLoad() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_htmxOnLoad_e7fc`,
-		Function: `function __templ_htmxOnLoad_e7fc(){htmx.onLoad(function(content) {
-		initializeJS();
-		initializeAppSvelte();
-});
+		Name: `__templ_htmxOnLoad_0da8`,
+		Function: `function __templ_htmxOnLoad_0da8(){htmx.onLoad(function(content) {
+			initializeJS();
+			initializeAppSvelte();
+	});
 }`,
-		Call:       templ.SafeScript(`__templ_htmxOnLoad_e7fc`),
-		CallInline: templ.SafeScriptInline(`__templ_htmxOnLoad_e7fc`),
+		Call:       templ.SafeScript(`__templ_htmxOnLoad_0da8`),
+		CallInline: templ.SafeScriptInline(`__templ_htmxOnLoad_0da8`),
 	}
 }
 

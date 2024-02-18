@@ -60,7 +60,7 @@ func Auth(content templ.Component, page *controller.Page) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div id=\"main-content\" class=\"bg-blue-100 flex-grow mx-auto items-center justify-center w-full min-h-screen pt-10\"><div class=\"w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 text-black dark:text-white shadow-lg rounded-lg overflow-hidden p-5\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div id=\"main-content\" class=\"bg-blue-100 dark:bg-gray-900 flex-grow mx-auto \n				items-center justify-center w-full min-h-screen pt-10\n				text-black dark:text-white\"><div class=\"w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 text-black dark:text-white shadow-lg rounded-lg overflow-hidden p-5\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -72,7 +72,7 @@ func Auth(content templ.Component, page *controller.Page) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(page.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/layouts/auth.templ`, Line: 32, Col: 66}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/layouts/auth.templ`, Line: 34, Col: 66}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -83,7 +83,7 @@ func Auth(content templ.Component, page *controller.Page) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-white p-8\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"p-8\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

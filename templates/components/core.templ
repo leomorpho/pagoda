@@ -51,6 +51,7 @@ script darkModeSwitcher() {
     } else {
         document.documentElement.classList.remove('dark')
     }
+	initializeDarkModeSwitchers()
 }
 
 script csrfJS(token string) {
@@ -72,9 +73,9 @@ script htmxBeforeSwap() {
 
 script htmxOnLoad() {
 	htmx.onLoad(function(content) {
-		initializeJS();
-		initializeAppSvelte();
-});
+			initializeJS();
+			initializeAppSvelte();
+	});
 }
 
 templ Footer(page *controller.Page) {

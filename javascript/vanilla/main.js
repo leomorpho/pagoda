@@ -1,17 +1,19 @@
 import { initializeQuiz } from "./test_quiz";
 
 window.initializeJS = function initializeApp(targetElement) {
+  console.log("initialize js");
   // Control zoom based on screen size
   controlZoom();
+
+  window.darkModeSwitchersInitialized =
+    window.darkModeSwitchersInitialized || false;
   initializeDarkModeSwitchers();
+
   const container = targetElement || document;
 
-  // Initialize the quiz only if it hasn't been initialized yet
-  if (
-    !container
-      .querySelector("#js-quiz-container")
-      .hasAttribute("data-initialized")
-  ) {
+  // Check if the quiz container exists before trying to access its attributes
+  const quizContainer = container.querySelector("#js-quiz-container");
+  if (quizContainer && !quizContainer.hasAttribute("data-initialized")) {
     initializeQuiz(container);
   }
 };
@@ -46,53 +48,11 @@ function controlZoom() {
   window.addEventListener("resize", updateViewport);
 }
 
-// Code taken from flowbite to switch between dark and light modes: https://flowbite.com/docs/customize/dark-mode/
-function initializeDarkModeSwitcher() {
-  var themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-  var themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-
-  // Change the icons inside the button based on previous settings
-  if (
-    localStorage.getItem("color-theme") === "dark" ||
-    (!("color-theme" in localStorage) &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
-  ) {
-    themeToggleLightIcon.classList.remove("hidden");
-  } else {
-    themeToggleDarkIcon.classList.remove("hidden");
+// Code derived from flowbite to switch between dark and light modes: https://flowbite.com/docs/customize/dark-mode/
+export function initializeDarkModeSwitchers() {
+  if (window.darkModeSwitchersInitialized) {
+    return;
   }
-
-  var themeToggleBtn = document.getElementById("theme-toggle");
-
-  themeToggleBtn.addEventListener("click", function () {
-    // toggle icons inside button
-    themeToggleDarkIcon.classList.toggle("hidden");
-    themeToggleLightIcon.classList.toggle("hidden");
-
-    // if set via local storage previously
-    if (localStorage.getItem("color-theme")) {
-      if (localStorage.getItem("color-theme") === "light") {
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("color-theme", "dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("color-theme", "light");
-      }
-
-      // if NOT set via local storage previously
-    } else {
-      if (document.documentElement.classList.contains("dark")) {
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("color-theme", "light");
-      } else {
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("color-theme", "dark");
-      }
-    }
-  });
-}
-
-function initializeDarkModeSwitchers() {
   const themeToggleBtns = document.querySelectorAll(".theme-toggle");
   const themeToggleDarkIcons = document.querySelectorAll(
     ".theme-toggle-dark-icon"
@@ -131,6 +91,7 @@ function initializeDarkModeSwitchers() {
 
   themeToggleBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
+      console.log("add event listener");
       // Toggle theme and update icons
       if (
         localStorage.getItem("color-theme") === "dark" ||
@@ -146,4 +107,7 @@ function initializeDarkModeSwitchers() {
       updateIcons();
     });
   });
+
+  // Mark the dark mode switchers as initialized to prevent duplicate initializations
+  window.darkModeSwitchersInitialized = true;
 }
