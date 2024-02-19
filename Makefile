@@ -1,3 +1,4 @@
+# TODO: https://github.com/casey/just?tab=readme-ov-file seems like a nice alternative/improvement to make
 # Determine if you have docker-compose or docker compose installed locally
 # If this does not work on your system, just set the name of the executable you have installed
 DCO_BIN := $(shell { command -v docker-compose || command -v docker compose; } 2>/dev/null)
