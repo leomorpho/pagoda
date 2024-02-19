@@ -57,7 +57,7 @@ func BuildRouter(c *services.Container) {
 		// Set caching headers - adjust max-age as needed
 		ctx.Response().Header().Set("Cache-Control", fmt.Sprintf("public, max-age=%d", c.Config.Cache.Expiration.StaticFile))
 
-		return c.File("./service-worker.js")
+		return ctx.File("./service-worker.js")
 	})
 
 	// Non static file route group
