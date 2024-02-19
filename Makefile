@@ -176,3 +176,8 @@ e2eui: ## Run Playwright tests
 codegen: ## Generate Playwright tests interactively
 	@echo "Running Playwright codegen for URL http://localhost:8000..."
 	@cd e2e_tests && npx playwright codegen http://localhost:8000
+
+.PHONY: js-reinstall
+js-reinstall: ## Reinstall all JS dependencies
+	rm -rf node_modules package-lock.json
+	npm install
