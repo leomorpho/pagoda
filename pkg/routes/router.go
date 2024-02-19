@@ -51,11 +51,11 @@ func BuildRouter(c *services.Container) {
 		Static(config.StaticPrefix, config.StaticDir)
 
 	// Custom handler for serving the service worker script with specific headers
-	c.Web.GET("/service-worker.js", func(c echo.Context) error {
+	c.Web.GET("/service-worker.js", func(ctx echo.Context) error {
 		// Set headers to allow the service worker scope to be at the root level
-		c.Response().Header().Set("Service-Worker-Allowed", "/")
+		ctx.Response().Header().Set("Service-Worker-Allowed", "/")
 		// Set caching headers - adjust max-age as needed
-		c.Response().Header().Set("Cache-Control", fmt.Sprintf("public, max-age=%d", c.Config.Cache.Expiration.StaticFile))
+		ctx.Response().Header().Set("Cache-Control", fmt.Sprintf("public, max-age=%d", c.Config.Cache.Expiration.StaticFile))
 
 		return c.File("./service-worker.js")
 	})
