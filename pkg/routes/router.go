@@ -48,6 +48,11 @@ func BuildRouter(c *services.Container) {
 	// after each server restart
 	c.Web.Group("", middleware.CacheControl(c.Config.Cache.Expiration.StaticFile)).
 		Static(config.StaticPrefix, config.StaticDir)
+	// Custom handler for serving the service worker script with specific headers
+	c.Web.GET("/service-worker.js", func(c echo.Context) error {
+		c.Response().Header().Set("Service-Worker-Allowed", "/")
+		return c.File("./service-worker.js")
+	})
 
 	// Non static file route group
 	g := c.Web.Group("")

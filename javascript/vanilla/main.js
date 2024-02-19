@@ -16,6 +16,21 @@ window.initializeJS = function initializeApp(targetElement) {
   if (quizContainer && !quizContainer.hasAttribute("data-initialized")) {
     initializeQuiz(container);
   }
+
+  // Set up PWA service worker
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("/service-worker.js", { type: "module" })
+      .then(function (registration) {
+        console.log(
+          "Service Worker registered with scope:",
+          registration.scope
+        );
+      })
+      .catch(function (error) {
+        console.log("Service Worker registration failed:", error);
+      });
+  }
 };
 
 // controlZoom prevents zooming on mobile devices to improve user experience. Note that it is
