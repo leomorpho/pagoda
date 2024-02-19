@@ -23,20 +23,20 @@ templ Messages(page *controller.Page) {
 templ message(className, text string) {
 	switch className {
 		case "success":
-			@styledMessage("Success", "green", text)
+			@styledMessage("Success", "green", text, "bg-success", "text-success-content")
 		case "info":
-			@styledMessage("Info", "blue", text)
+			@styledMessage("Info", "blue", text, "bg-info", "text-info-content")
 		case "warning":
-			@styledMessage("Warning", "yellow", text)
+			@styledMessage("Warning", "yellow", text, "bg-warning", "text-warning-content")
 		case "danger":
-			@styledMessage("Danger", "red", text)
+			@styledMessage("Danger", "red", text, "bg-error", "text-error-content")
 	}
 }
 
-templ styledMessage(msgType, color, text string) {
+templ styledMessage(msgType, color, text, bgColorClass, contentColorClass string) {
 	<div
 		id="alert-1"
-		class={ fmt.Sprintf("flex items-center p-4 mb-4 text-%s-800 border border-%s-300 rounded-lg bg-%s-50 dark:bg-gray-800 dark:text-%s-400", color, color, color, color) }
+		class={ fmt.Sprintf("flex items-center p-4 mb-4 rounded-lg %s %s", bgColorClass, contentColorClass) }
 		role="alert"
 	>
 		<svg

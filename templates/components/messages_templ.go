@@ -74,22 +74,22 @@ func message(className, text string) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		switch className {
 		case "success":
-			templ_7745c5c3_Err = styledMessage("Success", "green", text).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = styledMessage("Success", "green", text, "bg-success", "text-success-content").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		case "info":
-			templ_7745c5c3_Err = styledMessage("Info", "blue", text).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = styledMessage("Info", "blue", text, "bg-info", "text-info-content").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		case "warning":
-			templ_7745c5c3_Err = styledMessage("Warning", "yellow", text).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = styledMessage("Warning", "yellow", text, "bg-warning", "text-warning-content").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		case "danger":
-			templ_7745c5c3_Err = styledMessage("Danger", "red", text).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = styledMessage("Danger", "red", text, "bg-error", "text-error-content").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -101,7 +101,7 @@ func message(className, text string) templ.Component {
 	})
 }
 
-func styledMessage(msgType, color, text string) templ.Component {
+func styledMessage(msgType, color, text, bgColorClass, contentColorClass string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -114,7 +114,7 @@ func styledMessage(msgType, color, text string) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var4 = []any{fmt.Sprintf("flex items-center p-4 mb-4 text-%s-800 border border-%s-300 rounded-lg bg-%s-50 dark:bg-gray-800 dark:text-%s-400", color, color, color, color)}
+		var templ_7745c5c3_Var4 = []any{fmt.Sprintf("flex items-center p-4 mb-4 rounded-lg %s %s", bgColorClass, contentColorClass)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

@@ -127,8 +127,10 @@ function initializeDarkModeSwitchers() {
         document.documentElement.getAttribute("data-theme") === DARK
           ? LIGHT
           : DARK;
+      // Update the attribute for daisyui theming
       document.documentElement.setAttribute("data-theme", newTheme);
-      document.documentElement.classList.toggle(DARK, newTheme === DARK);
+      // Update the dark: directive for standard tailwind
+      document.documentElement.classList.toggle("dark", newTheme === DARK);
       localStorage.setItem("color-theme", newTheme);
       updateIcons(); // Update icons every time the theme is toggled
       adjustHoverColors();
