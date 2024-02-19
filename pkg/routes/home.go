@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/mikestefanello/pagoda/pkg/controller"
-	"github.com/mikestefanello/pagoda/pkg/msg"
 	"github.com/mikestefanello/pagoda/pkg/types"
 	"github.com/mikestefanello/pagoda/templates"
 	"github.com/mikestefanello/pagoda/templates/layouts"
@@ -29,10 +28,6 @@ func (c *home) Get(ctx echo.Context) error {
 	page.Data = c.fetchPosts(&page.Pager)
 	page.Component = pages.Home(&page)
 	page.HTMX.Request.Boosted = true
-	msg.Success(ctx, "Success!")
-	msg.Warning(ctx, "Warning!")
-	msg.Danger(ctx, "Danger!")
-	msg.Info(ctx, "Info!")
 
 	return c.RenderPage(ctx, page)
 }

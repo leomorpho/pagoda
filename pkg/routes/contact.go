@@ -5,6 +5,7 @@ import (
 
 	"github.com/mikestefanello/pagoda/pkg/context"
 	"github.com/mikestefanello/pagoda/pkg/controller"
+	"github.com/mikestefanello/pagoda/pkg/msg"
 	"github.com/mikestefanello/pagoda/pkg/types"
 	"github.com/mikestefanello/pagoda/templates"
 	"github.com/mikestefanello/pagoda/templates/layouts"
@@ -31,6 +32,10 @@ func (c *contact) Get(ctx echo.Context) error {
 	if form := ctx.Get(context.FormKey); form != nil {
 		page.Form = form.(*types.ContactForm)
 	}
+	msg.Success(ctx, "Success!")
+	msg.Warning(ctx, "Warning!")
+	msg.Danger(ctx, "Danger!")
+	msg.Info(ctx, "Info!")
 
 	return c.RenderPage(ctx, page)
 }
