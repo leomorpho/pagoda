@@ -28,9 +28,9 @@ templ Metatags(page *controller.Page) {
 }
 
 templ CSS() {
-	<link rel="stylesheet" href="/files/svelte_bundle.css"/>
-	<link rel="stylesheet" href="/files/styles_bundle.css"/>
-	<link rel="manifest" href="/files/pwa/manifest.json"/>
+	<link rel="stylesheet" href={ helpers.File("/files/svelte_bundle.css") }/>
+	<link rel="stylesheet" href={ helpers.File("/files/styles_bundle.css") }/>
+	<link rel="manifest" href={ helpers.File("/files/pwa/manifest.json") }/>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet"/>
 	// <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"/>
 }
@@ -38,8 +38,8 @@ templ CSS() {
 templ JS() {
 	<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-	<script src="/files/vanilla_bundle.js"></script>
-	<script src="/files/svelte_bundle.js"></script>
+	<script src={ helpers.File("/files/vanilla_bundle.js") }></script>
+	<script src={ helpers.File("/files/svelte_bundle.js") }></script>
 	<script src="/service-worker.js"></script>
 	// TODO: remove HTMX debug extension for prod
 	<script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>
