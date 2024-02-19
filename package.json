@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.mjs",
-    "watch": "watchexec --exts js,svelte --watch javascript node build.mjs"
+    "watch": "watchexec --project-origin . -w javascript node build.mjs"
   },
   "repository": {
     "type": "git",
