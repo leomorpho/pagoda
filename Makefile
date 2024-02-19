@@ -117,6 +117,7 @@ build-js: ## Build JS/Svelte assets
 
 .PHONY: build-js
 watch-js: ## Build JS/Svelte assets (auto reload changes)
+	npm install
 	npm run watch 
 
 watch-css: ## Build CSS assets (auto reload changes)
