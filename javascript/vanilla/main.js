@@ -63,8 +63,9 @@ function controlZoom() {
   window.addEventListener("resize", updateViewport);
 }
 
-const LIGHT = "lightmode";
-const DARK = "darkmode";
+const LIGHTMODE = "lightmode";
+const DARKMODE = "darkmode";
+const DARK = "dark";
 
 // Code derived from flowbite to switch between dark and light modes: https://flowbite.com/docs/customize/dark-mode/
 function initializeDarkModeSwitchers() {
@@ -83,8 +84,7 @@ function initializeDarkModeSwitchers() {
   // Function to update icons based on the actual current theme
   function updateIcons() {
     const isDarkMode =
-      document.documentElement.getAttribute("data-theme") === DARK ||
-      document.documentElement.classList.contains(DARK);
+      document.documentElement.getAttribute("data-theme") === DARKMODE;
     themeToggleDarkIcons.forEach((icon) => {
       icon.classList.toggle("hidden", isDarkMode); // Hide if dark mode
     });
@@ -99,16 +99,16 @@ function initializeDarkModeSwitchers() {
     const prefersDarkMode = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
-    let initialTheme = LIGHT;
+    let initialTheme = LIGHTMODE;
 
     if (storedTheme) {
       initialTheme = storedTheme;
     } else if (prefersDarkMode) {
-      initialTheme = DARK;
+      initialTheme = DARKMODE;
     }
 
     document.documentElement.setAttribute("data-theme", initialTheme);
-    document.documentElement.classList.toggle(DARK, initialTheme === DARK);
+    document.documentElement.classList.toggle(DARK, initialTheme === DARKMODE);
     updateIcons(); // Ensure icons are updated based on the initial theme
   }
 
@@ -118,7 +118,7 @@ function initializeDarkModeSwitchers() {
   // adjustHoverColors set the hover color of the css class hover-brightness dynamically
   function adjustHoverColors() {
     const isDarkMode =
-      document.documentElement.getAttribute("data-theme") === DARK; // Ensure this matches how you set the theme
+      document.documentElement.getAttribute("data-theme") === DARKMODE; // Ensure this matches how you set the theme
 
     const rootStyle = document.documentElement.style;
 
@@ -139,13 +139,13 @@ function initializeDarkModeSwitchers() {
   themeToggleBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       const newTheme =
-        document.documentElement.getAttribute("data-theme") === DARK
-          ? LIGHT
-          : DARK;
+        document.documentElement.getAttribute("data-theme") === DARKMODE
+          ? LIGHTMODE
+          : DARKMODE;
       // Update the attribute for daisyui theming
       document.documentElement.setAttribute("data-theme", newTheme);
       // Update the dark: directive for standard tailwind
-      document.documentElement.classList.toggle("dark", newTheme === DARK);
+      document.documentElement.classList.toggle(DARK, newTheme === DARKMODE);
       localStorage.setItem("color-theme", newTheme);
       updateIcons(); // Update icons every time the theme is toggled
       adjustHoverColors();

@@ -1,3 +1,7 @@
 .idea
 tmp/
 node_modules/
+schemaspy-output/
+.env
+e2e_tests/node_modules
+e2e_tests/test-results
