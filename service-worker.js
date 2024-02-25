@@ -16,6 +16,8 @@
         - Badges: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/07?id=application-badges
     */
 
+const CACHE_NAME = "pwa-cache-v1";
+
 const HOSTNAME_WHITELIST = [
   self.location.hostname,
   "fonts.gstatic.com",
@@ -51,8 +53,21 @@ const getFixedUrl = (req) => {
  *
  *  waitUntil(): activating ====> activated
  */
+// Clean up old caches during the activate event
 self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim());
+  const cacheWhitelist = [CACHE_NAME];
+
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
 });
 
 /**
@@ -62,51 +77,39 @@ self.addEventListener("activate", (event) => {
  *  void respondWith(Promise<Response> r)
  */
 self.addEventListener("fetch", (event) => {
-  // Skip some of cross-origin requests, like those for Google Analytics.
-  if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
-    const requestMethod = event.request.method.toUpperCase();
-    if (
-      [
-        "POST",
-        "DELETE",
-        "PUT",
-        "PATCH" /* Add other applicable methods here */,
-      ].includes(requestMethod)
-    ) {
-      // If it's one of the specified methods, forward it directly to the server without caching
-      event.respondWith(fetch(event.request.clone()));
-    } else {
-      // Stale-while-revalidate
-      // similar to HTTP's stale-while-revalidate: https://www.mnot.net/blog/2007/12/12/stale
-      // Upgrade from Jake's to Surma's: https://gist.github.com/surma/eb441223daaedf880801ad80006389f1
-      const cached = caches.match(event.request);
-      const fixedUrl = getFixedUrl(event.request);
-      const fetched = fetch(fixedUrl, { cache: "no-store" });
-      const fetchedCopy = fetched.then((resp) => resp.clone());
+  if (HOSTNAME_WHITELIST.includes(new URL(event.request.url).hostname)) {
+    event.respondWith(
+      (async () => {
+        try {
+          // Try to fetch the request from the network
+          const networkResponse = await fetch(event.request);
 
-      // Call respondWith() with whatever we get first.
-      // If the fetch fails (e.g disconnected), wait for the cache.
-      // If there’s nothing in cache, wait for the fetch.
-      // If neither yields a response, return offline pages.
-      event.respondWith(
-        Promise.race([fetched.catch((_) => cached), cached])
-          .then((resp) => resp || fetched)
-          .catch((_) => {
-            /* eat any errors */
-          })
-      );
+          // Open the cache
+          const cache = await caches.open(CACHE_NAME);
 
-      // Update the cache with the version we fetched (only for ok status)
-      event.waitUntil(
-        Promise.all([fetchedCopy, caches.open("pwa-cache")])
-          .then(
-            ([response, cache]) =>
-              response.ok && cache.put(event.request, response)
-          )
-          .catch((_) => {
-            /* eat any errors */
-          })
-      );
-    }
+          // Check if the fetch was successful
+          if (networkResponse.ok) {
+            // IMPORTANT: Clone the response before using it
+            // This step ensures you have a copy of the response for caching
+            // while still being able to return the original response to the browser
+            cache.put(event.request, networkResponse.clone());
+          }
+
+          return networkResponse;
+        } catch (error) {
+          console.log(
+            "Network request failed, attempting to serve from cache",
+            error
+          );
+          // If the network request fails, attempt to serve the content from the cache
+          const cachedResponse = await caches.match(event.request);
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          // Optionally, return a default/fallback response here
+          // e.g., return caches.match('/offline.html');
+        }
+      })()
+    );
   }
 });
