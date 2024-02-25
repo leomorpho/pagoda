@@ -57,15 +57,15 @@ templ Navbar(page *controller.Page) {
 			<div class="hidden md:flex items-center space-x-4">
 				<a
 					hx-get={ page.ToURL("home") }
-					class="text-sm hover-brightness px-3 py-2 rounded-full"
+					class="text-sm hover-brightness px-3 py-2 rounded-full cursor-pointer"
 				>Home</a>
 				<a
 					hx-get={ page.ToURL("about") }
-					class="text-sm hover-brightness px-3 py-2 rounded-full"
+					class="text-sm hover-brightness px-3 py-2 rounded-full cursor-pointer"
 				>About</a>
 				<a
 					hx-get={ page.ToURL("contact") }
-					class="text-sm hover-brightness px-3 py-2 rounded-full"
+					class="text-sm hover-brightness px-3 py-2 rounded-full cursor-pointer"
 				>Contact</a>
 			</div>
 			<div class="items-center justify-center">

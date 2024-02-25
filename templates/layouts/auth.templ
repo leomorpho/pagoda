@@ -45,15 +45,15 @@ templ Auth(content templ.Component, page *controller.Page) {
 						>
 							<a
 								hx-get={ page.ToURL("login") }
-								class="text-blue-500 hover:text-blue-600"
+								class="text-blue-500 hover:text-blue-600 cursor-pointer"
 							>Login</a> &#9676;
 							<a
 								hx-get={ page.ToURL("register") }
-								class="text-blue-500 hover:text-blue-600"
+								class="text-blue-500 hover:text-blue-600 cursor-pointer"
 							>Create an account</a> &#9676;
 							<a
 								hx-get={ page.ToURL("forgot_password") }
-								class="text-blue-500 hover:text-blue-600"
+								class="text-blue-500 hover:text-blue-600 cursor-pointer"
 							>Forgot password?</a>
 						</div>
 					</div>
