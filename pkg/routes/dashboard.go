@@ -20,6 +20,7 @@ func (c *dashboard) Get(ctx echo.Context) error {
 	page.Layout = layouts.Main
 	page.Name = templates.PageDashboard
 	page.Component = pages.Dashboard(&page)
+	page.HTMX.Request.Boosted = true
 
 	return c.RenderPage(ctx, page)
 }

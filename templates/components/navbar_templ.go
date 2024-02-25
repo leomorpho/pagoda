@@ -49,31 +49,41 @@ func Navbar(page *controller.Page) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a><!-- Search Bar --><!-- Multi-Level Dropdown --><div class=\"relative items-center\" x-data=\"{ open: false }\" x-cloak><button @click=\"open = !open\" class=\"ml-3 text-sm rounded-full hover-brightness px-3 py-2 flex items-center justify-between\">Services <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\" fill=\"currentColor\" class=\"w-5 h-5\"><path fill-rule=\"evenodd\" d=\"M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path></svg></button><div x-show=\"open\" @click.away=\"open = false\" class=\"absolute right-0 mt-5 py-2 w-48 rounded-md shadow-xl z-20 bg-primary\"><a @click=\"open = false\" href=\"#\" class=\"block px-4 py-2 text-sm hover-brightness\">Web Development</a> <a @click=\"open = false\" href=\"#\" class=\"block px-4 py-2 text-sm hover-brightness\">SEO Services</a> <a @click=\"open = false\" href=\"#\" class=\"block px-4 py-2 text-sm hover-brightness\">Digital Marketing</a></div></div><!-- Example Menu Items --><div class=\"hidden md:flex items-center space-x-4\"><a hx-get=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a><!-- Search Bar --><!-- Multi-Level Dropdown -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(page.ToURL("home")))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		if !page.IsAuth {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"relative items-center\" x-data=\"{ open: false }\" x-cloak><button @click=\"open = !open\" class=\"ml-3 text-sm rounded-full hover-brightness px-3 py-2 flex items-center justify-between\">Services <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\" fill=\"currentColor\" class=\"w-5 h-5\"><path fill-rule=\"evenodd\" d=\"M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z\" clip-rule=\"evenodd\"></path></svg></button><div x-show=\"open\" @click.away=\"open = false\" class=\"absolute right-0 mt-5 py-2 w-48 rounded-md shadow-xl z-20 bg-primary\"><a @click=\"open = false\" href=\"#\" class=\"block px-4 py-2 text-sm hover-brightness\">Web Development</a> <a @click=\"open = false\" href=\"#\" class=\"block px-4 py-2 text-sm hover-brightness\">SEO Services</a> <a @click=\"open = false\" href=\"#\" class=\"block px-4 py-2 text-sm hover-brightness\">Digital Marketing</a></div></div><!-- Example Menu Items --> <div class=\"hidden md:flex items-center space-x-4\"><a hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(page.ToURL("home")))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-sm hover-brightness px-3 py-2 rounded-full cursor-pointer\">Home</a> <a hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(page.ToURL("about")))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-sm hover-brightness px-3 py-2 rounded-full cursor-pointer\">About</a> <a hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(page.ToURL("contact")))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-sm hover-brightness px-3 py-2 rounded-full cursor-pointer\">Contact</a></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-sm hover-brightness px-3 py-2 rounded-full cursor-pointer\">Home</a> <a hx-get=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(page.ToURL("about")))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-sm hover-brightness px-3 py-2 rounded-full cursor-pointer\">About</a> <a hx-get=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(page.ToURL("contact")))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-sm hover-brightness px-3 py-2 rounded-full cursor-pointer\">Contact</a></div><div class=\"items-center justify-center\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"items-center justify-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -123,7 +133,7 @@ func Navbar(page *controller.Page) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(page.AuthUser.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/navbar.templ`, Line: 100, Col: 49}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/navbar.templ`, Line: 102, Col: 49}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -136,13 +146,21 @@ func Navbar(page *controller.Page) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(page.AuthUser.Email)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/navbar.templ`, Line: 101, Col: 50}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/navbar.templ`, Line: 103, Col: 50}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><ul class=\"py-2\"><li><a href=\"#\" class=\"block px-4 py-2 text-sm hover-brightness\">Dashboard</a></li><li><a href=\"#\" class=\"block px-4 py-2 text-sm hover-brightness\">Settings</a></li><li><a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><ul class=\"py-2\"><li><a hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(page.ToURL("dashboard")))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover-brightness cursor-pointer\">Dashboard</a></li><li><a href=\"#\" class=\"block px-4 py-2 text-sm hover-brightness cursor-pointer\">Settings</a></li><li><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -151,7 +169,7 @@ func Navbar(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover-brightness\">Sign out</a></li></ul>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover-brightness cursor-pointer\">Sign out</a></li></ul>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -164,7 +182,7 @@ func Navbar(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover-brightness\">Login</a></li><li><a @click=\"open = false\" hx-get=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover-brightness cursor-pointer\">Login</a></li><li><a @click=\"open = false\" hx-get=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -172,7 +190,7 @@ func Navbar(page *controller.Page) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover-brightness\">Register</a></li></ul>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"block px-4 py-2 text-sm hover-brightness cursor-pointer\">Register</a></li></ul>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

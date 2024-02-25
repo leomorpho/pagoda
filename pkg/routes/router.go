@@ -118,11 +118,13 @@ func navRoutes(c *services.Container, g *echo.Group, ctr controller.Controller) 
 }
 
 func userRoutes(c *services.Container, g *echo.Group, ctr controller.Controller) {
+	auth := g.Group("/auth", middleware.RequireAuthentication())
+
 	logout := logout{Controller: ctr}
-	g.GET("/logout", logout.Get, middleware.RequireAuthentication()).Name = routeNameLogout
+	auth.GET("/logout", logout.Get, middleware.RequireAuthentication()).Name = routeNameLogout
 
 	dashboard := dashboard{Controller: ctr}
-	g.GET("/dashboard", dashboard.Get, middleware.RequireAuthentication()).Name = routeNameDashboard
+	auth.GET("/dashboard", dashboard.Get, middleware.RequireAuthentication()).Name = routeNameDashboard
 
 	verifyEmail := verifyEmail{Controller: ctr}
 	g.GET("/email/verify/:token", verifyEmail.Get).Name = routeNameVerifyEmail

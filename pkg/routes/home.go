@@ -20,6 +20,12 @@ type (
 
 func (c *home) Get(ctx echo.Context) error {
 	page := controller.NewPage(ctx)
+
+	if page.AuthUser != nil {
+		return c.Redirect(ctx, "dashboard")
+
+	}
+
 	page.Layout = layouts.Main
 	page.Name = templates.PageHome
 	page.Metatags.Description = "Welcome to the homepage."
