@@ -1,0 +1,23 @@
+package pages
+
+import (
+	"github.com/mikestefanello/pagoda/pkg/controller"
+	"fmt"
+)
+
+templ Dashboard(page *controller.Page) {
+	@helloUser(page)
+}
+
+templ helloUser(page *controller.Page) {
+	<div class="bg-secondary text-secondary-content py-6 rounded-lg">
+		<div class="container mx-auto px-4">
+			<h1 class="text-3xl font-semibold">
+				{ fmt.Sprintf("Hello, %s", page.AuthUser.Name) }
+			</h1>
+			<h2 class="text-xl mt-2">
+				Welcome back!
+			</h2>
+		</div>
+	</div>
+}

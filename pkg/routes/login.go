@@ -90,5 +90,5 @@ func (c *login) Post(ctx echo.Context) error {
 	}
 
 	msg.Success(ctx, fmt.Sprintf("Welcome back, <strong>%s</strong>. You are now logged in.", u.Name))
-	return c.Redirect(ctx, routeNameHome)
+	return c.Redirect(ctx, routeNameDashboard)
 }

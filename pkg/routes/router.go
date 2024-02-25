@@ -35,6 +35,7 @@ const (
 	routeNameAbout                = "about"
 	routeNameHome                 = "home"
 	routeNameSearch               = "search"
+	routeNameDashboard            = "dashboard"
 )
 
 // BuildRouter builds the router
@@ -120,6 +121,9 @@ func userRoutes(c *services.Container, g *echo.Group, ctr controller.Controller)
 	logout := logout{Controller: ctr}
 	g.GET("/logout", logout.Get, middleware.RequireAuthentication()).Name = routeNameLogout
 
+	dashboard := dashboard{Controller: ctr}
+	g.GET("/dashboard", dashboard.Get, middleware.RequireAuthentication()).Name = routeNameDashboard
+
 	verifyEmail := verifyEmail{Controller: ctr}
 	g.GET("/email/verify/:token", verifyEmail.Get).Name = routeNameVerifyEmail
 
@@ -143,4 +147,5 @@ func userRoutes(c *services.Container, g *echo.Group, ctr controller.Controller)
 	reset := resetPassword{Controller: ctr}
 	resetGroup.GET("/token/:user/:password_token/:token", reset.Get).Name = routeNameResetPassword
 	resetGroup.POST("/token/:user/:password_token/:token", reset.Post).Name = routeNameResetPasswordSubmit
+
 }

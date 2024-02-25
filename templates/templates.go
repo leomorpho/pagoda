@@ -14,4 +14,5 @@ const (
 	PageRegister       Page = "register"
 	PageResetPassword  Page = "reset-password"
 	PageSearch         Page = "search"
+	PageDashboard      Page = "dashboard"
 )
