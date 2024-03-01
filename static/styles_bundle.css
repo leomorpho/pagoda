@@ -4227,18 +4227,6 @@ details.collapse summary::-webkit-details-marker {
   background-color: rgb(194 120 3 / var(--tw-bg-opacity));
 }
 
-.bg-primary\/80 {
-  background-color: var(--fallback-p,oklch(var(--p)/0.8));
-}
-
-.bg-primary\/60 {
-  background-color: var(--fallback-p,oklch(var(--p)/0.6));
-}
-
-.bg-primary\/70 {
-  background-color: var(--fallback-p,oklch(var(--p)/0.7));
-}
-
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }

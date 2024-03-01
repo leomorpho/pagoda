@@ -39,7 +39,7 @@ templ JS() {
 	<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 	<script src={ helpers.File("vanilla_bundle.js") }></script>
-	<script src={ helpers.File("svelte_bundle.js") }></script>
+	<script type="module" src={ helpers.File("svelte_bundle.js") }></script>
 	<script src="/service-worker.js"></script>
 	// TODO: remove HTMX debug extension for prod
 	<script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>

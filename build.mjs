@@ -1,4 +1,3 @@
-// build.mjs
 import esbuild from "esbuild";
 import sveltePlugin from "esbuild-svelte";
 
@@ -8,14 +7,19 @@ async function build() {
     // Bundle Svelte components
     await esbuild.build({
       entryPoints: ["javascript/svelte/main.js"], // Entry point for your Svelte app
+      mainFields: ["svelte", "browser", "module", "main"],
+      conditions: ["svelte", "browser"],
       bundle: true,
       outfile: "static/svelte_bundle.js", // Output file for Svelte
       minify: true,
       sourcemap: true,
-      plugins: [sveltePlugin()], // Use the Svelte plugin
+      format: "esm", // Output format - 'esm' for ECMAScript modules
+      plugins: [
+        sveltePlugin(), // Use the Svelte plugin
+      ],
     });
 
-    // Bundle vanilla JS
+    // Bundle vanilla JS or other assets as needed
     await esbuild.build({
       entryPoints: ["javascript/vanilla/main.js"], // Entry point for your vanilla JS
       bundle: true,
@@ -23,8 +27,10 @@ async function build() {
       minify: true,
       sourcemap: true,
     });
+
+    console.log("Build completed successfully");
   } catch (error) {
-    console.error(error);
+    console.error("Build failed:", error);
     process.exit(1);
   }
 }

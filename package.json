@@ -2,9 +2,8 @@
   "name": "pagoda",
   "version": "1.0.0",
   "description": "A collection of tools to make web apps rapidly",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.mjs",
     "watch": "watchexec --project-origin . -w javascript node build.mjs"
   },
@@ -23,11 +22,12 @@
     "daisyui": "^4.6.2",
     "esbuild": "^0.20.0",
     "esbuild-svelte": "^0.8.0",
+    "flowbite": "^2.3.0",
+    "flowbite-svelte": "^0.44.24",
     "svelte": "^4.2.10",
     "tailwindcss": "^3.4.1"
   },
   "dependencies": {
-    "flowbite": "^2.2.1",
     "workbox-precaching": "^7.0.0"
   }
 }

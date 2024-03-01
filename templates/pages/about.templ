@@ -29,6 +29,12 @@ templ About(page *controller.Page) {
 			</div>
 		}
 	}
+	<div id="test-svelte-bite"></div>
+	@initSvelteBite()
+}
+
+script initSvelteBite() {
+	renderMultiSelect("test-svelte-bite")
 }
 
 templ aboutTabs(tabs []types.AboutTab) {

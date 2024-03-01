@@ -75,11 +75,29 @@ func About(page *controller.Page) templ.Component {
 				}
 			}
 		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"test-svelte-bite\"></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = initSvelteBite().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		if !templ_7745c5c3_IsBuffer {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
 		}
 		return templ_7745c5c3_Err
 	})
+}
+
+func initSvelteBite() templ.ComponentScript {
+	return templ.ComponentScript{
+		Name: `__templ_initSvelteBite_863d`,
+		Function: `function __templ_initSvelteBite_863d(){renderMultiSelect("test-svelte-bite")
+}`,
+		Call:       templ.SafeScript(`__templ_initSvelteBite_863d`),
+		CallInline: templ.SafeScriptInline(`__templ_initSvelteBite_863d`),
+	}
 }
 
 func aboutTabs(tabs []types.AboutTab) templ.Component {
@@ -123,7 +141,7 @@ func aboutTabs(tabs []types.AboutTab) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(tab.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/about.templ`, Line: 42, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/about.templ`, Line: 48, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
