@@ -86,7 +86,7 @@ func BuildRouter(c *services.Container) {
 		middleware.LoadAuthenticatedUser(c.Auth),
 		middleware.ServeCachedPage(c.Cache),
 		echomw.CSRFWithConfig(echomw.CSRFConfig{
-			TokenLookup: "form:csrf",
+			TokenLookup: "form:csrf,header:X-CSRF-Token,query:csrf",
 		}),
 	)
 
