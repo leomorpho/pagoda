@@ -18,6 +18,8 @@ type (
 	MailClient struct {
 		// config stores application configuration
 		config *config.Config
+		// MailSender provides the actual implementation to send emails
+		MailSender MailClientInterface
 	}
 
 	LayoutComponent func(content templ.Component) templ.Component
@@ -32,12 +34,17 @@ type (
 		layout    LayoutComponent
 		component templ.Component
 	}
+
+	MailClientInterface interface {
+		Send(email *mail) error
+	}
 )
 
 // NewMailClient creates a new MailClient
-func NewMailClient(cfg *config.Config) (*MailClient, error) {
+func NewMailClient(cfg *config.Config, sender MailClientInterface) (*MailClient, error) {
 	return &MailClient{
-		config: cfg,
+		config:     cfg,
+		MailSender: sender,
 	}, nil
 }
 

@@ -181,7 +181,14 @@ func (c *Container) initAuth() {
 // initMail initialize the mail client
 func (c *Container) initMail() {
 	var err error
-	c.Mail, err = mailer.NewMailClient(c.Config)
+	var mailClientImplementation mailer.MailClientInterface
+
+	if c.Config.App.Environment == config.EnvProduction {
+		mailClientImplementation = mailer.NewResendMailClient(c.Config.Mail.ResendAPIKey)
+	} else {
+		mailClientImplementation = mailer.NewSMTPMailClient("localhost", 1025)
+	}
+	c.Mail, err = mailer.NewMailClient(c.Config, mailClientImplementation)
 	if err != nil {
 		panic(fmt.Sprintf("failed to create mail client: %v", err))
 	}
