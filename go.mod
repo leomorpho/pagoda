@@ -18,6 +18,7 @@ require (
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/labstack/gommon v0.4.2
 	github.com/minio/minio-go/v7 v7.0.67
+	github.com/resend/resend-go/v2 v2.5.0
 	github.com/samber/slog-echo v1.12.1
 	github.com/spf13/viper v1.17.0
 	github.com/stretchr/testify v1.8.4

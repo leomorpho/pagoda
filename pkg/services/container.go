@@ -16,6 +16,7 @@ import (
 
 	"github.com/mikestefanello/pagoda/config"
 	"github.com/mikestefanello/pagoda/ent"
+	"github.com/mikestefanello/pagoda/pkg/repos/mailer"
 
 	// Require by ent
 	_ "github.com/mikestefanello/pagoda/ent/runtime"
@@ -43,7 +44,7 @@ type Container struct {
 	ORM *ent.Client
 
 	// Mail stores an email sending client
-	Mail *MailClient
+	Mail *mailer.MailClient
 
 	// Auth stores an authentication client
 	Auth *AuthClient
@@ -180,7 +181,7 @@ func (c *Container) initAuth() {
 // initMail initialize the mail client
 func (c *Container) initMail() {
 	var err error
-	c.Mail, err = NewMailClient(c.Config)
+	c.Mail, err = mailer.NewMailClient(c.Config)
 	if err != nil {
 		panic(fmt.Sprintf("failed to create mail client: %v", err))
 	}

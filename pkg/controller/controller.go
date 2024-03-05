@@ -52,7 +52,7 @@ func (c *Controller) RenderPage(ctx echo.Context, page Page) error {
 	// content should be rendered
 	if page.HTMX.Request.Enabled && !page.HTMX.Request.Boosted {
 		// Render the templates only for the content portion of the page
-		page.Component.Render(ctx.Request().Context(), buf)
+		err = page.Component.Render(ctx.Request().Context(), buf)
 	} else {
 		// Render the templates for the Page
 		// If the page Layout is set, that will be used to wrap the page component
@@ -60,7 +60,7 @@ func (c *Controller) RenderPage(ctx echo.Context, page Page) error {
 		if page.Layout != nil {
 			component = page.Layout(component, &page)
 		}
-		component.Render(ctx.Request().Context(), buf)
+		err = component.Render(ctx.Request().Context(), buf)
 	}
 
 	if err != nil {
