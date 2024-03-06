@@ -1168,9 +1168,7 @@ Where `9fhe73kaf3` is the randomly-generated cache-buster.
 
 ## Email
 
-An email client was added as a _Service_ to the `Container` but it is just a skeleton without any actual email-sending functionality. The reason is because there are a lot of ways to send email and most prefer using a SaaS solution for that. That makes it difficult to provide a generic solution that will work for most applications.
-
-The structure in the client (`MailClient`) makes composing emails very easy and you have the option to construct the body using either a simple string or with a template by leveraging the [template renderer](#template-renderer). The standard library can be used if you wish to send email via SMTP and most SaaS providers have a Go package that can be used if you choose to go that direction. **You must** finish the implementation of `MailClient.send`.
+An email client was added as a _Service_ to the `Container`. By default, emails are sent by SMTP and are captured by [mailpit](https://github.com/axllent/mailpit) (a maintained fork of the great [mailhog](https://github.com/mailhog/MailHog) utility). All sent emails in development mode can be seen in its UI at [localhost:8025](http://localhost:8025/). A mailer implementation is provided for [resend](https://resend.com/overview), but it should be easy to create one for any provider you prefer.
 
 The _from_ address will default to the configuration value at `Config.Mail.FromAddress`. This can be overridden per-email by calling `From()` on the email and passing in the desired address.
 
