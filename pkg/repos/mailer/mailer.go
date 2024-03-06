@@ -56,11 +56,6 @@ func (m *MailClient) Compose() *mail {
 	}
 }
 
-// skipSend determines if mail sending should be skipped
-func (m *MailClient) skipSend() bool {
-	return m.config.App.Environment != config.EnvProduction
-}
-
 // send attempts to send the email
 func (m *MailClient) send(email *mail, ctx echo.Context) error {
 	switch {
@@ -80,25 +75,15 @@ func (m *MailClient) send(email *mail, ctx echo.Context) error {
 		if email.layout != nil {
 			component = email.layout(component)
 		}
-		component.Render(ctx.Request().Context(), buf)
-
-		err := email.component.Render(ctx.Request().Context(), buf)
-
-		if err != nil {
+		if err := component.Render(ctx.Request().Context(), buf); err != nil {
 			return err
 		}
 
 		email.body = buf.String()
 	}
 
-	// Check if mail sending should be skipped
-	if m.skipSend() {
-		ctx.Logger().Debugf("skipping email sent to: %s", email.to)
-		return nil
-	}
-
-	// TODO: Finish based on your mail sender of choice!
-	return nil
+	// Delegate sending to the mailSender
+	return m.MailSender.Send(email)
 }
 
 // From sets the email from address
