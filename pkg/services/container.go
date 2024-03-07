@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"
@@ -17,6 +18,7 @@ import (
 	"github.com/mikestefanello/pagoda/config"
 	"github.com/mikestefanello/pagoda/ent"
 	"github.com/mikestefanello/pagoda/pkg/repos/mailer"
+	"github.com/mikestefanello/pagoda/pkg/repos/permissions"
 
 	// Require by ent
 	_ "github.com/mikestefanello/pagoda/ent/runtime"
@@ -49,6 +51,9 @@ type Container struct {
 	// Auth stores an authentication client
 	Auth *AuthClient
 
+	// Permission stores a permission client
+	Permission *permissions.PermissionClient
+
 	// Tasks stores the task client
 	Tasks *TaskClient
 }
@@ -64,6 +69,7 @@ func NewContainer() *Container {
 	c.initORM()
 	c.initAuth()
 	c.initMail()
+	c.initPermissions()
 	c.initTasks()
 	return c
 }
@@ -123,22 +129,22 @@ func (c *Container) initCache() {
 	}
 }
 
+func (c *Container) getDBAddr(dbName string) string {
+	return fmt.Sprintf("postgresql://%s:%s@%s:%d/%s",
+		c.Config.Database.User,
+		c.Config.Database.Password,
+		c.Config.Database.Hostname,
+		c.Config.Database.Port,
+		dbName,
+	)
+}
+
 // initDatabase initializes the database
 // If the environment is set to test, the test database will be used and will be dropped, recreated and migrated
 func (c *Container) initDatabase() {
 	var err error
 
-	getAddr := func(dbName string) string {
-		return fmt.Sprintf("postgresql://%s:%s@%s:%d/%s",
-			c.Config.Database.User,
-			c.Config.Database.Password,
-			c.Config.Database.Hostname,
-			c.Config.Database.Port,
-			dbName,
-		)
-	}
-
-	c.Database, err = sql.Open("pgx", getAddr(c.Config.Database.Database))
+	c.Database, err = sql.Open("pgx", c.getDBAddr(c.Config.Database.Database))
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect to database: %v", err))
 	}
@@ -157,7 +163,7 @@ func (c *Container) initDatabase() {
 		if err = c.Database.Close(); err != nil {
 			panic(fmt.Sprintf("failed to close database connection: %v", err))
 		}
-		c.Database, err = sql.Open("pgx", getAddr(c.Config.Database.TestDatabase))
+		c.Database, err = sql.Open("pgx", c.getDBAddr(c.Config.Database.TestDatabase))
 		if err != nil {
 			panic(fmt.Sprintf("failed to connect to database: %v", err))
 		}
@@ -176,6 +182,42 @@ func (c *Container) initORM() {
 // initAuth initializes the authentication client
 func (c *Container) initAuth() {
 	c.Auth = NewAuthClient(c.Config, c.ORM)
+}
+
+// initPermissions initializes the permission client
+func (c *Container) initPermissions() {
+
+	cacheStrategy := permissions.CacheStrategy{
+		Put: func(key string, value bool) error {
+			return c.Cache.Set().Key(key).Data(value).Expiration(30 * time.Minute).Save(context.Background())
+		},
+		Get: func(key string) (bool, bool, error) {
+			result, err := c.Cache.Get().Key(key).Fetch(context.Background())
+			if err != nil {
+				return false, false, err // Error fetching from cache
+			}
+			if result == nil {
+				return false, false, nil // Cache miss
+			}
+			value, ok := result.(bool)
+			if !ok {
+				return false, false, fmt.Errorf("cache value type mismatch for key: %s", key)
+			}
+			return value, true, nil // Cache hit
+		},
+	}
+	var dsn string
+	if c.Config.App.Environment == config.EnvTest {
+		dsn = c.getDBAddr(c.Config.Database.TestDatabase) + "?sslmode=disable"
+	} else {
+		dsn = c.getDBAddr(c.Config.Database.Database)
+	}
+
+	p, err := permissions.NewPermissionClient(dsn, cacheStrategy)
+	if err != nil {
+		panic(fmt.Sprintf("failed to create permission service: %v", err))
+	}
+	c.Permission = p
 }
 
 // initMail initialize the mail client
