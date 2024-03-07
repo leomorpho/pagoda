@@ -186,26 +186,27 @@ func (c *Container) initAuth() {
 
 // initPermissions initializes the permission client
 func (c *Container) initPermissions() {
-
-	cacheStrategy := permissions.CacheStrategy{
-		Put: func(key string, value bool) error {
-			return c.Cache.Set().Key(key).Data(value).Expiration(30 * time.Minute).Save(context.Background())
-		},
-		Get: func(key string) (bool, bool, error) {
-			result, err := c.Cache.Get().Key(key).Fetch(context.Background())
-			if err != nil {
-				return false, false, err // Error fetching from cache
-			}
-			if result == nil {
-				return false, false, nil // Cache miss
-			}
-			value, ok := result.(bool)
-			if !ok {
-				return false, false, fmt.Errorf("cache value type mismatch for key: %s", key)
-			}
-			return value, true, nil // Cache hit
-		},
+	type CacheStrategy struct {
+		Put func(key string, value bool) error
+		Get func(key string) (bool, bool, error) // Returns value, found, error
 	}
+
+	putCache := func(key string, value bool) error {
+		return c.Cache.Set().Key(key).Data(value).Expiration(time.Hour * 24).Save(context.Background())
+	}
+
+	getCache := func(key string) (bool, bool, error) {
+		value, err := c.Cache.Get().Key(key).Fetch(context.Background())
+		if err != nil {
+			return false, false, err
+		}
+		if value == nil {
+			return false, false, nil
+		}
+		val, ok := value.(bool)
+		return val, ok, nil
+	}
+
 	var dsn string
 	if c.Config.App.Environment == config.EnvTest {
 		dsn = c.getDBAddr(c.Config.Database.TestDatabase) + "?sslmode=disable"
@@ -213,9 +214,13 @@ func (c *Container) initPermissions() {
 		dsn = c.getDBAddr(c.Config.Database.Database)
 	}
 
-	p, err := permissions.NewPermissionClient(dsn, cacheStrategy)
+	adapter, err := permissions.NewPostgresCasbinAdapter(dsn)
 	if err != nil {
-		panic(fmt.Sprintf("failed to create permission service: %v", err))
+		panic(fmt.Sprintf("failed to create adapter: %v", err))
+	}
+	p, err := permissions.NewPermissionClient(adapter, getCache, putCache)
+	if err != nil {
+		panic(fmt.Sprintf("failed to create permission client: %v", err))
 	}
 	c.Permission = p
 }
