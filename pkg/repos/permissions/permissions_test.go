@@ -161,35 +161,57 @@ func TestAccessControlWithPermissionClient(t *testing.T) {
 	}
 }
 
-func TestAccessControlDefault(t *testing.T) {
+func TestAccessControlCaching(t *testing.T) {
+	// Define model text
+	modelText := `
+	[request_definition]
+	r = sub, dom, obj, act
 
-	e, err := casbin.NewEnforcer("test/rbac_model.conf", "test/rbac_policy.csv")
-	assert.NoError(t, err)
+	[policy_definition]
+	p = sub, dom, obj, act
 
-	// Tests
-	tests := []struct {
-		sub      string
-		obj      string
-		act      string
-		expected bool
-	}{
-		{"alice", "data1", "read", true},
-		{"alice", "data1", "write", false},
-		{"alice", "data2", "read", true},
-		{"bob", "data2", "write", true},
-		{"bob", "data1", "read", false},
-		{"bob", "data2", "read", false},
-		{"bob", "data2", "write", true},
-	}
+	[role_definition]
+	g = _, _, _
 
-	for _, test := range tests {
-		t.Run(test.sub, func(t *testing.T) {
-			spew.Dump(e.GetPolicy())
-			roles, _ := e.GetRolesForUser("alice")
+	[policy_effect]
+	e = some(where (p.eft == allow))
 
-			spew.Dump(roles)
-			result, _ := e.Enforce(test.sub, test.obj, test.act)
-			assert.Equal(t, test.expected, result)
-		})
-	}
+	[matchers]
+	m = g(r.sub, p.sub, r.dom) && r.dom == p.dom && r.obj == p.obj && r.act == p.act
+	`
+
+	dsn, _ := tester.CreateTestContainerPostgresConnStr(t)
+	adapter, _ := permissions.NewPostgresCasbinAdapter(dsn)
+
+	t.Run("Remove and add permission", func(t *testing.T) {
+		inMemoryCache := NewSimpleInMemoryCache()
+		client, err := permissions.NewPermissionClient(modelText, adapter, false, inMemoryCache.Get, inMemoryCache.Put)
+		client.AddPolicy("tenant1", "alice", "data1", "read")
+		client.AddPolicy("tenant1", "bob", "data2", "write")
+		client.AddPolicy("tenant1", "data2_admin", "data2", "read")
+		client.AddPolicy("tenant1", "data2_admin", "data2", "write")
+		client.AddGroupingPolicy("tenant1", "alice", "data2_admin")
+
+		assert.NoError(t, err)
+
+		result, err := client.CheckPermission("tenant1", "alice", "data1", "read")
+		assert.NoError(t, err)
+		assert.Equal(t, true, result)
+
+		removed, err := client.RemovePolicy("tenant1", "alice", "data1", "read")
+		assert.NoError(t, err)
+		assert.Equal(t, true, removed)
+
+		result, err = client.CheckPermission("tenant1", "alice", "data1", "read")
+		assert.NoError(t, err)
+		assert.Equal(t, false, result)
+
+		added, err := client.AddPolicy("tenant1", "alice", "data1", "read")
+		assert.NoError(t, err)
+		assert.Equal(t, true, added)
+
+		result, err = client.CheckPermission("tenant1", "alice", "data1", "read")
+		assert.NoError(t, err)
+		assert.Equal(t, true, result)
+	})
 }
