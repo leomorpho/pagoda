@@ -218,7 +218,7 @@ func (c *Container) initPermissions() {
 	if err != nil {
 		panic(fmt.Sprintf("failed to create adapter: %v", err))
 	}
-	p, err := permissions.NewPermissionClient(adapter, getCache, putCache)
+	p, err := permissions.NewPermissionClient(adapter, true, getCache, putCache)
 	if err != nil {
 		panic(fmt.Sprintf("failed to create permission client: %v", err))
 	}

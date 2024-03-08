@@ -6,13 +6,25 @@ import (
 	pgadapter "github.com/casbin/casbin-pg-adapter"
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
+	"github.com/casbin/casbin/v2/persist"
+	"github.com/davecgh/go-spew/spew"
 )
+
+// CasbinAdapter defines the interface for loading, saving, and managing policies
+type CasbinAdapter interface {
+	persist.Adapter
+}
+
+func NewPostgresCasbinAdapter(dsn string) (CasbinAdapter, error) {
+	return pgadapter.NewAdapter(dsn)
+}
 
 // PermissionClient struct to interact with Casbin
 type PermissionClient struct {
-	enforcer *casbin.Enforcer
-	putCache func(key string, value bool) error
-	getCache func(key string) (bool, bool, error) // Returns value, found, error
+	enforcer            *casbin.Enforcer
+	useFilteredPolicies bool
+	putCache            func(key string, value bool) error
+	getCache            func(key string) (bool, bool, error) // Returns value, found, error
 }
 
 func CacheKey(tenantID, sub, obj, act string) string {
@@ -22,6 +34,7 @@ func CacheKey(tenantID, sub, obj, act string) string {
 // NewPermissionClient creates a new PermissionClient
 func NewPermissionClient(
 	adapter CasbinAdapter,
+	useFilteredPolicies bool,
 	getCache func(key string) (bool, bool, error),
 	putCache func(key string, value bool) error,
 ) (*PermissionClient, error) {
@@ -55,20 +68,25 @@ func NewPermissionClient(
 	}
 
 	return &PermissionClient{
-		enforcer: enforcer,
-		putCache: putCache,
-		getCache: getCache,
+		enforcer:            enforcer,
+		useFilteredPolicies: useFilteredPolicies,
+		putCache:            putCache,
+		getCache:            getCache,
 	}, nil
 }
 
 // LoadTenantPolicies loads policies for a specific tenant.
 func (s *PermissionClient) LoadTenantPolicies(tenantID string) error {
-	filter := &pgadapter.Filter{
-		P: []string{tenantID}, // Assuming the tenant_id is the first field in the policy
-		G: []string{tenantID}, // Same assumption for the grouping policies
+	if s.useFilteredPolicies {
+		filter := &pgadapter.Filter{
+			P: []string{tenantID}, // Assuming the tenant_id is the first field in the policy
+			G: []string{tenantID}, // Same assumption for the grouping policies
+		}
+		return s.enforcer.LoadFilteredPolicy(filter)
 	}
 
-	return s.enforcer.LoadFilteredPolicy(filter)
+	// For adapters not supporting filtered policies or when filtered policies are not required
+	return s.enforcer.LoadPolicy()
 }
 
 // EnsureTenantPolicyLoaded ensures the policy for a given tenant is loaded.
@@ -76,11 +94,11 @@ func (s *PermissionClient) EnsureTenantPolicyLoaded(tenantID string) error {
 	cacheKey := fmt.Sprintf("policy-loaded|%s", tenantID)
 
 	// Check if policy is already loaded
-	_, found, err := s.getCache(cacheKey)
+	valid, found, err := s.getCache(cacheKey)
 	if err != nil {
 		return err // Handle error from cache check
 	}
-	if found {
+	if found && valid {
 		return nil // Policy already loaded
 	}
 
@@ -95,52 +113,54 @@ func (s *PermissionClient) EnsureTenantPolicyLoaded(tenantID string) error {
 
 // CheckPermission checks if a user has permission to perform an action on an object
 func (s *PermissionClient) CheckPermission(tenantID, sub, obj, act string) (bool, error) {
-	if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
-		return false, err
-	}
+	// if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
+	// 	return false, err
+	// }
 
-	cacheKey := fmt.Sprintf("%s|%s|%s|%s", tenantID, sub, obj, act)
-	// Attempt to retrieve from cache
-	if value, found, err := s.getCache(cacheKey); err == nil && found {
-		return value, nil
-	} else if err != nil {
-		return false, err
-	}
-
+	// cacheKey := fmt.Sprintf("%s|%s|%s|%s", tenantID, sub, obj, act)
+	// // Attempt to retrieve from cache
+	// if value, found, err := s.getCache(cacheKey); err == nil && found {
+	// 	return value, nil
+	// } else if err != nil {
+	// 	return false, err
+	// }
+	policies := s.enforcer.GetPolicy()
+	spew.Dump(policies)
 	// Proceed with enforcing and update the cache
 	allowed, err := s.enforcer.Enforce(tenantID, sub, obj, act)
 	if err == nil {
 		// Update cache
-		s.putCache(cacheKey, allowed)
+		// s.putCache(cacheKey, allowed)
 	}
 	return allowed, err
 }
 
 // AddPermission adds a new permission to the policy
 func (s *PermissionClient) AddPermission(tenantID, sub, obj, act string) (bool, error) {
-	if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
-		return false, err
-	}
+	// if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
+	// 	return false, err
+	// }
 
 	// Attempt to add the policy
 	added, err := s.enforcer.AddPolicy(tenantID, sub, obj, act)
 	if err != nil {
 		return false, err
 	}
+	s.enforcer.SavePolicy()
 	if added {
 		// Invalidate cache because the policy changed
-		if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
-			return false, err
-		}
+		// if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
+		// 	return false, err
+		// }
 	}
 	return added, nil
 }
 
 // RemovePermission removes a permission from the policy
 func (s *PermissionClient) RemovePermission(tenantID, sub, obj, act string) (bool, error) {
-	if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
-		return false, err
-	}
+	// if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
+	// 	return false, err
+	// }
 
 	// Attempt to remove the policy
 	removed, err := s.enforcer.RemovePolicy(tenantID, sub, obj, act)
@@ -149,9 +169,9 @@ func (s *PermissionClient) RemovePermission(tenantID, sub, obj, act string) (boo
 	}
 	if removed {
 		// Invalidate cache because the policy changed
-		if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
-			return false, err
-		}
+		// if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
+		// 	return false, err
+		// }
 	}
 	return removed, nil
 }
@@ -160,4 +180,9 @@ func (s *PermissionClient) RemovePermission(tenantID, sub, obj, act string) (boo
 func (s *PermissionClient) InvalidateTenantPolicyCache(tenantID string) error {
 	cacheKey := fmt.Sprintf("policy-loaded|%s", tenantID)
 	return s.putCache(cacheKey, false) // Mark policy as not loaded
+}
+
+// InvalidateTenantPolicyCache invalidates the cache for a tenant's policies.
+func (s *PermissionClient) GetPolicies() [][]string {
+	return s.enforcer.GetPolicy()
 }
