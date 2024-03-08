@@ -12,6 +12,68 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TestAccessControlWithAdapterAndModel demonstrates how to use Casbin directly for RBAC
+func TestAccessControlWithAdapterAndModel(t *testing.T) {
+	// Define model text
+	modelText := `
+	[request_definition]
+	r = sub, dom, obj, act
+
+	[policy_definition]
+	p = sub, dom, obj, act
+
+	[role_definition]
+	g = _, _, _
+
+	[policy_effect]
+	e = some(where (p.eft == allow))
+
+	[matchers]
+	m = g(r.sub, p.sub, r.dom) && r.dom == p.dom && r.obj == p.obj && r.act == p.act
+	`
+
+	dsn, _ := tester.CreateTestContainerPostgresConnStr(t)
+	adapter, _ := permissions.NewPostgresCasbinAdapter(dsn)
+	m, _ := model.NewModelFromString(modelText)
+	e, err := casbin.NewEnforcer(m, adapter)
+	assert.NoError(t, err)
+
+	// Load policies and roles into Casbin
+	e.AddPolicy("alice", "tenant1", "data1", "read")
+	e.AddPolicy("bob", "tenant1", "data2", "write")
+	e.AddPolicy("data2_admin", "tenant1", "data2", "read")
+	e.AddPolicy("data2_admin", "tenant1", "data2", "write")
+	e.AddGroupingPolicy("alice", "data2_admin", "tenant1")
+
+	// Tests
+	tests := []struct {
+		sub      string
+		tenant   string
+		obj      string
+		act      string
+		expected bool
+	}{
+		{"alice", "tenant1", "data1", "read", true},
+		{"alice", "tenant1", "data1", "write", false},
+		{"alice", "tenant1", "data2", "read", true},
+		{"bob", "tenant1", "data2", "write", true},
+		{"bob", "tenant1", "data1", "read", false},
+		{"bob", "tenant1", "data2", "read", false},
+		{"bob", "tenant1", "data2", "write", true},
+	}
+
+	for _, test := range tests {
+		t.Run(test.sub, func(t *testing.T) {
+			spew.Dump(e.GetPolicy())
+			roles, _ := e.GetRolesForUser("alice")
+
+			spew.Dump(roles)
+			result, _ := e.Enforce(test.sub, test.tenant, test.obj, test.act)
+			assert.Equal(t, test.expected, result)
+		})
+	}
+}
+
 // SimpleInMemoryCache provides a basic in-memory cache implementation.
 type SimpleInMemoryCache struct {
 	mutex sync.RWMutex
@@ -127,67 +189,6 @@ func TestAccessControlDefault(t *testing.T) {
 
 			spew.Dump(roles)
 			result, _ := e.Enforce(test.sub, test.obj, test.act)
-			assert.Equal(t, test.expected, result)
-		})
-	}
-}
-
-func TestAccessControlWithAdapterAndModel(t *testing.T) {
-	// Define model text
-	modelText := `
-	[request_definition]
-	r = sub, dom, obj, act
-
-	[policy_definition]
-	p = sub, dom, obj, act
-
-	[role_definition]
-	g = _, _, _
-
-	[policy_effect]
-	e = some(where (p.eft == allow))
-
-	[matchers]
-	m = g(r.sub, p.sub, r.dom) && r.dom == p.dom && r.obj == p.obj && r.act == p.act
-	`
-
-	dsn, _ := tester.CreateTestContainerPostgresConnStr(t)
-	adapter, _ := permissions.NewPostgresCasbinAdapter(dsn)
-	m, _ := model.NewModelFromString(modelText)
-	e, err := casbin.NewEnforcer(m, adapter)
-	assert.NoError(t, err)
-
-	// Load policies and roles into Casbin
-	e.AddPolicy("alice", "tenant1", "data1", "read")
-	e.AddPolicy("bob", "tenant1", "data2", "write")
-	e.AddPolicy("data2_admin", "tenant1", "data2", "read")
-	e.AddPolicy("data2_admin", "tenant1", "data2", "write")
-	e.AddGroupingPolicy("alice", "data2_admin", "tenant1")
-
-	// Tests
-	tests := []struct {
-		sub      string
-		tenant   string
-		obj      string
-		act      string
-		expected bool
-	}{
-		{"alice", "tenant1", "data1", "read", true},
-		{"alice", "tenant1", "data1", "write", false},
-		{"alice", "tenant1", "data2", "read", true},
-		{"bob", "tenant1", "data2", "write", true},
-		{"bob", "tenant1", "data1", "read", false},
-		{"bob", "tenant1", "data2", "read", false},
-		{"bob", "tenant1", "data2", "write", true},
-	}
-
-	for _, test := range tests {
-		t.Run(test.sub, func(t *testing.T) {
-			spew.Dump(e.GetPolicy())
-			roles, _ := e.GetRolesForUser("alice")
-
-			spew.Dump(roles)
-			result, _ := e.Enforce(test.sub, test.tenant, test.obj, test.act)
 			assert.Equal(t, test.expected, result)
 		})
 	}

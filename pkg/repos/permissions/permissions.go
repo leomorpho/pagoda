@@ -97,33 +97,33 @@ func (s *PermissionClient) EnsureTenantPolicyLoaded(tenantID string) error {
 
 // CheckPermission checks if a user has permission to perform an action on an object
 func (s *PermissionClient) CheckPermission(tenantID, sub, obj, act string) (bool, error) {
-	// if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
-	// 	return false, err
-	// }
+	if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
+		return false, err
+	}
 
-	// cacheKey := fmt.Sprintf("%s|%s|%s|%s", tenantID, sub, obj, act)
-	// // Attempt to retrieve from cache
-	// if value, found, err := s.getCache(cacheKey); err == nil && found {
-	// 	return value, nil
-	// } else if err != nil {
-	// 	return false, err
-	// }
+	cacheKey := fmt.Sprintf("%s|%s|%s|%s", tenantID, sub, obj, act)
+	// Attempt to retrieve from cache
+	if value, found, err := s.getCache(cacheKey); err == nil && found {
+		return value, nil
+	} else if err != nil {
+		return false, err
+	}
 	policies := s.enforcer.GetPolicy()
 	spew.Dump(policies)
 	// Proceed with enforcing and update the cache
 	allowed, err := s.enforcer.Enforce(sub, tenantID, obj, act)
 	if err == nil {
 		// Update cache
-		// s.putCache(cacheKey, allowed)
+		s.putCache(cacheKey, allowed)
 	}
 	return allowed, err
 }
 
 // AddPermission adds a new permission to the policy
 func (s *PermissionClient) AddPolicy(tenantID, sub, obj, act string) (bool, error) {
-	// if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
-	// 	return false, err
-	// }
+	if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
+		return false, err
+	}
 
 	// Attempt to add the policy
 	added, err := s.enforcer.AddPolicy(sub, tenantID, obj, act)
@@ -133,9 +133,9 @@ func (s *PermissionClient) AddPolicy(tenantID, sub, obj, act string) (bool, erro
 	if added {
 		s.enforcer.SavePolicy()
 		// Invalidate cache because the policy changed
-		// if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
-		// 	return false, err
-		// }
+		if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
+			return false, err
+		}
 	}
 	return added, nil
 }
@@ -148,9 +148,9 @@ func (s *PermissionClient) AddGroupingPolicy(tenantID, sub, group string) (bool,
 	if added {
 		s.enforcer.SavePolicy()
 		// Invalidate cache because the policy changed
-		// if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
-		// 	return false, err
-		// }
+		if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
+			return false, err
+		}
 	}
 	return added, nil
 
@@ -158,9 +158,9 @@ func (s *PermissionClient) AddGroupingPolicy(tenantID, sub, group string) (bool,
 
 // RemovePermission removes a permission from the policy
 func (s *PermissionClient) RemovePermission(tenantID, sub, obj, act string) (bool, error) {
-	// if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
-	// 	return false, err
-	// }
+	if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
+		return false, err
+	}
 
 	// Attempt to remove the policy
 	removed, err := s.enforcer.RemovePolicy(sub, tenantID, obj, act)
@@ -170,9 +170,9 @@ func (s *PermissionClient) RemovePermission(tenantID, sub, obj, act string) (boo
 	if removed {
 		s.enforcer.SavePolicy()
 		// Invalidate cache because the policy changed
-		// if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
-		// 	return false, err
-		// }
+		if err := s.InvalidateTenantPolicyCache(tenantID); err != nil {
+			return false, err
+		}
 	}
 	return removed, nil
 }
