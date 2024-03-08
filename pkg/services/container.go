@@ -218,7 +218,23 @@ func (c *Container) initPermissions() {
 	if err != nil {
 		panic(fmt.Sprintf("failed to create adapter: %v", err))
 	}
-	p, err := permissions.NewPermissionClient(adapter, true, getCache, putCache)
+	modelText := `
+	[request_definition]
+	r = sub, dom, obj, act
+
+	[policy_definition]
+	p = sub, dom, obj, act
+
+	[role_definition]
+	g = _, _, _
+
+	[policy_effect]
+	e = some(where (p.eft == allow))
+
+	[matchers]
+	m = g(r.sub, p.sub, r.dom) && r.dom == p.dom && r.obj == p.obj && r.act == p.act
+	`
+	p, err := permissions.NewPermissionClient(modelText, adapter, true, getCache, putCache)
 	if err != nil {
 		panic(fmt.Sprintf("failed to create permission client: %v", err))
 	}
