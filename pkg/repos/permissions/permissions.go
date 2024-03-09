@@ -22,8 +22,6 @@ func NewPostgresCasbinAdapter(dsn string) (CasbinAdapter, error) {
 type PermissionClient struct {
 	enforcer            *casbin.Enforcer
 	useFilteredPolicies bool
-	putCache            func(key string, value bool) error
-	getCache            func(key string) (bool, bool, error) // Returns value, found, error
 }
 
 // CacheKey constructs a unique key for caching, based on policy components
@@ -36,8 +34,6 @@ func NewPermissionClient(
 	modelStr string,
 	adapter CasbinAdapter,
 	useFilteredPolicies bool,
-	getCache func(key string) (bool, bool, error),
-	putCache func(key string, value bool) error,
 ) (*PermissionClient, error) {
 
 	m, err := model.NewModelFromString(modelStr)
@@ -54,8 +50,6 @@ func NewPermissionClient(
 	return &PermissionClient{
 		enforcer:            enforcer,
 		useFilteredPolicies: useFilteredPolicies,
-		putCache:            putCache,
-		getCache:            getCache,
 	}, nil
 }
 
@@ -75,43 +69,24 @@ func (s *PermissionClient) LoadTenantPolicies(tenantID string) error {
 
 // EnsureTenantPolicyLoaded ensures the policy for a given tenant is loaded.
 func (s *PermissionClient) EnsureTenantPolicyLoaded(tenantID string) error {
-	cacheKey := fmt.Sprintf("policy-loaded|%s", tenantID)
-
-	// Check if policy is already loaded
-	valid, found, err := s.getCache(cacheKey)
-	if err != nil {
-		return err // Handle error from cache check
-	}
-	if found && valid {
-		return nil // Policy already loaded
-	}
 
 	// Load policy for the tenant
 	if err := s.LoadTenantPolicies(tenantID); err != nil {
 		return err // Handle error from policy loading
 	}
-
-	// Mark policy as loaded in cache
-	return s.putCache(cacheKey, true)
+	return nil
 }
 
 // CheckPermission checks if a user has permission to perform an action on an object
 func (s *PermissionClient) CheckPermission(tenantID, sub, obj, act string) (bool, error) {
-	cacheKey := CacheKey(tenantID, sub, obj, act)
-	value, found, _ := s.getCache(cacheKey)
-	if found {
-		return value, nil
-	}
-
 	if err := s.EnsureTenantPolicyLoaded(tenantID); err != nil {
 		return false, err
 	}
 
 	// Proceed with enforcing and update the cache
 	allowed, err := s.enforcer.Enforce(sub, tenantID, obj, act)
-	if err == nil {
-		// Update cache
-		s.putCache(cacheKey, allowed)
+	if err != nil {
+		return false, err
 	}
 	return allowed, err
 }
@@ -129,7 +104,6 @@ func (s *PermissionClient) AddPolicy(tenantID, sub, obj, act string) (bool, erro
 	}
 	if added {
 		s.enforcer.SavePolicy()
-		err = s.updateCacheForPermission(tenantID, sub, obj, act)
 	}
 	return added, err
 }
@@ -151,6 +125,7 @@ func (s *PermissionClient) AddGroupingPolicy(tenantID, sub, group string) (bool,
 	if added {
 		s.enforcer.SavePolicy()
 	}
+
 	return added, nil
 
 }
@@ -168,23 +143,6 @@ func (s *PermissionClient) RemovePolicy(tenantID, sub, obj, act string) (bool, e
 	}
 	if removed {
 		s.enforcer.SavePolicy()
-		err = s.updateCacheForPermission(tenantID, sub, obj, act)
 	}
 	return removed, err
-}
-
-func (s *PermissionClient) updateCacheForPermission(tenantID, sub, obj, act string) error {
-	cacheKey := CacheKey(tenantID, sub, obj, act)
-	// Do not read from cache but directly form the casbin model, since we
-	// are updating the cache based on its results.
-	allowed, err := s.enforcer.Enforce(sub, tenantID, obj, act)
-	if err != nil {
-		return err
-	}
-	s.putCache(cacheKey, allowed)
-	return nil
-}
-
-func (s *PermissionClient) GetPolicies() [][]string {
-	return s.enforcer.GetPolicy()
 }

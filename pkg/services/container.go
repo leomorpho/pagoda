@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"time"
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"
@@ -191,22 +190,6 @@ func (c *Container) initPermissions() {
 		Get func(key string) (bool, bool, error) // Returns value, found, error
 	}
 
-	putCache := func(key string, value bool) error {
-		return c.Cache.Set().Key(key).Data(value).Expiration(time.Hour * 24).Save(context.Background())
-	}
-
-	getCache := func(key string) (bool, bool, error) {
-		value, err := c.Cache.Get().Key(key).Fetch(context.Background())
-		if err != nil {
-			return false, false, err
-		}
-		if value == nil {
-			return false, false, nil
-		}
-		val, ok := value.(bool)
-		return val, ok, nil
-	}
-
 	var dsn string
 	if c.Config.App.Environment == config.EnvTest {
 		dsn = c.getDBAddr(c.Config.Database.TestDatabase) + "?sslmode=disable"
@@ -234,7 +217,7 @@ func (c *Container) initPermissions() {
 	[matchers]
 	m = g(r.sub, p.sub, r.dom) && r.dom == p.dom && r.obj == p.obj && r.act == p.act
 	`
-	p, err := permissions.NewPermissionClient(modelText, adapter, true, getCache, putCache)
+	p, err := permissions.NewPermissionClient(modelText, adapter, true)
 	if err != nil {
 		panic(fmt.Sprintf("failed to create permission client: %v", err))
 	}
