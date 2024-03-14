@@ -97,7 +97,7 @@ func homeTopContent(page *controller.Page) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("Please login to your account. Note that you can use this test account: <em class=\"text-grey-400\">alice@test.com</em> and <em class=\"text-grey-400\">testpassword</em>.")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("Please login to your account. Note that you can use this test account: <em class=\"text-grey-400\">alice@test.com</em> and <em class=\"text-grey-400\">password</em>.")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

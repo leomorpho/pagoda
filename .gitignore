@@ -5,3 +5,5 @@ schemaspy-output/
 .env
 e2e_tests/node_modules
 e2e_tests/test-results
+data/mailpit.db-shm
+data/mailpit.db-wal

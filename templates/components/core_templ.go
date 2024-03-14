@@ -167,7 +167,7 @@ func JS() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></script><script type=\"module\" src=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></script><script src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -242,14 +242,13 @@ func htmxBeforeSwap() templ.ComponentScript {
 
 func htmxOnLoad() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_htmxOnLoad_0da8`,
-		Function: `function __templ_htmxOnLoad_0da8(){htmx.onLoad(function(content) {
+		Name: `__templ_htmxOnLoad_bddb`,
+		Function: `function __templ_htmxOnLoad_bddb(){htmx.onLoad(function(content) {
 			initializeJS();
-			initializeAppSvelte();
 	});
 }`,
-		Call:       templ.SafeScript(`__templ_htmxOnLoad_0da8`),
-		CallInline: templ.SafeScriptInline(`__templ_htmxOnLoad_0da8`),
+		Call:       templ.SafeScript(`__templ_htmxOnLoad_bddb`),
+		CallInline: templ.SafeScriptInline(`__templ_htmxOnLoad_bddb`),
 	}
 }
 

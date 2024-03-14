@@ -185,14 +185,12 @@ func (c *Container) initAuth() {
 
 // initPermissions initializes the permission client
 func (c *Container) initPermissions() {
-	type CacheStrategy struct {
-		Put func(key string, value bool) error
-		Get func(key string) (bool, bool, error) // Returns value, found, error
-	}
-
 	var dsn string
+	disabledSSL := "?sslmode=disable"
 	if c.Config.App.Environment == config.EnvTest {
-		dsn = c.getDBAddr(c.Config.Database.TestDatabase) + "?sslmode=disable"
+		dsn = c.getDBAddr(c.Config.Database.TestDatabase) + disabledSSL
+	} else if c.Config.App.Environment == config.EnvLocal {
+		dsn = c.getDBAddr(c.Config.Database.Database) + disabledSSL
 	} else {
 		dsn = c.getDBAddr(c.Config.Database.Database)
 	}

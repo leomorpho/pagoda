@@ -72,7 +72,8 @@ func (c *about) Get(ctx echo.Context) error {
 				Body: template.HTML(
 					`<p>Create islands of high interactivity with a JS framework. Note that Svelte ` +
 						`could be swapped for just about any JS framework you like.</p>` +
-						`<div id="svelte-test-component" class="my-4"></div>`,
+						`<div id="test-svelte-todo-list" class="my-4"></div>` +
+						`<div id="test-multi-select"></div>`,
 				),
 			},
 		},

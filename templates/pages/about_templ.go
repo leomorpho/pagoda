@@ -75,11 +75,7 @@ func About(page *controller.Page) templ.Component {
 				}
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"test-svelte-bite\"></div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = initSvelteBite().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = initSvelteIslandsOfInteractivity().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -90,13 +86,14 @@ func About(page *controller.Page) templ.Component {
 	})
 }
 
-func initSvelteBite() templ.ComponentScript {
+func initSvelteIslandsOfInteractivity() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_initSvelteBite_863d`,
-		Function: `function __templ_initSvelteBite_863d(){renderMultiSelect("test-svelte-bite")
+		Name: `__templ_initSvelteIslandsOfInteractivity_54da`,
+		Function: `function __templ_initSvelteIslandsOfInteractivity_54da(){renderSvelteComponent('SvelteTodoComponent', 'test-svelte-todo-list');
+	renderSvelteComponent('MultiSelectComponent', 'test-multi-select');
 }`,
-		Call:       templ.SafeScript(`__templ_initSvelteBite_863d`),
-		CallInline: templ.SafeScriptInline(`__templ_initSvelteBite_863d`),
+		Call:       templ.SafeScript(`__templ_initSvelteIslandsOfInteractivity_54da`),
+		CallInline: templ.SafeScriptInline(`__templ_initSvelteIslandsOfInteractivity_54da`),
 	}
 }
 

@@ -1,42 +1,28 @@
 import MultiSelectComponent from "./MultiSelectComponent.svelte";
-import TestSvelteComponent from "./TestSvelteComponent.svelte";
+import SvelteTodoComponent from "./SvelteTodoComponent.svelte";
+
+// Define a registry object that maps names to Svelte component classes
+const SvelteComponentRegistry = {
+  SvelteTodoComponent,
+  MultiSelectComponent,
+};
 
 // Assuming `window.svelteInstances` is a map to track component instances
 window.svelteInstances = window.svelteInstances || {};
 
-window.initializeAppSvelte = function (targetElement) {
-  const container = targetElement || document;
-
-  // Initialize specific Svelte components
-  initializeTestSvelteComponent(container);
-
-  // Initialize other Svelte components in a similar manner
-};
-
-function initializeTestSvelteComponent(container) {
-  const testComponentTarget = container.querySelector("#svelte-test-component");
-
-  // If an instance already exists, destroy it
-  if (window.svelteInstances.testComponent) {
-    window.svelteInstances.testComponent.$destroy();
+// Utility function to render any Svelte component by its registry name and ID
+function renderSvelteComponentByName(componentName, id, props = {}) {
+  const Component = SvelteComponentRegistry[componentName];
+  if (!Component) {
+    throw new Error(`Component ${componentName} not found in registry`);
   }
 
-  // Initialize the new instance
-  if (testComponentTarget) {
-    window.svelteInstances.testComponent = new TestSvelteComponent({
-      target: testComponentTarget,
-    });
-  }
-}
-
-// Utility function to render any Svelte component by ID
-export function renderSvelteComponent(Component, id, props = {}) {
   const rootElement = document.getElementById(id);
   if (!rootElement) {
     throw new Error(`Could not find element with id ${id}`);
   }
 
-  // If an instance already exists, destroy it first to clean up
+  // Check for an existing instance and destroy it if present
   if (window.svelteInstances[id]) {
     window.svelteInstances[id].$destroy();
   }
@@ -48,6 +34,6 @@ export function renderSvelteComponent(Component, id, props = {}) {
   });
 }
 
-window.renderMultiSelect = function (id) {
-  renderSvelteComponent(MultiSelectComponent, id);
+window.renderSvelteComponent = function (componentName, id, props = {}) {
+  renderSvelteComponentByName(componentName, id, props);
 };

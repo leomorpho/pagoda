@@ -31,7 +31,7 @@ func SeedUser(client *ent.Client, ctx context.Context, name, email, password str
 		Create().
 		SetName(name).
 		SetEmail(email).
-		SetPassword(hashPassword("testpassword")).
+		SetPassword(hashPassword(password)).
 		SetVerified(true).
 		Save(ctx)
 	if err != nil {

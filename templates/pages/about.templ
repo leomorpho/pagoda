@@ -29,12 +29,12 @@ templ About(page *controller.Page) {
 			</div>
 		}
 	}
-	<div id="test-svelte-bite"></div>
-	@initSvelteBite()
+	@initSvelteIslandsOfInteractivity()
 }
 
-script initSvelteBite() {
-	renderMultiSelect("test-svelte-bite")
+script initSvelteIslandsOfInteractivity() {
+	renderSvelteComponent('SvelteTodoComponent', 'test-svelte-todo-list');
+	renderSvelteComponent('MultiSelectComponent', 'test-multi-select');
 }
 
 templ aboutTabs(tabs []types.AboutTab) {
