@@ -86,6 +86,20 @@ func (c *Controller) RenderPage(ctx echo.Context, page Page) error {
 	return ctx.HTMLBlob(ctx.Response().Status, buf.Bytes())
 }
 
+// RenderJSON renders a JSON response
+func (c *Controller) RenderJSON(ctx echo.Context, data interface{}) error {
+	// data should be the structure that you want to serialize into JSON
+	// for example, it could be a struct representing the API response
+
+	statusCode := http.StatusOK
+
+	// Set custom headers as needed
+	ctx.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSONCharsetUTF8)
+
+	// Return the JSON response
+	return ctx.JSON(statusCode, data)
+}
+
 // cachePage caches the HTML for a given Page if the Page has caching enabled
 func (c *Controller) cachePage(ctx echo.Context, page Page, html *bytes.Buffer) {
 	if !page.Cache.Enabled || page.IsAuth {
